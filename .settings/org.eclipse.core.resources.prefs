@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+<<<<<<< HEAD
+encoding//src/com/kh/sopa/model/DAO/SolvingQuizDao.java=UTF-8
+=======
+encoding//src/com/kh/sopa/model/vo/Quiz_VO.java=UTF-8
+encoding/<project>=UTF-8
+>>>>>>> origin/YONGYONG
