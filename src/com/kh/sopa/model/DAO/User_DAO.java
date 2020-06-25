@@ -42,7 +42,7 @@ public class User_DAO {
 			npw = uv.getUser_pw();
 			npn = uv.getUser_phone_number();
 			ArrayList<User_VO> write = new ArrayList ();	
-			write.add(new User_VO(nid, npw, npn, 0, 0, 0, 0, 0, 0));
+			write.add(new User_VO(nid, npw, npn, 0, 0, 0, 0, 0, 0,0,0,0));
 			
 			System.out.println(write + "값 재확인");
 			

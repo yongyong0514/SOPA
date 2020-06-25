@@ -17,9 +17,9 @@ public class ObjectIO {
 	
 	public void UserWriteToFile() {
 		User_VO tmp1 = new User_VO("powerman", "1234", "010-1123-1234", 
-				5000, 3, 2, 5, 100, 80);
+				5000, 3, 2, 5, 100, 80,0,0,0);
 		User_VO tmp2 = new User_VO("weakman", "5678", "010-2245-6621", 
-				2000, 1, 2, 3, 120, 30);
+				2000, 1, 2, 3, 120, 30,0,0,0);
 		
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
