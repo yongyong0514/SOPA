@@ -151,7 +151,7 @@ public class Sign_Up extends JFrame{
 				JOptionPane.showMessageDialog(null, "입력값이 다릅니다", "입력오류", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-				//
+				
 				//값을 받고 이동
 				uv.setUser_id(sign_id.getText());
 				System.out.println(uv.getUser_id());

@@ -31,7 +31,7 @@ public class Find_Id extends JFrame{
    private User_VO uv;
    private LoginController lc;
    private User_DAO ud;
-  //
+  
    
    // 아이디 찾기
    public Find_Id() {
@@ -104,9 +104,10 @@ public class Find_Id extends JFrame{
          @Override 
          public void mouseClicked(MouseEvent arg0) {
         	 
-        	System.out.println(phone.getText());
-        	lc = new LoginController();
-        	lc.fine_user();
+        	System.out.println(phone.getText() + "입력값 버튼");
+        	
+        	LoginController ld = new LoginController();
+        	ld.fine_user();
         	
             lp = new Login_Panel();
             

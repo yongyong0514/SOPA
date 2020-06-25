@@ -180,6 +180,10 @@ public class Login_Panel extends JPanel{
 		});
 	}
 	
+	public static void main(String[] args) {
+		Find_Id fi = new Find_Id();
+	}
+	
 	
 //	public static void main(String[] args) {
 //		JFrame f = new JFrame();
