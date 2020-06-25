@@ -1,6 +1,5 @@
 package com.kh.sopa.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -88,7 +87,7 @@ public class Find_Pwd extends JFrame{
 				super.mouseClicked(arg0);
 			}
 		});
-		//
+		
 		
 		//확인 버튼
 		check = new JButton("확인");
@@ -113,6 +112,8 @@ public class Find_Pwd extends JFrame{
 
 				LoginController lc = new LoginController();
 				lc.findPw();
+				
+				lp = new Login_Panel();
 				super.mouseClicked(arg0);
 			}
 		});

@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.kh.sopa.model.DAO.User_DAO;
 import com.kh.sopa.model.vo.User_VO;
 import com.kh.sopa.view.Find_Id;
@@ -30,7 +32,8 @@ public class LoginController {
 	private Find_Pwd fp;
 	
 	
-		//
+	
+		
 
 	//회원 가입 객체 생성
 	public void user_make(User_VO uv) {
@@ -45,7 +48,7 @@ public class LoginController {
 	public void fine_user() {
 		User_VO uv = null;
 		ud = new User_DAO();
-		ud.findId(uv);
+		ud.findId();
 		
 	
 	}
@@ -59,10 +62,13 @@ public class LoginController {
 	}
 	
 	
-	
-	
-	
-	
+
+				//중복 값 찾기
+			
+				
+				
+		}
+
 	//회원 비밀번호 찾기
 
-}
+
