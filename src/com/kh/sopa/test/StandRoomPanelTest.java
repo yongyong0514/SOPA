@@ -18,6 +18,7 @@ public class StandRoomPanelTest extends JPanel{
 	Client_Controller client = null;
 	String user = "";
 	JFrame mainFrame = null;
+	
 	int button_clicked_num;
 	JPanel thisPage;
 

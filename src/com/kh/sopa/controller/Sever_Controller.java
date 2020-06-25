@@ -19,20 +19,20 @@ public class Sever_Controller {
 	private ServerSocket serverSocket;
 	private Socket socket;
 	private Sever_view gui;
-
 	private ArrayList<User_VO> room1 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room2 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room3 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room4 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room5 = new ArrayList<User_VO>();
-
+	
+	
 	private Map<String, DataOutputStream> room1Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room2Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room3Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room4Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room5Map = new HashMap<String, DataOutputStream>();
-
-	private Map<String, DataOutputStream> clientMap = new HashMap<String, DataOutputStream>() ;
+	
+	private Map<String, DataOutputStream> clientMap = new HashMap<String, DataOutputStream>();
 	
 	public void setGui(Sever_view gui) {
 		this.gui = gui;
@@ -89,10 +89,10 @@ public class Sever_Controller {
 		sendMessage(message);
 	}
 	
-	public void room_addClient(User_VO vo, DataOutputStream out, int room_umber) {
+	public void room_addClient(User_VO vo, DataOutputStream out, int room_number) {
 		room1.add(vo);
 		room1Map.put(vo.getUser_id(), out);
-
+		
 		for (int i = 0; i < room1.size(); i++) {
 			System.out.println("getUser_id : " + room1.get(i).getUser_id() + "\n");
 			System.out.println("getUser_pw : " + room1.get(i).getUser_pw() + "\n");
@@ -107,22 +107,20 @@ public class Sever_Controller {
 			System.out.println("getUser_gaming_correct_quiz : " + room1.get(i).getUser_gaming_correct_quiz() + "\n");
 			System.out.println("getUser_gaming_time : " + room1.get(i).getUser_gaming_time() + "\n");
 		}
-
-		Iterator<String> itearator_room1 = room1Map.keySet().iterator();
+		
+		Iterator<String> iterator_room1 = room1Map.keySet().iterator();
 		String key_room1 = "";
-
 		String msg_room = "방에 입장하셨습니다.";
-		while (itearator_room1.hasNext()) {
-			key_room1 = itearator_room1.next();
+		while(iterator_room1.hasNext()) {
+			key_room1 = iterator_room1.next();
 			try {
-				System.out.println("유저 입장완료");
+				System.out.println("유저 입장 완료");
 				clientMap.get(key_room1).writeUTF(msg_room);
 				System.out.println(clientMap.get(key_room1));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
 	
 	class Receiver extends Thread {
@@ -171,7 +169,6 @@ public class Sever_Controller {
 					String[] msg_split = msg.split("/");
 					int head = Integer.valueOf(msg_split[0]);
 					
-
 					if (head == 0) {
 						switch(msg_split[1]) {
 						case "logout":	break;
