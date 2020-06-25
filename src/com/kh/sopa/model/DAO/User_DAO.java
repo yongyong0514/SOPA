@@ -55,7 +55,7 @@ public class User_DAO {
 			try {
 				
 				
-				oos = new ObjectOutputStream(new FileOutputStream("User.txt", true));
+				oos = new ObjectOutputStream(new FileOutputStream("User.txt"));
 				
 				oos.writeObject(write);
 				
@@ -141,7 +141,7 @@ public class User_DAO {
 					read  = (ArrayList<User_VO>)ois.readObject();
 					for(int i = 0; i < read.size(); i ++) {
 					
-						System.out.println(read.get(i).getUser_phone_number() + "/n" + "확인");
+						System.out.println(read.get(i).getUser_phone_number() + "확인");
 						System.out.println("다음줄");
 					}
 						
@@ -225,8 +225,10 @@ public class User_DAO {
 						
 						if(getId.equals(dataId)){
 							if(getPhone.equals(dataPhone)) {
-								JOptionPane.showMessageDialog(null, "찾으시는 비밀번호는 "+dataPw, "비밀번호 찾음", JOptionPane.INFORMATION_MESSAGE);
-								System.out.println("다 같네" + dataPw);
+							String change = JOptionPane.showInputDialog(null, "새 비밀번호를 입력하세요", "비밀번호 수정", JOptionPane.OK_OPTION);
+							dataPw = change;
+							read.get(i).setUser_pw(change);
+							
 							} else {
 								JOptionPane.showMessageDialog(null, "전화번호가 다릅니다.", "비밀번호 오류", JOptionPane.ERROR_MESSAGE);
 								System.out.println("전번이 다름");

@@ -2,6 +2,7 @@ package com.kh.sopa.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import com.kh.sopa.controller.ObjectIO;
 import com.kh.sopa.model.vo.User_VO;
 import com.kh.sopa.test.StandRoomPanelTest;
 
-public class Login_Panel extends JPanel{
+public class Login_Panel extends JPanel  implements ActionListener{
 	private JPanel contentPane;
 	private JLabel sopa, id_label, pw_label;
 	private JTextField login_id;
@@ -34,16 +35,24 @@ public class Login_Panel extends JPanel{
 //		mainFrame.setVisible(true);
 		this.thisPage = this;
 		
+		
+		
 		//로그인 페이지 패널
 		this.setBounds(0, 0, 1024, 768);
 		this.setBackground(new Color(252, 228, 167));  
 		this.setLayout(null);
 		
+		 JPanel bigPanel = new JPanel();
+	      bigPanel.setBackground(Color.BLUE);
+	      bigPanel.setLayout(null);
+	      bigPanel.setBounds(0, 0, 1024, 500);
+	      this.add(bigPanel);
+		
 		//로그인 창 sopa 라벨
 		sopa = new JLabel("S.O.P.A");
 		sopa.setBounds(430, 100, 300, 200);
 		sopa.setFont(new Font("바탕", Font.ITALIC, 50));
-		this.add(sopa);
+		bigPanel.add(sopa);
 		
 		// 로그인 창 아이디 입력 라벨
 		id_label = new JLabel("아이디 입력");

@@ -20,7 +20,7 @@ import com.kh.sopa.model.vo.User_VO;
 
 
 
-public class Find_Id extends JFrame{
+public class Find_Id extends JFrame {
    private JPanel contentPane, find_id;
    private JLabel sopa, text;
    private static JTextField phone;
@@ -34,18 +34,20 @@ public class Find_Id extends JFrame{
   
    
    // 아이디 찾기
-   public Find_Id() {
+   public Find_Id(JFrame jf) {
 	  
-	   
-      JPanel contentPane;
-      setTitle("아이디 찾기");
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setBounds(100, 100, 1024, 768);
-      contentPane = new JPanel();
-      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-      contentPane.setLayout(new BorderLayout(0, 0));
-      setContentPane(contentPane);
+		super();
+		JPanel contentPane;
+		setTitle("아이디찾기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1024, 768);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+	
       
+         
       //아이디 찾기 패널
       find_id = new JPanel();
       find_id.setBounds(0, 0, 1024, 768);
