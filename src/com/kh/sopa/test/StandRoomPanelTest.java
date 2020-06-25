@@ -15,11 +15,13 @@ import com.kh.sopa.model.vo.Quiz_VO;
 public class StandRoomPanelTest extends JPanel{
 	String user = "";
 	JFrame mainFrame = null;
+	JPanel thisPage = null;
 	
 	public StandRoomPanelTest() { }
 	public StandRoomPanelTest(JFrame mf, String user) {
 		this.user = user;
 		this.mainFrame = mf;
+		this.thisPage = this;
 		
 		this.setBackground(Color.YELLOW);
 		this.setBounds(0, 0, 1024, 768);
@@ -40,6 +42,9 @@ public class StandRoomPanelTest extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.out.println(((JButton) e.getSource()).getText());
+					thisPage.remove(roomPanel);
+					thisPage.add(new GameRoomTest());
+					mainFrame.repaint();
 				}
 			});
 			if (i % 2 == 0) {
