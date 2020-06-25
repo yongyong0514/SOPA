@@ -37,7 +37,7 @@ public class Client_Controller {
 	}
 	// Client_id =  user_id
 	public void connect(User_VO vo) {
-		String ip = "192.168.130.32";
+		String ip = "192.168.130.27";
 		int port = 8080;
 		try {
 			socket = new Socket(ip, port);
@@ -55,7 +55,9 @@ public class Client_Controller {
 			out.writeInt(vo.getUser_3rd());
 			out.writeInt(vo.getUser_all_quiz());
 			out.writeInt(vo.getUser_correct_quiz());
-			
+			out.writeInt(vo.getUser_gaming_cookie());
+			out.writeInt(vo.getUser_gaming_correct_quiz());
+			out.writeLong(vo.getUser_gaming_time());
 			System.out.println("Client : ID 전송 완료");
 //			gui.label_userid(vo.getUser_id());
 			

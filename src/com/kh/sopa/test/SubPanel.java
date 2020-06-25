@@ -28,7 +28,7 @@ public class SubPanel extends JPanel {
 	JTextArea chatArea = null;
 	JTextField messageArea = null;
 	// socket, system message
-	Client_Controller client = new Client_Controller();
+	public Client_Controller client = new Client_Controller();
 	
 	
 	
