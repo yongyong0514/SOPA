@@ -84,7 +84,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		bigPanel.add(timePanel);
 		
 		// 상단 오른쪽의 그만해요 버튼
-		JButton stopBtn = new JButton("그만해요<<");
+		JButton stopBtn = new JButton("그만해요");
 		stopBtn.setBounds(840, 0, 100, 50);
 		stopBtn.setBorderPainted(false);
 		stopBtn.setBackground(new Color(255, 179, 0));
@@ -182,17 +182,12 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					quizLabel.setText("[" + set.get(cnt).getQuiz_subject() + "] " + set.get(cnt).getQuiz_title());
 					// 보기 버튼에 보기 넣어주기
 					btn_quiz_answer_1.setText(set.get(cnt).getQuiz_answer_1());
-					System.out.println(btn_quiz_answer_1.getText());
 					btn_quiz_answer_2.setText(set.get(cnt).getQuiz_answer_2());
-					System.out.println(btn_quiz_answer_2.getText());
 					btn_quiz_answer_3.setText(set.get(cnt).getQuiz_answer_3());
-					System.out.println(btn_quiz_answer_3.getText());
 					btn_quiz_answer_4.setText(set.get(cnt).getQuiz_answer_4());
-					System.out.println(btn_quiz_answer_4.getText());
 					
 					while (true) {
 						try {
-							System.out.println("" + timesec + "초 남았습니다");
 							timeLabel.setText("" + timesec + "초 남았습니다");
 							Thread.sleep(1000);
 						} catch (InterruptedException e1) {
@@ -209,16 +204,17 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					btn_quiz_answer_2.setEnabled(true);
 					btn_quiz_answer_3.setEnabled(true);
 					btn_quiz_answer_4.setEnabled(true);
+					
 				}
+				correct_qnumInSet += correct_num;
+				System.out.println("맞춘 문제 수 : " + correct_qnumInSet);
+				System.out.println("얻은 총 쿠키 수 : " + got_cookie_InSet);
 			}
 		}
 		new quiz_thread().start();
 		
 		
 		// 맞춘 문제수 확인
-		correct_qnumInSet += correct_num;
-		System.out.println("맞춘 문제 수 : " + correct_qnumInSet);
-		System.out.println("얻은 총 쿠키 수 : " + got_cookie_InSet);
 
 		// 이번 세트에서 푼 문제수와 맞춘 문제수를 유저의 정보에 합산하여 넘겨준다.
 		//
@@ -255,10 +251,11 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			btn_quiz_answer_2.setEnabled(false);
 			btn_quiz_answer_3.setEnabled(false);
 			btn_quiz_answer_4.setEnabled(false);
-
+			JdialogAuto ja = new JdialogAuto();
 			if (e.getSource() == btn_quiz_answer_1) {
 				if (btn_quiz_answer_1.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
+					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -272,6 +269,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			} else if (e.getSource() == btn_quiz_answer_2) {
 				if (btn_quiz_answer_2.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
+					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -285,6 +283,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			} else if (e.getSource() == btn_quiz_answer_3) {
 				if (btn_quiz_answer_3.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
+					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -299,6 +298,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			} else if (e.getSource() == btn_quiz_answer_4) {
 				if (btn_quiz_answer_4.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
+					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
