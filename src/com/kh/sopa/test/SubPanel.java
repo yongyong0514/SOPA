@@ -28,9 +28,7 @@ public class SubPanel extends JPanel {
 	JTextArea chatArea = null;
 	JTextField messageArea = null;
 	// socket, system message
-	Client_Controller client = new Client_Controller();
-	
-	
+	public Client_Controller client = new Client_Controller();
 	
 	
 	
@@ -153,7 +151,7 @@ public class SubPanel extends JPanel {
 				int resp = JOptionPane.showConfirmDialog(null,  "종료 하시겠습니까?", "종료", 
 						JOptionPane.YES_NO_CANCEL_OPTION);
 				if (resp == 0) {
-					client.sendSystemMessage("exit/" + tmp.getUser_id());
+//					client.sendSystemMessage("exit/" + tmp.getUser_id());
 					JOptionPane.showMessageDialog(null, "종료합니다.");
 					mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
 				}

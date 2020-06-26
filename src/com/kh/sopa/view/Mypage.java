@@ -135,5 +135,3 @@ package com.kh.sopa.view;
 
 		}
 	}
-
-

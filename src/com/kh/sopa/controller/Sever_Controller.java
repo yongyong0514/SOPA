@@ -3,10 +3,9 @@ package com.kh.sopa.controller;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,12 +19,29 @@ public class Sever_Controller {
 	private ServerSocket serverSocket;
 	private Socket socket;
 	private Sever_view gui;
+	private ArrayList<User_VO> room1 = new ArrayList<User_VO>();
+	private ArrayList<User_VO> room2 = new ArrayList<User_VO>();
+	private ArrayList<User_VO> room3 = new ArrayList<User_VO>();
+	private ArrayList<User_VO> room4 = new ArrayList<User_VO>();
+	private ArrayList<User_VO> room5 = new ArrayList<User_VO>();
 	
-	private Map<String, DataOutputStream> clientMap = new HashMap<String, DataOutputStream>() ;
+	
+	private Map<String, DataOutputStream> room1Map = new HashMap<String, DataOutputStream>();
+	private Map<String, DataOutputStream> room2Map = new HashMap<String, DataOutputStream>();
+	private Map<String, DataOutputStream> room3Map = new HashMap<String, DataOutputStream>();
+	private Map<String, DataOutputStream> room4Map = new HashMap<String, DataOutputStream>();
+	private Map<String, DataOutputStream> room5Map = new HashMap<String, DataOutputStream>();
+	
+	private Map<String, DataOutputStream> clientMap = new HashMap<String, DataOutputStream>();
 	
 	public void setGui(Sever_view gui) {
 		this.gui = gui;
 	}
+	private int cnt1 = 0;
+	private int cnt2 = 0;
+	private int cnt3 = 0;
+	private int cnt4 = 0;
+	private int cnt5 = 0;
 	
 	// 소켓에 접속하는 메소드
 	public void setting() {
@@ -73,6 +89,39 @@ public class Sever_Controller {
 		sendMessage(message);
 	}
 	
+	public void room_addClient(User_VO vo, DataOutputStream out, int room_number) {
+		room1.add(vo);
+		room1Map.put(vo.getUser_id(), out);
+		
+		for (int i = 0; i < room1.size(); i++) {
+			System.out.println("getUser_id : " + room1.get(i).getUser_id() + "\n");
+			System.out.println("getUser_pw : " + room1.get(i).getUser_pw() + "\n");
+			System.out.println("getUser_phone_number : " + room1.get(i).getUser_phone_number() + "\n");
+			System.out.println("getUser_cookie : " + room1.get(i).getUser_cookie() + "\n");
+			System.out.println("getUser_1st : " + room1.get(i).getUser_1st() + "\n");
+			System.out.println("getUser_2nd : " + room1.get(i).getUser_2nd() + "\n");
+			System.out.println("getUser_3rd : " + room1.get(i).getUser_3rd() + "\n");
+			System.out.println("getUser_all_quiz : " + room1.get(i).getUser_all_quiz() + "\n");
+			System.out.println("getUser_correct_quiz : " + room1.get(i).getUser_correct_quiz() + "\n");
+			System.out.println("getUser_gaming_cookie : " + room1.get(i).getUser_gaming_cookie() + "\n");
+			System.out.println("getUser_gaming_correct_quiz : " + room1.get(i).getUser_gaming_correct_quiz() + "\n");
+			System.out.println("getUser_gaming_time : " + room1.get(i).getUser_gaming_time() + "\n");
+		}
+		
+		Iterator<String> iterator_room1 = room1Map.keySet().iterator();
+		String key_room1 = "";
+		String msg_room = "방에 입장하셨습니다.";
+		while(iterator_room1.hasNext()) {
+			key_room1 = iterator_room1.next();
+			try {
+				System.out.println("유저 입장 완료");
+				clientMap.get(key_room1).writeUTF(msg_room);
+				System.out.println(clientMap.get(key_room1));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	class Receiver extends Thread {
 		User_VO vo = new User_VO();
@@ -95,6 +144,9 @@ public class Sever_Controller {
 				vo.setUser_3rd(in.readInt());
 				vo.setUser_all_quiz(in.readInt());
 				vo.setUser_correct_quiz(in.readInt());
+				vo.setUser_gaming_cookie(in.readInt());
+				vo.setUser_gaming_correct_quiz(in.readInt());
+				vo.setUser_gaming_time(in.readLong());
 				System.out.println(vo.getUser_id() + " " + vo.getUser_pw() + " " 
 				+ vo.getUser_all_quiz() + " 새로 생된 객체의 정보");
 				
@@ -114,24 +166,89 @@ public class Sever_Controller {
 			try {
 				while (in != null) {
 					msg = in.readUTF();
-					String[] msg_parse = msg.split("/");
+					String[] msg_split = msg.split("/");
+					int head = Integer.valueOf(msg_split[0]);
 					
-					System.out.println("run : "+msg_parse[0]);
-					System.out.println("run : "+msg_parse[1]);
-					if ("1".equals(msg_parse[0])) {
-						sendMessage(msg_parse[1]);
-					}
-					else {
-						switch(msg_parse[1]) {
-						case "logout":
-							removeClient(msg_parse[2]);
+					if (head == 0) {
+						switch(msg_split[1]) {
+						case "logout":	break;
+						case "room_inter":
+							room_addClient(vo, out, Integer.valueOf(msg_split[2]));
 							break;
+						case "game" : 
+							if(msg_split[2].equals("ready")) {
+								System.out.println("사용자가 게임 레디버튼을 눌렀습니다.");
+								System.out.println("방번호 : "+ msg_split[3]);
+								room_number(Integer.valueOf(msg_split[3]));
+								
+							}
+							
 						}
+					} else if (head == 1) {
+						System.out.println(msg_split[1] + ":  run에서 보낸 메시지 ");
+						sendMessage(msg_split[1]);
 					}
+
 				}
 			} catch (Exception e) {
 				removeClient(user_id);
 			}
+		}
+	}
+	
+	//방이 생성될때 array_size가 정해저야한다.
+	public void room_number(int roomNumber) {
+		System.out.println("방인원수 세기 ");
+		int room1_ready_size = room1.size();
+		int room2_ready_size = room2.size();
+		int room3_ready_size = room3.size();
+		int room4_ready_size = room4.size();
+		int room5_ready_size = room5.size();
+		
+		
+		
+		switch(roomNumber) {
+		case 1 : 
+			cnt1++;
+			if(cnt1 == room1_ready_size) {
+				System.out.println("현재 1번방에 들어온 인원수 : " + cnt1);
+				System.out.println("최대 인원수 : "+ room1_ready_size);
+				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+			}
+			break;
+		case 2: 
+			cnt2++;
+			if(cnt2 == room2_ready_size) {
+				System.out.println("현재 2번방에 들어온 인원수 : " + cnt2);
+				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+			}
+			break;
+		case 3: 
+			cnt3++;
+			if(cnt3 == room3_ready_size) {
+				System.out.println("현재 3번방에 들어온 인원수 : " + cnt3);
+				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+			}
+			break;
+		case 4: 
+			cnt4++;
+			if(cnt4 == room4_ready_size) {
+				System.out.println("현재 4번방에 들어온 인원수 : " + cnt4);
+				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+			}
+			break;
+		case 5:
+			
+			cnt5++;
+			if(cnt5 == room5_ready_size) {
+				System.out.println("현재 5번방에 들어온 인원수 : " + cnt5);
+				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+			}
+			break;
+			
+			
+		
+			
 		}
 	}
 	

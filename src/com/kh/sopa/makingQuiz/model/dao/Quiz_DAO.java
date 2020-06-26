@@ -13,8 +13,8 @@ import com.kh.sopa.model.vo.Quiz_VO;
 public class Quiz_DAO {
 
 	public Quiz_DAO() {}
-	
-	// ¼¼Æ®ÆÄÀÏ Á¡°Ë¿ë ¸Ş¼Òµå
+
+	// í…ŒìŠ¤íŠ¸ìš© ì„¸íŠ¸ íŒŒì¼ ì½ê¸° ë©”ì†Œë“œ
 	public ArrayList<Quiz_VO> readQs() {
 		ObjectInputStream ois = null;
 		ArrayList<Quiz_VO> list = null;
@@ -26,7 +26,8 @@ public class Quiz_DAO {
 
 		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
-			System.out.println("¼¼Æ® ÆÄÀÏÀÌ ¾øÀ¸¹Ç·Î ÆÄÀÏ»ı¼ºÇØ¾ß ÇÕ´Ï´Ù.");
+
+			System.out.println("");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -42,18 +43,19 @@ public class Quiz_DAO {
 		return list;
 	}
 
-	// ¼¼Æ®·Î ÇÕÄ¡±â À§ÇØ ÄûÁî ¸®½ºÆ®¸¦ ºÒ·¯¿À´Â ¸Ş¼Òµå
+	// í€´ì¦ˆ ì„¸íŠ¸ íŒŒì¼ì„ ì½ì–´ì˜µë‹ˆë‹¤.
 	public ArrayList<Quiz_VO> readQuizSet() {
 		ObjectInputStream ois = null;
 		ArrayList<Quiz_VO> set = null;
 		try {
-			ois = new ObjectInputStream(new FileInputStream("quizList.dat"));
+			ois = new ObjectInputStream(new FileInputStream("quiz.dat"));
 
 			set = (ArrayList<Quiz_VO>) ois.readObject();
 
 		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
-			System.out.println("¹®Á¦ ÆÄÀÏÀÌ ¾øÀ¸¹Ç·Î ÆÄÀÏ»ı¼ºÇØ¾ß ÇÕ´Ï´Ù.");
+
+			System.out.println("í€´ì¦ˆ ì„¸íŠ¸ íŒŒì¼ ì—†ìŒ");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -68,7 +70,7 @@ public class Quiz_DAO {
 		return set;
 	}
 
-	// »õ·Î¿î ¹®Á¦¸¦ Ãß°¡ÇÏ±â À§ÇØ¼­ ÄûÁî ¸®½ºÆ®¸¦ ºÒ·¯¿À´Â ¸Ş¼Òµå
+	// í€´ì¦ˆ ë¦¬ìŠ¤íŠ¸ì˜ í€´ì¦ˆë¥¼ ì½ì–´ì˜µë‹ˆë‹¤.
 	public ArrayList<Quiz_VO> readQuizList() {
 		ObjectInputStream ois = null;
 		ArrayList<Quiz_VO> list = null;
@@ -80,10 +82,14 @@ public class Quiz_DAO {
 
 		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
-			System.out.println("¹®Á¦ ÆÄÀÏÀÌ ¾øÀ¸¹Ç·Î ÆÄÀÏ»ı¼º");
+
+			System.out.println("í€´ì¦ˆ ë¦¬ìŠ¤íŠ¸ íŒŒì¼ ì—†ìŒ");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
-		} finally {
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		finally {
 			if (ois != null) {
 				try {
 					ois.close();
@@ -96,7 +102,8 @@ public class Quiz_DAO {
 		return list;
 	}
 
-	// »õ·Î¿î ¼¼Æ®¸íÀ» Æ÷ÇÔÇØ¼­ ÄûÁî ¼¼Æ®¸¦ ¸¸µå´Â ¸Ş¼Òµå
+
+	// í€´ì¦ˆ ë¦¬ìŠ¤íŠ¸ì˜ ë¬¸ì œë“¤ì„ ì„¸íŠ¸ë¡œ ë§Œë“­ë‹ˆë‹¤
 	public static void writeSet(ArrayList<Quiz_VO> set) {
 		ObjectOutputStream oos = null;
 		try {
@@ -114,7 +121,7 @@ public class Quiz_DAO {
 		}
 	}
 
-	// ÄûÁî ¸®½ºÆ®¿¡ ÄûÁî 1°³¸¦ µî·ÏÇÏ´Â ¸Ş¼Òµå
+	// ì¶”ê°€í•œ ë¬¸ì œë¥¼ í€´ì¦ˆ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•©ë‹ˆë‹¤
 	public static void writeQuiz(ArrayList<Quiz_VO> list) {
 		ObjectOutputStream oos = null;
 		try {

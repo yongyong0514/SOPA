@@ -1,6 +1,5 @@
 package com.kh.sopa.view;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,308 +12,340 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.kh.sopa.model.DAO.SolvingQuizDao;
+import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.model.vo.Quiz_VO;
+import com.kh.sopa.model.vo.User_VO;
 
-public class SolvingQuiz extends JFrame implements ActionListener {
+public class SolvingQuiz extends JPanel implements ActionListener {
 
+	// ê²Œì„ ì‹œì‘ì‹œê°„ ì¸¡ì • (ë¬¸ì œí‘¸ëŠ” ë° ê±¸ë¦° ì´ ì‹œê°„ êµ¬í•˜ê¸° ìœ„í•´)
 	long start = System.currentTimeMillis();
-	// ½ÃÀÛÀü¿¡ SolvingQuizDao(ÆÄÀÏ ÀÔÃâ·Â Å¬·¡½º) ÇÑ ¹ø ½ÇÇà ½ÃÅ² ÈÄ ½ÇÇà
 
-	private SolvingQuizDao qd = new SolvingQuizDao();
-	private ArrayList<Quiz_VO> quizList2 = qd.readQuizList();
-	
-	private JPanel contentPane;
+	// ì‹œì‘ì „ì— SolvingQuizDao(íŒŒì¼ ì…ì¶œë ¥ í´ë˜ìŠ¤) í•œ ë²ˆ ì‹¤í–‰ ì‹œí‚¨ í›„ ì‹¤í–‰
+
+	private User_VO uv = new User_VO();
+	private Quiz_DAO qd = new Quiz_DAO();
+	private ArrayList<Quiz_VO> set = qd.readQuizSet();
 	private JButton btn_quiz_answer_1;
 	private JButton btn_quiz_answer_2;
 	private JButton btn_quiz_answer_3;
 	private JButton btn_quiz_answer_4;
 
-	// ¼¼Æ®¿¡¼­ Ç¬ ¹®Á¦ ¼ö
+	// í•œ ì„¸íŠ¸ì—ì„œ í‘¼ ë¬¸ì œ ìˆ˜
 	private int solved_qnumInSet = 0;
-	// ¼¼Æ®¿¡¼­ ¸ÂÃá ¹®Á¦ ¼ö
+	// í•œ ì„¸íŠ¸ì—ì„œ ë§ì¶˜ ë¬¸ì œ ìˆ˜
 	private int correct_qnumInSet = 0;
-
-	// ³­ÀÌµµº° ÃÊ¸¦ ´ã¾ÆÁÙ ¹è¿­
-	private int[] sec = new int[quizList2.size()];
-	private int cnt;
+	// ë¬¸ì œ ë³„ ì •ë‹µ ì—¬ë¶€ (ë§ìœ¼ë©´ +1)
 	private int correct_num = 0;
+	// ë¬¸ì œ ì •ë‹µì‹œ íšë“í•œ ì¿ í‚¤ìˆ˜
+	private int cookie_num = 0;
+	// í•œ ì„¸íŠ¸ì—ì„œ ì–»ì€ ì´ ì¿ í‚¤ìˆ˜
+	private int got_cookie_InSet = 0;
+	// í•œ ì„¸íŠ¸ì—ì„œ ë¬¸ì œí‘¸ëŠ”ë° ê±¸ë¦° ì´ ì‹œê°„ì˜ í•©
+	private double amountOfSecInSet = 0;
+	// ë¬¸ì œê°€ ë‹´ê²¨ì§„ ë°°ì—´ì˜ ì¸ë±ìŠ¤
+	private int cnt;
 
-	// Ç¬ ¹®Á¦±îÁö ÃÊÀÇ ÇÕ
-	private double sum = 0;
-	
+	// ë‚œì´ë„ë³„ ì´ˆë¥¼ ë‹´ì•„ì¤„ ë°°ì—´
+	private int[] sec = new int[set.size()];
+
 	public SolvingQuiz() {
+		this.setBackground(Color.RED);
+		this.setBounds(0, 0, 1024, 300);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 768);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		contentPane.setBounds(100, 100, 1024, 768);
-		contentPane.setBackground(new Color(254, 228, 167));
-		setContentPane(contentPane);
+	}
 
-		// »ó´Ü¹Ù
+	public SolvingQuiz(JFrame jf) {
+
+		this.setLayout(null);
+		this.setBounds(0, 0, 1024, 768);
+//		this.setBackground(Color.RED);
+
+		JPanel bigPanel = new JPanel();
+		bigPanel.setLayout(null);
+		bigPanel.setBounds(0, 0, 1024, 768);
+		bigPanel.setBackground(new Color(254, 228, 167));
+
+		// ìƒë‹¨ë°”
 		JPanel timePanel = new JPanel();
 		timePanel.setLayout(null);
+
 		timePanel.setLocation(40, 10);
 		timePanel.setSize(940, 50);
 		timePanel.setBackground(Color.WHITE);
-
-		// »ó´Ü¹Ù À§ ½Ã°£ Èå¸£´Â ¶óº§
+		
+		// ìƒë‹¨ë°” ìœ„ ì‹œê°„ íë¥´ëŠ” ë¼ë²¨
 		JLabel timeLabel = new JLabel();
 		timeLabel.setHorizontalAlignment(JLabel.CENTER);
 		timeLabel.setBounds(50, 5, 850, 40);
-		timeLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
-
-		// »ó´Ü ¿À¸¥ÂÊÀÇ ±×¸¸ÇØ¿ä ¹öÆ°
-		JButton stopBtn = new JButton();
+		timeLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 18));
+		timePanel.add(timeLabel);
+		
+		bigPanel.add(timePanel);
+		
+		// ìƒë‹¨ ì˜¤ë¥¸ìª½ì˜ ê·¸ë§Œí•´ìš” ë²„íŠ¼
+		JButton stopBtn = new JButton("ê·¸ë§Œí•´ìš”");
 		stopBtn.setBounds(840, 0, 100, 50);
 		stopBtn.setBorderPainted(false);
 		stopBtn.setBackground(new Color(255, 179, 0));
-
-		// ±×¸¸ÇØ¿ä ¶óº§
-		JLabel stopLabel = new JLabel("±×¸¸ÇØ¿ä<<");
-
-		// ¹®Á¦ ¼ö Ç¥±â ¶óº§
+		
+		timePanel.add(stopBtn);
+		
+		
+		// ë¬¸ì œ ìˆ˜ í‘œê¸° ë¼ë²¨
 		JLabel quiz_num_lb = new JLabel();
 		quiz_num_lb.setHorizontalAlignment(JLabel.CENTER);
 		quiz_num_lb.setBounds(440, 410, 150, 45);
 		quiz_num_lb.setOpaque(true);
 		quiz_num_lb.setBackground(new Color(252, 209, 108));
-		quiz_num_lb.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
-
-		// ÀÀ´ä ¼ö Ç¥±â ¶óº§
-		/*
-		 * JLabel answer_num_lb = new JLabel();
-		 * answer_num_lb.setHorizontalAlignment(JLabel.CENTER);
-		 * answer_num_lb.setText("ÀÀ´ä 0 / 20"); answer_num_lb.setBounds(820, 410, 160,
-		 * 45); answer_num_lb.setOpaque(true); answer_num_lb.setBackground(new
-		 * Color(252, 209, 108)); answer_num_lb.setFont(new Font("¸¼Àº °íµñ", Font.BOLD,
-		 * 25));
-		 */
-
-		// ¹®Á¦ÃâÁ¦ ÆĞ³Î
+		quiz_num_lb.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		
+		bigPanel.add(quiz_num_lb);
+		
+		// ë¬¸ì œì¶œì œ íŒ¨ë„
 		JPanel quizPanel = new JPanel();
 		quizPanel.setLayout(null);
 		quizPanel.setBounds(40, 70, 940, 330);
 		quizPanel.setBackground(Color.WHITE);
-
-		// ¹®Á¦°¡ ÀûÇôÁú ¶óº§
+		
+		bigPanel.add(quizPanel);
+		
+		// ë¬¸ì œê°€ ì í˜€ì§ˆ ë¼ë²¨
 		JLabel quizLabel = new JLabel();
 		quizLabel.setHorizontalAlignment(JLabel.CENTER);
 		quizLabel.setBounds(80, 10, 800, 300);
-		quizLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
-		/*
-		 * quizLabel.setOpaque(true); //¶óº§Å©±â È®ÀÎ¿ë »ö±ò³Ö¾îº¸±â
-		 * quizLabel.setBackground(Color.YELLOW);
-		 */
+		quizLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		
+		quizPanel.add(quizLabel);
+		
+		// ë¬¸ì œë²„íŠ¼
 
-		// ¹®Á¦¹öÆ°
-
-		// ¹®Á¦¹öÆ° 1
+		// ë¬¸ì œë²„íŠ¼ 1
 		btn_quiz_answer_1 = new JButton();
 		btn_quiz_answer_1.setBorderPainted(false);
 		btn_quiz_answer_1.setBounds(40, 475, 455, 110);
 		btn_quiz_answer_1.setBackground(new Color(226, 91, 69));
-		btn_quiz_answer_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
-
-		// ¹®Á¦¹öÆ° 2
+		btn_quiz_answer_1.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		
+		// ë¬¸ì œë²„íŠ¼ 2
 		btn_quiz_answer_2 = new JButton();
 		btn_quiz_answer_2.setBorderPainted(false);
 		btn_quiz_answer_2.setBounds(525, 475, 455, 110);
 		btn_quiz_answer_2.setBackground(new Color(225, 131, 87));
-		btn_quiz_answer_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
-
-		// ¹®Á¦¹öÆ° 3
+		btn_quiz_answer_2.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		
+		// ë¬¸ì œë²„íŠ¼ 3
 		btn_quiz_answer_3 = new JButton();
 		btn_quiz_answer_3.setBorderPainted(false);
 		btn_quiz_answer_3.setBounds(40, 600, 455, 110);
 		btn_quiz_answer_3.setBackground(new Color(137, 213, 201));
-		btn_quiz_answer_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
-
-		// ¹®Á¦¹öÆ° 4
+		btn_quiz_answer_3.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		
+		// ë¬¸ì œë²„íŠ¼ 4
 		btn_quiz_answer_4 = new JButton();
 		btn_quiz_answer_4.setBorderPainted(false);
 		btn_quiz_answer_4.setBounds(525, 600, 455, 110);
 		btn_quiz_answer_4.setBackground(new Color(172, 201, 101));
-		btn_quiz_answer_4.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		btn_quiz_answer_4.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		
+		bigPanel.add(btn_quiz_answer_1);
+		bigPanel.add(btn_quiz_answer_2);
+		bigPanel.add(btn_quiz_answer_3);
+		bigPanel.add(btn_quiz_answer_4);
+		
+		this.add(bigPanel);
 
-		// ÆĞ³Î, ¶óº§ , ¹öÆ° µî Ãß°¡
-
-		timePanel.add(timeLabel);
-		timePanel.add(stopBtn);
-		stopBtn.add(stopLabel);
-		contentPane.add(quiz_num_lb);
-		/* contentPane.add(answer_num_lb); */
-		quizPanel.add(quizLabel);
-
-		this.add(btn_quiz_answer_1);
-		this.add(btn_quiz_answer_2);
-		this.add(btn_quiz_answer_3);
-		this.add(btn_quiz_answer_4);
-		this.add(timePanel);
-		this.add(quizPanel);
-
-		this.setResizable(false);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// ±×¸¸ÇØ¿ä ¹öÆ° ´©¸£¸é È­¸é ÀüÈ¯
-		stopBtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// ÀÓ½Ã Å¬·¡½º ÀÌµ¿
-				new ExtraPanel().setVisible(true);
-				dispose();
-			}
-
-		});
-
-		int timesec = 0;
+//		int timesec = 0;
 		int quiz_num_ing = 1;
 
-		// ¹®Á¦ ³­ÀÌµµº° ÃÊ°¡ ´ã±â´Â ¹è¿­ »ı¼º
-		for (int i = 0; i < quizList2.size(); i++) {
-			sec[i] = quizList2.get(i).getQuiz_difficulty();
+		// ë¬¸ì œ ë‚œì´ë„ë³„ ì´ˆê°€ ë‹´ê¸°ëŠ” ë°°ì—´ ìƒì„±
+		for (int i = 0; i < set.size(); i++) {
+			sec[i] = set.get(i).getQuiz_difficulty();
 		}
 
-		// º¸±â ¹öÆ°º° ¾×¼Ç ¼³Á¤ ¿©ºÎ ÀÔ·Â
-				btn_quiz_answer_1.addActionListener(this);
-				btn_quiz_answer_2.addActionListener(this);
-				btn_quiz_answer_3.addActionListener(this);
-				btn_quiz_answer_4.addActionListener(this);
-
+		// ë³´ê¸° ë²„íŠ¼ë³„ ì•¡ì…˜ ì„¤ì • ì—¬ë¶€ ì…ë ¥
+		btn_quiz_answer_1.addActionListener(this);
+		btn_quiz_answer_2.addActionListener(this);
+		btn_quiz_answer_3.addActionListener(this);
+		btn_quiz_answer_4.addActionListener(this);
 		
-		int correct_num_sum = 0;
-		// ´ã±ä ¹®Á¦¸¦ ¹İº¹¹® ÅëÇØ¼­ µ¹¸²
-		for (cnt = 0; cnt < quizList2.size(); cnt++) {
-
-			// ³­ÀÌµµº° ½Ã°£À» º¯¼ö¿¡ ´ãÀ½
-			timesec = sec[cnt];
-
-			// ÁøÇàÇÑ ¹®Á¦ ¼ö / ÀüÃ¼ ¹®Á¦¼ö
-			quiz_num_lb.setText((quiz_num_ing + cnt) + " / " + quizList2.size());
-
-			// ¹®Á¦ÃâÁ¦ ¶óº§¿¡ ¹®Á¦ ³Ö¾îÁÖ±â
-			quizLabel.setText(quizList2.get(cnt).getQuiz_title());
-
-			// º¸±â ¹öÆ°¿¡ º¸±â ³Ö¾îÁÖ±â
-			btn_quiz_answer_1.setText(quizList2.get(cnt).getQuiz_answer_1());
-			btn_quiz_answer_2.setText(quizList2.get(cnt).getQuiz_answer_2());
-			btn_quiz_answer_3.setText(quizList2.get(cnt).getQuiz_answer_3());
-			btn_quiz_answer_4.setText(quizList2.get(cnt).getQuiz_answer_4());
-
-			while (true) {
-
-				try {
-					timeLabel.setText("" + timesec + "ÃÊ ³²¾Ò½À´Ï´Ù");
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-
-				timesec--;
-
-				if (timesec == 0) {
-					break;
-				}
-			}
-			//´ÙÀ½ ¹®Á¦ ³Ñ¾î°¥ ¶§ ´Ù½Ã ¹öÆ° È°¼ºÈ­
-			btn_quiz_answer_1.setEnabled(true);
-			btn_quiz_answer_2.setEnabled(true);
-			btn_quiz_answer_3.setEnabled(true);
-			btn_quiz_answer_4.setEnabled(true);	
-
+		class quiz_thread extends Thread {
 			
-						
+			public void run() {
+				// ë‹´ê¸´ ë¬¸ì œë¥¼ ë°˜ë³µë¬¸ í†µí•´ì„œ ëŒë¦¼
+				for (cnt = 0; cnt < set.size(); cnt++) {
+					// ë‚œì´ë„ë³„ ì‹œê°„ì„ ë³€ìˆ˜ì— ë‹´ìŒ
+					int timesec = sec[cnt];
+					// ì§„í–‰í•œ ë¬¸ì œ ìˆ˜ / ì „ì²´ ë¬¸ì œìˆ˜
+					quiz_num_lb.setText((1 + cnt) + " / " + set.size());
+					// ë¬¸ì œì¶œì œ ë¼ë²¨ì— ë¬¸ì œ ë„£ì–´ì£¼ê¸°
+					quizLabel.setText("[" + set.get(cnt).getQuiz_subject() + "] " + set.get(cnt).getQuiz_title());
+					// ë³´ê¸° ë²„íŠ¼ì— ë³´ê¸° ë„£ì–´ì£¼ê¸°
+					btn_quiz_answer_1.setText(set.get(cnt).getQuiz_answer_1());
+					btn_quiz_answer_2.setText(set.get(cnt).getQuiz_answer_2());
+					btn_quiz_answer_3.setText(set.get(cnt).getQuiz_answer_3());
+					btn_quiz_answer_4.setText(set.get(cnt).getQuiz_answer_4());
+					
+					while (true) {
+						try {
+							timeLabel.setText("" + timesec + "ì´ˆ ë‚¨ì•˜ìŠµë‹ˆë‹¤");
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+						timesec--;
+
+						if (timesec == 0) {
+							break;
+						}
+					}
+					// ë‹¤ìŒ ë¬¸ì œ ë„˜ì–´ê°ˆ ë•Œ ë‹¤ì‹œ ë²„íŠ¼ í™œì„±í™”
+					btn_quiz_answer_1.setEnabled(true);
+					btn_quiz_answer_2.setEnabled(true);
+					btn_quiz_answer_3.setEnabled(true);
+					btn_quiz_answer_4.setEnabled(true);
+					
+				}
+				correct_qnumInSet += correct_num;
+				System.out.println("ë§ì¶˜ ë¬¸ì œ ìˆ˜ : " + correct_qnumInSet);
+				System.out.println("ì–»ì€ ì´ ì¿ í‚¤ ìˆ˜ : " + got_cookie_InSet);
+			}
 		}
+		new quiz_thread().start();
 		
-		//¸ÂÃá ¹®Á¦¼ö È®ÀÎ 
-		correct_num_sum += correct_num;
-		System.out.println("¸ÂÃá ¹®Á¦ ¼ö : " + correct_num_sum);
 		
+		// ë§ì¶˜ ë¬¸ì œìˆ˜ í™•ì¸
+
+		// ì´ë²ˆ ì„¸íŠ¸ì—ì„œ í‘¼ ë¬¸ì œìˆ˜ì™€ ë§ì¶˜ ë¬¸ì œìˆ˜ë¥¼ ìœ ì €ì˜ ì •ë³´ì— í•©ì‚°í•˜ì—¬ ë„˜ê²¨ì¤€ë‹¤.
+		//
+		/*
+		 * uv.setUser_all_quiz(uv.getUser_all_quiz() + set.size());
+		 * uv.setUser_correct_quiz(uv.getUser_correct_quiz() + correct_qnumInSet);
+		 * uv.setUser_cookie(uv.getUser_cookie() + got_cookie_InSet);
+		 * uv.setUser_gaming_cookie(got_cookie_InSet);
+		 * uv.setUser_gaming_correct_quiz(correct_qnumInSet);
+		 */
+
+		// cons
 	}
 
-	// º¸±â ¹öÆ° º° ¾×¼Ç
+	public static void main(String[] args) {
+		JFrame jf = new JFrame();
+		jf.setSize(1024, 768);
+		jf.setLayout(null);
+		jf.setResizable(false);
+		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
+		jf.add(new SolvingQuiz(jf));
+		
+		jf.setVisible(true);
+	}
+
+	// ë³´ê¸° ë²„íŠ¼ ë³„ ì•¡ì…˜
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btn_quiz_answer_1 || e.getSource() == btn_quiz_answer_2
 				|| e.getSource() == btn_quiz_answer_3 || e.getSource() == btn_quiz_answer_4) {
-			
-			//º¸±â°¡ ¼±ÅÃµÇ¸é ´õÀÌ»ó ¼±ÅÃÇÒ ¼ö ¾øµµ·Ï ÇÔ
-				btn_quiz_answer_1.setEnabled(false);
-				btn_quiz_answer_2.setEnabled(false);
-				btn_quiz_answer_3.setEnabled(false);
-				btn_quiz_answer_4.setEnabled(false);
-				
+
+			// ë³´ê¸°ê°€ ì„ íƒë˜ë©´ ë”ì´ìƒ ì„ íƒí•  ìˆ˜ ì—†ë„ë¡ í•¨
+			btn_quiz_answer_1.setEnabled(false);
+			btn_quiz_answer_2.setEnabled(false);
+			btn_quiz_answer_3.setEnabled(false);
+			btn_quiz_answer_4.setEnabled(false);
+			JdialogAuto ja = new JdialogAuto();
 			if (e.getSource() == btn_quiz_answer_1) {
-				if (btn_quiz_answer_1.getText().equals(quizList2.get(cnt).getQuiz_final_answer())) {
-					System.out.println("Á¤´ä");
+				if (btn_quiz_answer_1.getText().equals(set.get(cnt).getQuiz_final_answer())) {
+					System.out.println("ì •ë‹µ");
+					ja.dialog();
 					correct_num++;
+					cookie_num += set.get(cnt).getQuiz_cookie();
+					System.out.println("ì¿ í‚¤ íšë“ : " + set.get(cnt).getQuiz_cookie());
+					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+
 				} else {
-					System.out.println("¿À´ä");
+					System.out.println("ì˜¤ë‹µ");
+					cookie_num = 0;
+					got_cookie_InSet += 0;
 				}
 			} else if (e.getSource() == btn_quiz_answer_2) {
-				if (btn_quiz_answer_2.getText().equals(quizList2.get(cnt).getQuiz_final_answer())) {
-					System.out.println("Á¤´ä");
+				if (btn_quiz_answer_2.getText().equals(set.get(cnt).getQuiz_final_answer())) {
+					System.out.println("ì •ë‹µ");
+					ja.dialog();
 					correct_num++;
+					cookie_num += set.get(cnt).getQuiz_cookie();
+					System.out.println("ì¿ í‚¤ íšë“ : " + set.get(cnt).getQuiz_cookie());
+					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+
 				} else {
-					System.out.println("¿À´ä");
+					System.out.println("ì˜¤ë‹µ");
+					cookie_num = 0;
+					got_cookie_InSet += 0;
 				}
 			} else if (e.getSource() == btn_quiz_answer_3) {
-				if (btn_quiz_answer_3.getText().equals(quizList2.get(cnt).getQuiz_final_answer())) {
-					System.out.println("Á¤´ä");
+				if (btn_quiz_answer_3.getText().equals(set.get(cnt).getQuiz_final_answer())) {
+					System.out.println("ì •ë‹µ");
+					ja.dialog();
 					correct_num++;
+					cookie_num += set.get(cnt).getQuiz_cookie();
+					System.out.println("ì¿ í‚¤ íšë“ : " + set.get(cnt).getQuiz_cookie());
+					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+
 				} else {
-					System.out.println("¿À´ä");
+					System.out.println("ì˜¤ë‹µ");
+					cookie_num = 0;
+					got_cookie_InSet += 0;
 				}
 
 			} else if (e.getSource() == btn_quiz_answer_4) {
-				if (btn_quiz_answer_4.getText().equals(quizList2.get(cnt).getQuiz_final_answer())) {
-					System.out.println("Á¤´ä");
+				if (btn_quiz_answer_4.getText().equals(set.get(cnt).getQuiz_final_answer())) {
+					System.out.println("ì •ë‹µ");
+					ja.dialog();
 					correct_num++;
+					cookie_num += set.get(cnt).getQuiz_cookie();
+					System.out.println("ì¿ í‚¤ íšë“ : " + set.get(cnt).getQuiz_cookie());
+					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+					got_cookie_InSet += 0;
+
 				} else {
-					System.out.println("¿À´ä");
+					System.out.println("ì˜¤ë‹µ");
+					cookie_num = 0;
+					got_cookie_InSet += 0;
 				}
 			}
+
 		}
 
-	//ÃÑ Ç¬ ¹®Á¦¼ö = ¼¼Æ® »çÀÌÁî ³Ñ±â±â , ÃÑ ¸ÂÃá ¹®Á¦ ¼ö = user  Á¤º¸·Î ³Ñ±â±â
-		
-	//¹®Á¦º° ÃÊ ´õÇÏ±â
+		// ì´ í‘¼ ë¬¸ì œìˆ˜ = ì„¸íŠ¸ ì‚¬ì´ì¦ˆ ë„˜ê¸°ê¸° , ì´ ë§ì¶˜ ë¬¸ì œ ìˆ˜ = user ì •ë³´ë¡œ ë„˜ê¸°ê¸°
+
+		// ë¬¸ì œë³„ ì´ˆ ë”í•˜ê¸°
 		if (cnt != 0) {
-			// Áö±İ Çª´Â ¹®Á¦ ÀÌÀüÀÇ ¹®Á¦µé¿¡ ÇÒ´çµÈ ÃÊÀÇ ÇÕ
-			// sec[] ¹è¿­ : ¹®Á¦ ³­ÀÌµµº° ÃÊÀÇ ¹è¿­
-			double pre_sec = 0;
+			// ì§€ê¸ˆ í‘¸ëŠ” ë¬¸ì œ ì´ì „ì˜ ë¬¸ì œë“¤ì— í• ë‹¹ëœ ì´ˆì˜ í•©
+			// sec[] ë°°ì—´ : ë¬¸ì œ ë‚œì´ë„ë³„ ì´ˆì˜ ë°°ì—´
+			long pre_sec = 0;
 
 			for (int i = 0; i < cnt; i++) {
 				pre_sec += sec[i];
 			}
 
 			long Click = System.currentTimeMillis();
-			// µÎ¹øÂ° ¹®Á¦ºÎÅÍÀÇ ÃÊ°ª º¯¼ö ¼±¾ğ ¹× ÃÊ±âÈ­
-			double clickTime = Double.parseDouble(String.format("%.2f", ((Click - start) / 1000.0) - pre_sec));
-			sum += clickTime;
-			System.out.println((cnt + 1) + "¹øÂ° ¹®Á¦ ¸¶¿ì½º Å¬¸¯ÇÑ ½Ã°£ : " + clickTime);
-			System.out.println("Áö±İ±îÁö Ç¬ ¹®Á¦µéÀÇ ÃÊ ÇÕ  : " + sum);
+			// ë‘ë²ˆì§¸ ë¬¸ì œë¶€í„°ì˜ ì´ˆê°’ ë³€ìˆ˜ ì„ ì–¸ ë° ì´ˆê¸°í™”
+			long clickTime = (long) (((Click - start) / 1000) - pre_sec);
+			amountOfSecInSet += clickTime;
+			System.out.println((cnt + 1) + "ë²ˆì§¸ ë¬¸ì œ ë§ˆìš°ìŠ¤ í´ë¦­í•œ ì‹œê°„ : " + clickTime);
+			System.out.println("ì§€ê¸ˆê¹Œì§€ í‘¼ ë¬¸ì œë“¤ì˜ ì´ˆ í•©  : " + amountOfSecInSet);
 
 		} else {
 			long Click = System.currentTimeMillis();
-			// Ã¹¹øÂ° ¹®Á¦ÀÇ ÃÊ°ª º¯¼ö ¼±¾ğ ¹× ÃÊ±âÈ­
-			double clickTime = Double.parseDouble(String.format("%.2f", ((Click - start) / 1000.0)));
-			System.out.println((cnt + 1) + "¹øÂ° ¹®Á¦ ¸¶¿ì½º Å¬¸¯ÇÑ ½Ã°£ : " + clickTime);
-			sum += clickTime;
-			System.out.println("Áö±İ±îÁö Ç¬ ¹®Á¦µéÀÇ ÃÊ ÇÕ : " + sum);
+			// ì²«ë²ˆì§¸ ë¬¸ì œì˜ ì´ˆê°’ ë³€ìˆ˜ ì„ ì–¸ ë° ì´ˆê¸°í™”
+			long clickTime = (long) ((Click - start) / 1000);
+			System.out.println((cnt + 1) + "ë²ˆì§¸ ë¬¸ì œ ë§ˆìš°ìŠ¤ í´ë¦­í•œ ì‹œê°„ : " + clickTime);
+			amountOfSecInSet += clickTime;
+			System.out.println("ì§€ê¸ˆê¹Œì§€ í‘¼ ë¬¸ì œë“¤ì˜ ì´ˆ í•© : " + amountOfSecInSet);
+
+			// uv.setUser_gaming_time(amountOfSecInSet);
+			// ìœ ì € ê°’ì— ê¸°ë¡
 
 		}
-		
-	}
 
-	public static void main(String[] args) {
-		new SolvingQuiz();
 	}
 
 }
-
