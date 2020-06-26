@@ -51,21 +51,20 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 
 	public SolvingQuiz() {
 		this.setBackground(Color.RED);
-		this.setBounds(0, 0, 1024, 300);
-
+		this.setBounds(0, 0, 1024, 430);
+		
 	}
 
 	public SolvingQuiz(JFrame jf) {
 
 		this.setLayout(null);
+		this.setBackground(Color.RED);
 		this.setBounds(0, 0, 1024, 768);
-//		this.setBackground(Color.RED);
 
 		JPanel bigPanel = new JPanel();
 		bigPanel.setLayout(null);
 		bigPanel.setBounds(0, 0, 1024, 768);
-		bigPanel.setBackground(new Color(254, 228, 167));
-
+		
 		// 상단바
 		JPanel timePanel = new JPanel();
 		timePanel.setLayout(null);
@@ -81,17 +80,17 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		timePanel.add(timeLabel);
 		
-		bigPanel.add(timePanel);
-		
 		// 상단 오른쪽의 그만해요 버튼
 		JButton stopBtn = new JButton("그만해요");
-		stopBtn.setBounds(840, 0, 100, 50);
+		// stopBtn.setBounds(840, 0, 100, 50);
 		stopBtn.setBorderPainted(false);
 		stopBtn.setBackground(new Color(255, 179, 0));
-		
 		timePanel.add(stopBtn);
 		
+		bigPanel.add(timePanel);
 		
+
+
 		// 문제 수 표기 라벨
 		JLabel quiz_num_lb = new JLabel();
 		quiz_num_lb.setHorizontalAlignment(JLabel.CENTER);
@@ -99,25 +98,30 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		quiz_num_lb.setOpaque(true);
 		quiz_num_lb.setBackground(new Color(252, 209, 108));
 		quiz_num_lb.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		
-		bigPanel.add(quiz_num_lb);
-		
+
+		// 응답 수 표기 라벨
+
+		/*
+		 * * JLabel answer_num_lb = new JLabel();
+		 * answer_num_lb.setHorizontalAlignment(JLabel.CENTER);
+		 * answer_num_lb.setText("응답 0 / 20"); answer_num_lb.setBounds(820, 410, 160,
+		 * 45); answer_num_lb.setOpaque(true); answer_num_lb.setBackground(new
+		 * Color(252, 209, 108)); answer_num_lb.setFont(new Font("맑은 고딕", Font.BOLD,
+		 * 25));
+		 */
+
 		// 문제출제 패널
 		JPanel quizPanel = new JPanel();
 		quizPanel.setLayout(null);
 		quizPanel.setBounds(40, 70, 940, 330);
 		quizPanel.setBackground(Color.WHITE);
-		
-		bigPanel.add(quizPanel);
-		
+
 		// 문제가 적혀질 라벨
 		JLabel quizLabel = new JLabel();
 		quizLabel.setHorizontalAlignment(JLabel.CENTER);
 		quizLabel.setBounds(80, 10, 800, 300);
 		quizLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		
-		quizPanel.add(quizLabel);
-		
+
 		// 문제버튼
 
 		// 문제버튼 1
@@ -126,36 +130,44 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		btn_quiz_answer_1.setBounds(40, 475, 455, 110);
 		btn_quiz_answer_1.setBackground(new Color(226, 91, 69));
 		btn_quiz_answer_1.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		
+
 		// 문제버튼 2
 		btn_quiz_answer_2 = new JButton();
 		btn_quiz_answer_2.setBorderPainted(false);
 		btn_quiz_answer_2.setBounds(525, 475, 455, 110);
 		btn_quiz_answer_2.setBackground(new Color(225, 131, 87));
 		btn_quiz_answer_2.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		
+
 		// 문제버튼 3
 		btn_quiz_answer_3 = new JButton();
 		btn_quiz_answer_3.setBorderPainted(false);
 		btn_quiz_answer_3.setBounds(40, 600, 455, 110);
 		btn_quiz_answer_3.setBackground(new Color(137, 213, 201));
 		btn_quiz_answer_3.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		
+
 		// 문제버튼 4
 		btn_quiz_answer_4 = new JButton();
 		btn_quiz_answer_4.setBorderPainted(false);
 		btn_quiz_answer_4.setBounds(525, 600, 455, 110);
 		btn_quiz_answer_4.setBackground(new Color(172, 201, 101));
 		btn_quiz_answer_4.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+
+		// 패널, 라벨 , 버튼 등 추가
+
 		
+		// contentPane.add(answer_num_lb);
+		quizPanel.add(quizLabel);
+
 		bigPanel.add(btn_quiz_answer_1);
 		bigPanel.add(btn_quiz_answer_2);
 		bigPanel.add(btn_quiz_answer_3);
 		bigPanel.add(btn_quiz_answer_4);
 		
+		bigPanel.add(quizPanel);
+		
 		this.add(bigPanel);
-
-//		int timesec = 0;
+		
+		int timesec = 0;
 		int quiz_num_ing = 1;
 
 		// 문제 난이도별 초가 담기는 배열 생성
@@ -168,53 +180,51 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		btn_quiz_answer_2.addActionListener(this);
 		btn_quiz_answer_3.addActionListener(this);
 		btn_quiz_answer_4.addActionListener(this);
-		
-		class quiz_thread extends Thread {
-			
-			public void run() {
-				// 담긴 문제를 반복문 통해서 돌림
-				for (cnt = 0; cnt < set.size(); cnt++) {
-					// 난이도별 시간을 변수에 담음
-					int timesec = sec[cnt];
-					// 진행한 문제 수 / 전체 문제수
-					quiz_num_lb.setText((1 + cnt) + " / " + set.size());
-					// 문제출제 라벨에 문제 넣어주기
-					quizLabel.setText("[" + set.get(cnt).getQuiz_subject() + "] " + set.get(cnt).getQuiz_title());
-					// 보기 버튼에 보기 넣어주기
-					btn_quiz_answer_1.setText(set.get(cnt).getQuiz_answer_1());
-					btn_quiz_answer_2.setText(set.get(cnt).getQuiz_answer_2());
-					btn_quiz_answer_3.setText(set.get(cnt).getQuiz_answer_3());
-					btn_quiz_answer_4.setText(set.get(cnt).getQuiz_answer_4());
-					
-					while (true) {
-						try {
-							timeLabel.setText("" + timesec + "초 남았습니다");
-							Thread.sleep(1000);
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-						timesec--;
 
-						if (timesec == 0) {
-							break;
-						}
-					}
-					// 다음 문제 넘어갈 때 다시 버튼 활성화
-					btn_quiz_answer_1.setEnabled(true);
-					btn_quiz_answer_2.setEnabled(true);
-					btn_quiz_answer_3.setEnabled(true);
-					btn_quiz_answer_4.setEnabled(true);
-					
+		
+		// 담긴 문제를 반복문 통해서 돌림
+		for (cnt = 0; cnt < set.size(); cnt++) {
+			// 난이도별 시간을 변수에 담음
+			timesec = sec[cnt];
+			// 진행한 문제 수 / 전체 문제수
+			quiz_num_lb.setText((quiz_num_ing + cnt) + " / " + set.size());
+			// 문제출제 라벨에 문제 넣어주기
+			quizLabel.setText("[" + set.get(cnt).getQuiz_subject() + "] " + set.get(cnt).getQuiz_title());
+			// 보기 버튼에 보기 넣어주기
+			btn_quiz_answer_1.setText(set.get(cnt).getQuiz_answer_1());
+			System.out.println(btn_quiz_answer_1.getText());
+			btn_quiz_answer_2.setText(set.get(cnt).getQuiz_answer_2());
+			System.out.println(btn_quiz_answer_2.getText());
+			btn_quiz_answer_3.setText(set.get(cnt).getQuiz_answer_3());
+			System.out.println(btn_quiz_answer_3.getText());
+			btn_quiz_answer_4.setText(set.get(cnt).getQuiz_answer_4());
+			System.out.println(btn_quiz_answer_4.getText());
+			
+			while (true) {
+				try {
+					System.out.println("" + timesec + "초 남았습니다");
+					timeLabel.setText("" + timesec + "초 남았습니다");
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
 				}
-				correct_qnumInSet += correct_num;
-				System.out.println("맞춘 문제 수 : " + correct_qnumInSet);
-				System.out.println("얻은 총 쿠키 수 : " + got_cookie_InSet);
+				timesec--;
+
+				if (timesec == 0) {
+					break;
+				}
 			}
+			// 다음 문제 넘어갈 때 다시 버튼 활성화
+			btn_quiz_answer_1.setEnabled(true);
+			btn_quiz_answer_2.setEnabled(true);
+			btn_quiz_answer_3.setEnabled(true);
+			btn_quiz_answer_4.setEnabled(true);
 		}
-		new quiz_thread().start();
-		
-		
+
 		// 맞춘 문제수 확인
+		correct_qnumInSet += correct_num;
+		System.out.println("맞춘 문제 수 : " + correct_qnumInSet);
+		System.out.println("얻은 총 쿠키 수 : " + got_cookie_InSet);
 
 		// 이번 세트에서 푼 문제수와 맞춘 문제수를 유저의 정보에 합산하여 넘겨준다.
 		//
@@ -226,18 +236,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		 * uv.setUser_gaming_correct_quiz(correct_qnumInSet);
 		 */
 
-		// cons
-	}
-
-	public static void main(String[] args) {
-		JFrame jf = new JFrame();
-		jf.setSize(1024, 768);
-		jf.setLayout(null);
-		jf.setResizable(false);
-		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
-		jf.add(new SolvingQuiz(jf));
-		
-		jf.setVisible(true);
+	//cons
 	}
 
 	// 보기 버튼 별 액션
@@ -251,11 +250,10 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			btn_quiz_answer_2.setEnabled(false);
 			btn_quiz_answer_3.setEnabled(false);
 			btn_quiz_answer_4.setEnabled(false);
-			JdialogAuto ja = new JdialogAuto();
+
 			if (e.getSource() == btn_quiz_answer_1) {
 				if (btn_quiz_answer_1.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
-					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -269,7 +267,6 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			} else if (e.getSource() == btn_quiz_answer_2) {
 				if (btn_quiz_answer_2.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
-					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -283,7 +280,6 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			} else if (e.getSource() == btn_quiz_answer_3) {
 				if (btn_quiz_answer_3.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
-					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -298,7 +294,6 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			} else if (e.getSource() == btn_quiz_answer_4) {
 				if (btn_quiz_answer_4.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
-					ja.dialog();
 					correct_num++;
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -345,6 +340,17 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			// 유저 값에 기록
 
 		}
+
+	}
+
+	public static void main(String[] args) {
+		JFrame jf = new JFrame();
+		jf.setSize(1024, 768);
+		jf.setLayout(null);
+		jf.setResizable(false);
+		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
+		jf.setVisible(true);
+		jf.add(new SolvingQuiz(jf));
 
 	}
 
