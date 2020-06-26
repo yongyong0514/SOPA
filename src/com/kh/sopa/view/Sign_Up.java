@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.kh.sopa.controller.LoginController;
+import com.kh.sopa.controller.ObjectIO;
 import com.kh.sopa.model.vo.User_VO;
 
 
@@ -169,43 +170,107 @@ public class Sign_Up extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				int ba = JOptionPane.showConfirmDialog(null, "제대로 입력하셨습니까?");
-				if (ba == 0) {
-					// 가입시 화면 메세지
-					if (sign_pw.getText().equals(check_pw.getText())) {
-						// 비밀번호와 비밀 번호 확인이 일치할 시
-						JOptionPane.showMessageDialog(null, "가입을 축하합니다", "정상입력", JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						// 비밀번호와 비밀번호확인이 불일치 시
-						JOptionPane.showMessageDialog(null, "입력값이 다릅니다", "입력오류", JOptionPane.WARNING_MESSAGE);
-						return;
+				
+				boolean[] checkCondition = new boolean[3];
+				// 1. 아이디 중복 여부 검사
+				ArrayList<User_VO> userList = new ArrayList<User_VO>();
+				userList = new ObjectIO().UserReadToFile();
+				System.out.println(userList.size());
+				
+				for (int i = 0; i < userList.size(); i++) {
+					if (userList.get(i).getUser_id().equals(sign_id.getText())) {
+						checkCondition[0] = true;
+						break;
 					}
-					// 재확인 구문
-					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
-					mainFrame.dispose();
 				}
-
-				// 값을 받고 이동
-				uv.setUser_id(sign_id.getText());
-				System.out.println(uv.getUser_id());
-				uv.setUser_pw(sign_pw.getText());
-				System.out.println(uv.getUser_pw());
-				uv.setUser_phone_number(sign_phone.getText());
-				System.out.println(uv.getUser_phone_number());
-
-				// 확인 구문
-				System.out.println(uv.getUser_phone_number() + "  " + uv.getUser_pw() + "  " + uv.getUser_id() + "버튼");
-
-				// 로그인 컨트롤러로 정보 이동
-				lc = new LoginController();
-				lc.user_make(uv);
-				// 버튼 클릭시 재확인
-				int ba1 = JOptionPane.showConfirmDialog(null, "로그인 화면으로 돌아가시겠습니까?");
-				if (ba1 == 0) {
-					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
-					mainFrame.dispose();
+				
+				// 2. 비밀번호 일치 확인
+				if(sign_pw.getText().equals(check_pw.getText())) {
+					checkCondition[1] = true;
 				}
+				
+				// 3. 전화번호 null 인지 확인
+				if (sign_phone.getText().equals("") || ("전화번호를 입력하세요").equals(sign_phone.getText())) {
+					checkCondition[2] = true;
+				}
+				
+				int checkCount = 0;
+				for (int i = 0; i < checkCondition.length; i++) {
+					if (i == 0) {
+						if (checkCondition[i] == true) {
+							JOptionPane.showMessageDialog(null, "이미 가입한 아이디입니다.");
+							System.out.println("중복된 아이디 존재");
+							checkCount++;
+							break;
+						}
+					}
+					else if (i == 1) {
+						if (checkCondition[i] == false) {
+							JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+							System.out.println("비밀번호 불일치");
+							checkCount++;
+							break;
+						}
+					}
+					else {
+						if (checkCondition[i] == true) {
+							JOptionPane.showMessageDialog(null, "전화번호가 입력되지 않았습니다.");
+							System.out.println("전화번호 null값");
+							checkCount++;
+							break;
+						}
+					}
+				}
+				
+				if (checkCount == 0) {
+					uv.setUser_id(sign_id.getText());
+					uv.setUser_pw(sign_pw.getText());
+					uv.setUser_phone_number(sign_phone.getText());
+					
+					userList.add(uv);
+					
+					// 파일에 저장.
+					new ObjectIO().UserWriteToFile(userList);
+					
+					JOptionPane.showMessageDialog(null, "가입이 완료되었습니다.");
+					new ObjectIO().UserReadToFile();
+				}
+//				int ba = JOptionPane.showConfirmDialog(null, "제대로 입력하셨습니까?");
+//				if (ba == 0) {
+//					// 가입시 화면 메세지
+//					if (sign_pw.getText().equals(check_pw.getText())) {
+//						// 비밀번호와 비밀 번호 확인이 일치할 시
+//						JOptionPane.showMessageDialog(null, "가입을 축하합니다", "정상입력", JOptionPane.INFORMATION_MESSAGE);
+//					} else {
+//						// 비밀번호와 비밀번호확인이 불일치 시
+//						JOptionPane.showMessageDialog(null, "입력값이 다릅니다", "입력오류", JOptionPane.WARNING_MESSAGE);
+//						return;
+//					}
+//					// 재확인 구문
+//					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
+//					mainFrame.dispose();
+//				}
+//
+//				// 값을 받고 이동
+//				uv.setUser_id(sign_id.getText());
+//				System.out.println(uv.getUser_id());
+//				uv.setUser_pw(sign_pw.getText());
+//				System.out.println(uv.getUser_pw());
+//				uv.setUser_phone_number(sign_phone.getText());
+//				System.out.println(uv.getUser_phone_number());
+//
+//				// 확인 구문
+//				System.out.println(uv.getUser_phone_number() + "  " + uv.getUser_pw() + "  " + uv.getUser_id() + "버튼");
+//
+//				// 로그인 컨트롤러로 정보 이동
+//				lc = new LoginController();
+//				lc.user_make(uv);
+//				// 버튼 클릭시 재확인
+//				int ba1 = JOptionPane.showConfirmDialog(null, "로그인 화면으로 돌아가시겠습니까?");
+//				if (ba1 == 0) {
+//					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
+//					mainFrame.dispose();
+//				}
 
 			}
 		});

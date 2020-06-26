@@ -47,6 +47,34 @@ public class ObjectIO {
 		}
 	}
 	
+	public void UserWriteToFile(ArrayList<User_VO> userList) {
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+		
+		try {
+			fos = new FileOutputStream("user.txt");
+			oos = new ObjectOutputStream(fos);
+			
+			for (int i = 0; i < userList.size(); i++) {
+				oos.writeObject(userList.get(i));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (oos != null) {
+					oos.close();
+				}
+				if (fos != null) {
+					fos.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public ArrayList<User_VO> UserReadToFile() {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;

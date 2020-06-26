@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 import com.kh.sopa.controller.LoginController;
+import com.kh.sopa.controller.ObjectIO;
 import com.kh.sopa.model.vo.User_VO;
 import com.kh.sopa.view.Find_Id;
 import com.kh.sopa.view.Find_Pwd;
@@ -136,43 +137,48 @@ public class User_DAO {
 
 		try {
 			// 값 불러오기
-			fis = new FileInputStream("User.txt");
+			fis = new FileInputStream("user.txt");
 			ois = new ObjectInputStream(fis);
 
-			read = (ArrayList<User_VO>) ois.readObject();
+//			read = (ArrayList<User_VO>) ois.readObject();
+			read = new ObjectIO().UserReadToFile();
 
 			// 받아온 값
-			String get;
-			get = fi.getText();
-			System.out.println(get + "입력값");
+			String inputPhoneNumber;
+			inputPhoneNumber = fi.getText();
+			System.out.println(inputPhoneNumber + "입력값");
+			
 			String find;
 			String fid;
 
-			User_VO nuv = null;
+			User_VO nuv = new User_VO();
+			boolean existUser = false;
 
 			for (int i = 0; i < read.size(); i++) {
 				// 기존 회원의 아이디, 전화번호와 비교 구문
-				find = read.get(i).getUser_phone_number();
-				fid = read.get(i).getUser_id();
-				if (get.equals(find)) {
-					// 아이디가 있을 때
-					JOptionPane.showMessageDialog(null, "회원님의 아이디는 " + fid + " 입니다", "ID를 찾았습니다.",
-							JOptionPane.INFORMATION_MESSAGE);
-					System.out.println("회원님" + fid);
-				} else if (!get.equals(find)) {
-					// 아이디가 없을 때
-					System.out.println("없어요");
-					JOptionPane.showMessageDialog(null, "가입하신 아이디가 없습니다.", "ID가 없습니다.", JOptionPane.ERROR_MESSAGE);
+				if (read.get(i).getUser_phone_number().equals(inputPhoneNumber)) {
+					existUser = true;
+					nuv.setUser_id(read.get(i).getUser_id());
+					break;
 				}
-
+			}
+			
+			if (existUser) {
+				// 아이디가 있을 때
+				JOptionPane.showMessageDialog(null, "회원님의 아이디는 " + nuv.getUser_id() + " 입니다", "ID를 찾았습니다.",
+						JOptionPane.INFORMATION_MESSAGE);
+				System.out.println("회원님" + nuv.getUser_id());
+			}
+			else {
+				// 아이디가 없을 때
+				System.out.println("없어요");
+				JOptionPane.showMessageDialog(null, "가입하신 아이디가 없습니다.", "ID가 없습니다.", JOptionPane.ERROR_MESSAGE);
 			}
 
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			// 종료
@@ -195,59 +201,78 @@ public class User_DAO {
 
 		try {
 			// 값 불러오기
-			fis = new FileInputStream("User.txt");
+			fis = new FileInputStream("user.txt");
 			ois = new ObjectInputStream(fis);
 
-			try {
-				read = (ArrayList<User_VO>) ois.readObject();
+			read = new ObjectIO().UserReadToFile();
 
-				for (int i = 0; i < read.size(); i++) {
-					// 체크 구문
-					System.out.println(read.get(i).getUser_id() + " " + read.get(i).getUser_pw() + " "
-							+ read.get(i).getUser_phone_number());
+			String getId = null;
+			String getPhone = null;
+			String findpw = null;
+			
+			String dataId = null;
+			String dataPhone = null;
+			String dataPw = null;
+			boolean existUser = false;
+			
+			User_VO tmp = new User_VO();
+			for (int i = 0; i < read.size(); i++) {
+				// 체크 구문
+				System.out.println(read.get(i).getUser_id() + " " + read.get(i).getUser_pw() + " "
+						+ read.get(i).getUser_phone_number());
 
-					// 받아올 값 선언
-					String getId;
-					String getPhone;
-					String findPw;
-					Find_Pwd fp = null;
-					getId = fp.getId();
-					getPhone = fp.getPhone();
+				// 받아올 값 선언
+				Find_Pwd fp = null;
+				getId = fp.getId();
+				getPhone = fp.getPhone();
 
-					// 회원 정보에서 비교할 변수 선언
-					String dataId;
-					dataId = read.get(i).getUser_id();
-					String dataPhone;
-					dataPhone = read.get(i).getUser_phone_number();
-					String dataPw;
-					dataPw = read.get(i).getUser_pw();
+				// 회원 정보에서 비교할 변수 선언
+				dataId = read.get(i).getUser_id();
+				dataPhone = read.get(i).getUser_phone_number();
+				dataPw = read.get(i).getUser_pw();
 
-					if (getId.equals(dataId)) {
-						if (getPhone.equals(dataPhone)) {
-							// 전화번호, 아이디 모두 일치할 시, 비밀번호 수정
-							String change = JOptionPane.showInputDialog(null, "새 비밀번호를 입력하세요", "비밀번호 수정",
-									JOptionPane.OK_OPTION);
-							dataPw = change;
-							read.get(i).setUser_pw(change);
-
-						} else {
-							// 전화번호가 다른 경우
-							JOptionPane.showMessageDialog(null, "입력하신 전화번호가 정보가 없습니다.", "비밀번호 오류",
-									JOptionPane.ERROR_MESSAGE);
-							System.out.println("전번이 다름");
-						}
-					} else {
-						// 아이디가 다른 경우
-						JOptionPane.showMessageDialog(null, "입력하신 아이디가 없습니다", "비밀번호 오류", JOptionPane.ERROR_MESSAGE);
-						System.out.println("아이디가 다름");
-					}
-
+				if (getId.equals(dataId)) {
+					existUser = true;
+					tmp.setUser_id(read.get(i).getUser_id());
+					tmp.setUser_pw(read.get(i).getUser_pw());
+					tmp.setUser_phone_number(read.get(i).getUser_phone_number());
+					break;
 				}
-
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
 			}
-
+			if (existUser) {
+				if (getPhone.equals(tmp.getUser_phone_number())) {
+					// 전화번호, 아이디 모두 일치할 시, 비밀번호 수정
+					String change = JOptionPane.showInputDialog(null, "새 비밀번호를 입력하세요", "비밀번호 수정",
+							JOptionPane.OK_OPTION);
+					dataPw = change;
+					System.out.println("입력값 : " + dataPw);
+					tmp.setUser_pw(dataPw);
+					ArrayList<User_VO> userList = new ArrayList<User_VO>();
+					userList = new ObjectIO().UserReadToFile();
+					
+					// compare and arraylist change;
+					for (int i = 0; i < userList.size(); i++) {
+						if (userList.get(i).getUser_id().equals(tmp.getUser_id())) {
+							System.out.println("h");
+							userList.get(i).setUser_pw(tmp.getUser_pw());
+						}
+					}
+					// save to file
+					new ObjectIO().UserWriteToFile(userList);
+					
+					JOptionPane.showMessageDialog(null, "변경되었습니다.");
+				} else {
+					// 전화번호가 다른 경우
+					JOptionPane.showMessageDialog(null, "입력하신 전화번호가 정보가 없습니다.", "비밀번호 오류",
+							JOptionPane.ERROR_MESSAGE);
+					System.out.println("전번이 다름");
+				}
+			}
+			else {
+				// 아이디가 다른 경우
+				JOptionPane.showMessageDialog(null, "입력하신 아이디가 없습니다", "비밀번호 오류", JOptionPane.ERROR_MESSAGE);
+				System.out.println("아이디가 다름");
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
