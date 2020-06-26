@@ -56,7 +56,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 	private JTextField answer_2;
 	private JTextField answer_3;
 	private JTextField answer_4;
-	private String final_answer;
+	private String final_answer = null;
 	private int difficulty_result;
 	private JTextField cookie;
 	private JTextField image;
@@ -93,22 +93,25 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 	private DefaultTableModel modelList;
 	private DefaultTableModel modelSet;
 
+	
+	
 	public MakingQuiz(JFrame jf) {
 		this.setLayout(null);
 		this.setBounds(0, 0, 1024, 768);
 
+		//최하단 패널 여기에 모든 패널이 올라옵니다
 		JPanel mqPanel = new JPanel();
 		mqPanel.setBounds(0, 0, 1024, 768);
 		mqPanel.setBackground(new Color(254, 228, 167));
 		mqPanel.setLayout(null);
 
-		// 전체 리스트 패널, 세트리스트와 문제리스트가 위치합니다
+		// 좌측 리스트 패널, 세트리스트와 문제리스트가 위치합니다
 		lPanel = new JPanel();
 		lPanel.setBounds(7, 60, 340, 440);
 		lPanel.setBackground(new Color(255, 234, 185));
 		lPanel.setLayout(null);
 
-		// 세트 리스트 패널, 세트 리스트가 올라옵니다
+		// 좌측 리스트 패널, 세트 리스트가 올라옵니다
 		qSetPanel = new JPanel();
 		qSetPanel.setBounds(7, 7, 160, 340);
 		qSetPanel.setBackground(new Color(254, 228, 167));
@@ -119,12 +122,28 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			// 세트 리스트에서 세트 이름을 불러와서 정렬 후 표시합니다
 			ArrayList<Quiz_VO> set = qd.readQuizSet();
 			String[] setTitle = { "추가된 세트" };
+//			Object[][] setData = new Object[set.size()][12];
+//			for (int i = 0; i < set.size(); i++) {
+//				setData[i][0] = set.get(i).getQuiz_set_info();
+//				setData[i][1] = set.get(i).getQuiz_title();
+//				setData[i][2] = set.get(i).getQuiz_subject();
+//				setData[i][3] = set.get(i).getQuiz_answer_1();
+//				setData[i][4] = set.get(i).getQuiz_answer_2();
+//				setData[i][5] = set.get(i).getQuiz_answer_3();
+//				setData[i][6] = set.get(i).getQuiz_answer_4();
+//				setData[i][7] = set.get(i).getQuiz_final_answer();
+//				setData[i][8] = set.get(i).getQuiz_difficulty();
+//				setData[i][9] = set.get(i).getQuiz_cookie();
+//				setData[i][10] = set.get(i).getQuiz_image();
+//				setData[i][11] = set.get(i).getQuiz_people();
+//			}
 			String[][] setData = new String[set.size()][1];
 			String[][] setData2 = new String[set.size()][1];
 			for (int i = 0; i < set.size(); i++) {
 				setData[i][0] = set.get(i).getQuiz_set_info();
 			}
-
+			
+//			ArrayList<Quiz_VO> set 을  setData로 getQuiz_set_info만 받아와서 출력
 			List<String[]> temp = new ArrayList<String[]>(Arrays.asList(setData));
 			for (int i = setData.length - 1; i >= 1; i--) {
 				if (Arrays.equals(setData[i], setData[i - 1])) {
@@ -133,15 +152,15 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			}
 			setData2 = temp.toArray(new String[][] {});
 
+
 			modelSet = new DefaultTableModel(setData2, setTitle);
 			JTable tableSet = new JTable(modelSet);
-			tableSet.setFont(new Font("Dialog.plain", Font.PLAIN, 20));
+			tableSet.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 			tableSet.addMouseListener(this);
 			tableSet.setRowHeight(30);
 			scrollSet = new JScrollPane(tableSet);
 			scrollSet.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 			scrollSet.setBounds(7, 7, 160, 340);
-			
 			
 			lPanel.add(scrollSet);
 
@@ -153,35 +172,81 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		// 문제 리스트 패널, 문제 리스트가 올라옵니다
 		qListPanel = new JPanel();
 		qListPanel.setBounds(170, 7, 160, 340);
-		qListPanel.setBackground(Color.GRAY);
+		qListPanel.setBackground(new Color(254, 228, 167));
 
 
 		try {
-
 			// 문제 리스트에서 문제를 불러와 정렬 후 출력합니다
 			ArrayList<Quiz_VO> list = qd.readQuizList();
 			String[] atitle = { "추가한 문제" };
-//			
-//			Object[][] tdata = new Object[list.size()][13];
-//			if(list != null) {
-//				for(int i = 0; i < list.size(); i++) {
-//					for(int j = 0; j <= 13 ;  j++){
-//						Object[i][j] = list.get(i).						
-//					}
-//				}
-//			}
-
-			
-			Object[][] adata = new Object[list.size()][1];
+			Object[][] panelList = new Object[list.size()][11];
 			for (int i = 0; i < list.size(); i++) {
-				adata[i][0] = list.get(i).getQuiz_title();
+//				panelList[i][0] = list.get(i).getQuiz_set_info();
+				panelList[i][0] = list.get(i).getQuiz_title();
+				panelList[i][1] = list.get(i).getQuiz_subject();
+				panelList[i][2] = list.get(i).getQuiz_answer_1();
+				panelList[i][3] = list.get(i).getQuiz_answer_2();
+				panelList[i][4] = list.get(i).getQuiz_answer_3();
+				panelList[i][5] = list.get(i).getQuiz_answer_4();
+				panelList[i][6] = list.get(i).getQuiz_final_answer();
+				panelList[i][7] = list.get(i).getQuiz_difficulty();
+				panelList[i][8] = list.get(i).getQuiz_cookie();
+				panelList[i][9] = list.get(i).getQuiz_image();
+				panelList[i][10] = list.get(i).getQuiz_people();
 			}
 
-			modelList = new DefaultTableModel(adata, atitle);
+			modelList = new DefaultTableModel(panelList, atitle);
 			tableList = new JTable(modelList);
-			tableList.setFont(new Font("Dialog.plain", Font.PLAIN, 20));
+			tableList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 			tableList.setRowHeight(30);
-			tableList.addMouseListener(this);
+			tableList.addMouseListener(new MouseListener(){
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = tableList.getSelectedRow();
+					System.out.println(index);
+					for(int i = 0 ; i < list.size(); i++) {
+						if(index == i) {
+							title.setText(list.get(i).getQuiz_title());
+							answer_1.setText(list.get(i).getQuiz_answer_1());
+							answer_2.setText(list.get(i).getQuiz_answer_2());
+							answer_3.setText(list.get(i).getQuiz_answer_3());
+							answer_4.setText(list.get(i).getQuiz_answer_4());
+							ansRadio_5.isSelected();	//최종답안 라디오버튼
+							
+							
+					}
+	
+					}
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+		
+				});
+
+		
+		
 
 			scrollList = new JScrollPane(tableList);
 			scrollList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -244,9 +309,14 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		qPanel.setBackground(new Color(255, 234, 185));
 
 		// 버튼, 방을 만듬, 세트를 선택한 상태에서 버튼을 누릅니다
-		button_1 = new JButton("방을 만들어요");
+		button_1 = new JButton("방을 만들어요"){
+			@Override
+			public void setBorder(Border border) {
+				}
+			};
 		button_1.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		button_1.setBounds(498, 6, 153, 78);
+		button_1.setBackground(new Color(255, 179, 0));
 
 		// 텍스트 필드, 1세트 세트 제목을 입력받습니다
 		set_info = new JTextField(){
@@ -264,28 +334,40 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		qTitleSet.setBackground(Color.WHITE);
 
 		// 텍스트 필드, 1문제 문제를 입력받습니다
-		title = new JTextField();
+		title = new JTextField(){
+			@Override
+			public void setBorder(Border border) {
+				}
+			};
 		title.setBounds(70, 49, 420, 35);
 		title.setColumns(10);
 		title.addFocusListener(this);
 
 		// 텍스트, 문제 패널에 위치하고, 문제라고 적혀있습니다
-		JLabel qTitle = new JLabel("\uBB38\uC81C");
-		qTitle.setFont(new Font("굴림", Font.PLAIN, 18));
+		JLabel qTitle = new JLabel("문제");
+		qTitle.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		qTitle.setBounds(7, 49, 43, 30);
+		qTitle.setBackground(new Color(252, 209, 108));
 
 		// 문제 패널의 주제 패널, 주제를 입력합니다
 		JPanel sPanel = new JPanel();
 		sPanel.setBounds(498, 90, 153, 78);
 		sPanel.setLayout(null);
+		sPanel.setBackground(new Color(252, 209, 108));
+		
 
 		// 타이틀, 주제라고 적혀있습니다
-		JLabel sTitle = new JLabel("\uC8FC\uC81C");
+		JLabel sTitle = new JLabel("주제");
 		sTitle.setBounds(60, 0, 43, 30);
-		sTitle.setFont(new Font("굴림", Font.PLAIN, 18));
+		sTitle.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		sTitle.setBackground(new Color(252, 209, 108));
 
 		// 텍스트필드, 1세트 주제를 입력받는 텍스트 필드 입니다
-		subject = new JTextField();
+		subject = new JTextField(){
+			@Override
+			public void setBorder(Border border) {
+				}
+			};
 		subject.setBounds(7, 35, 139, 35);
 		subject.setColumns(10);
 
@@ -293,29 +375,42 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		JPanel pPanel = new JPanel();
 		pPanel.setBounds(498, 174, 153, 50);
 		pPanel.setLayout(null);
+		pPanel.setBackground(new Color(252, 209, 108));
 
 		// 타이틀, 명이라고 적혀있습니다.
-		JLabel pTitle = new JLabel("\uBA85");
-		pTitle.setFont(new Font("굴림", Font.PLAIN, 18));
+		JLabel pTitle = new JLabel("명");
+		pTitle.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		pTitle.setBounds(105, 10, 43, 30);
 
+
 		// 텍스트필드, 1세트의 참여인원 수를 입력받는 텍스트 필드 입니다
-		people = new JTextField();
+		people = new JTextField(){
+			@Override
+			public void setBorder(Border border) {
+				}
+			};
 		people.setColumns(10);
 		people.setBounds(7, 7, 90, 35);
+
 
 		// 문제 패널의 쿠키 패널, 쿠키패널 입니다
 		JPanel cPanel = new JPanel();
 		cPanel.setBounds(498, 228, 153, 50);
 		cPanel.setLayout(null);
+		cPanel.setBackground(new Color(252, 209, 108));
 
 		// 타이틀, 쿠키라고 적혀있습니다
-		JLabel cTitle = new JLabel("\uCFE0\uD0A4");
-		cTitle.setFont(new Font("굴림", Font.PLAIN, 18));
+		JLabel cTitle = new JLabel("쿠키");
+		cTitle.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		cTitle.setBounds(105, 10, 43, 30);
+		cTitle.setBackground(new Color(252, 209, 108));
 
 		// 텍스트필드, 1문제 쿠키 개수를 입력받습니다
-		cookie = new JTextField();
+		cookie = new JTextField(){
+			@Override
+			public void setBorder(Border border) {
+				}
+			};
 		cookie.setColumns(10);
 		cookie.setBounds(7, 7, 90, 35);
 
@@ -323,29 +418,33 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		JPanel lvPanel = new JPanel();
 		lvPanel.setBounds(498, 285, 153, 150);
 		lvPanel.setLayout(null);
+		lvPanel.setBackground(new Color(252, 209, 108));
 
 		// 타이틀, 난이도라고 적혀있습니다
 		JLabel lvTitle = new JLabel("난이도 (초)");
-		lvTitle.setFont(new Font("굴림", Font.PLAIN, 18));
-		lvTitle.setBounds(30, 7, 90, 30);
+		lvTitle.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		lvTitle.setBounds(30, 2, 90, 30);
 
 		// 라디오 버튼, 상급, 난이도 패널에 추가
 		level_1 = new JRadioButton(" 상급 (5)");
-		level_1.setFont(new Font("굴림", Font.PLAIN, 18));
-		level_1.setBounds(15, 40, 120, 30);
+		level_1.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		level_1.setBounds(15, 35, 120, 30);
 		level_1.addItemListener(this);
+		level_1.setBackground(new Color(252, 209, 108));
 
 		// 라디오 버튼, 중급, 난이도 패널에 추가
 		level_2 = new JRadioButton(" 중급 (10)");
-		level_2.setFont(new Font("굴림", Font.PLAIN, 18));
-		level_2.setBounds(15, 80, 120, 30);
+		level_2.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		level_2.setBounds(15, 75, 120, 30);
 		level_2.addItemListener(this);
+		level_2.setBackground(new Color(252, 209, 108));
 
 		// 라디오 버튼, 하급,
 		level_3 = new JRadioButton(" 하급 (20)");
-		level_3.setFont(new Font("굴림", Font.PLAIN, 18));
-		level_3.setBounds(15, 120, 120, 30);
+		level_3.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		level_3.setBounds(15, 115, 120, 30);
 		level_3.addItemListener(this);
+		level_3.setBackground(new Color(252, 209, 108));
 
 		// 라디오 버튼 선택 해제용
 		level_4 = new JRadioButton();
@@ -362,6 +461,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		aPanel = new JPanel();
 		aPanel.setBounds(7, 504, 1005, 210);
 		aPanel.setLayout(null);
+		aPanel.setBackground(new Color(255, 234, 185));
 
 		// 1번 패널 입니다
 		aPanel_1 = new JPanel();
@@ -384,7 +484,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		// ansSwitch_1.setBounds(432, 7, 41, 21);
 
 		ansRadio_1 = new JRadioButton("정답");
-		ansRadio_1.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		ansRadio_1.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		ansRadio_1.setBounds(412, 5, 60, 30);
 		ansRadio_1.setBackground(new Color(226, 91 ,69));
 		ansRadio_1.setForeground(Color.BLACK);
@@ -411,7 +511,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		// ansSwitch_2.setBounds(432, 7, 41, 21);
 
 		ansRadio_2 = new JRadioButton("정답");
-		ansRadio_2.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		ansRadio_2.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		ansRadio_2.setBounds(412, 5, 60, 30);
 		ansRadio_2.setBackground(new Color(255, 137, 81));
 		ansRadio_2.setForeground(Color.BLACK);
@@ -439,7 +539,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		// ansSwitch_3.setBounds(432, 7, 41, 21);
 
 		ansRadio_3 = new JRadioButton("정답");
-		ansRadio_3.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		ansRadio_3.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		ansRadio_3.setBounds(412, 5, 60, 30);
 		ansRadio_3.setBackground(new Color(137, 213, 201));
 		ansRadio_3.setForeground(Color.BLACK);
@@ -466,13 +566,14 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		// ansSwitch_4.setBounds(432, 7, 41, 21);
 
 		ansRadio_4 = new JRadioButton("정답");
-		ansRadio_4.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		ansRadio_4.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		ansRadio_4.setBounds(412, 5, 60, 30);
 		ansRadio_4.setBackground(new Color(173, 201, 101));
 		ansRadio_4.addItemListener(this);
 
 		// 라디오 버튼 선택 해제용
 		ansRadio_5 = new JRadioButton();
+		ansRadio_5.setSelected(true);
 
 		// 정답, 그룹화 라디오 버튼
 		ButtonGroup aRGroup = new ButtonGroup();
@@ -483,10 +584,14 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		aRGroup.add(ansRadio_5);
 		mqPanel.add(ansRadio_5);
 
-		// 이미지추가 패널
+		// 이미지 패널
 		JPanel iPanel = new JPanel();
-		iPanel.setBackground(Color.LIGHT_GRAY);
 		iPanel.setBounds(7, 90, 483, 345);
+		iPanel.setBackground(new Color(252, 209, 108));
+		
+		// 이미지를 추가하는 패널
+		JPanel image = new JPanel();
+		
 
 		// 메인 패널에 올라가는 개별 패널입니다
 		mqPanel.add(lPanel);
@@ -668,13 +773,15 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 				people.setText(null);
 				// aResult.clear(); //스위치형 정답 (2차구현)
 				
+				
 				}
 			}
 
 			else if (a.getSource() == button_3) {
 				if ((title.getText().equals("")) || (answer_1.getText().equals("")) || (answer_2.getText().equals(""))
 						|| (answer_3.getText().equals("")) || (answer_4.getText().equals(""))
-						|| (final_answer.equals(null)) || (cookie.getText().equals("")) || (difficulty_result == 0)) {
+//						|| (cookie.getText().equals("")) || (difficulty_result == 0) || (final_answer.equals(null))) {
+						|| (cookie.getText().equals("")) || difficulty_result == 0 || ansRadio_5.isSelected()) {
 					JButton button = new JButton("OK");
 					button.setBackground(new Color(255, 179, 0));
 					button.addActionListener(new ActionListener() {
@@ -702,6 +809,8 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 					qv.setQuiz_subject(null);
 					qv.setQuiz_image(null);
 					qv.setQuiz_people(0);
+					
+	
 				}
 
 				// qav.setAdded_subject(null);
@@ -735,7 +844,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 				cookie.setText(null); // 쿠키 개수 초기화
 				image.setText(null);
 				// people.setText(null);
-
+				
 			}
 
 		} catch (NullPointerException e) {
@@ -743,6 +852,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			System.out.println("세트에 필요한 입력 값은 방제목과 주제, 참여인원입니다. ");
 			// e.printStackTrace();
 		}
+
 	}
 
 	@Override
