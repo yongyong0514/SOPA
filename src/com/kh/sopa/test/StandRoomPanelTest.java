@@ -45,7 +45,6 @@ public class StandRoomPanelTest extends JPanel{
 		for (int i = 0; i < rooms.length; i++) {
 			rooms[i] = new JButton();
 			
-			
 			rooms[i].addActionListener(new ActionListener() {
 				
 				@Override
@@ -104,7 +103,6 @@ public class StandRoomPanelTest extends JPanel{
 			rooms[i].setVisible(true);
 		}
 	}
-	
 	
 	public void i_setter(int button_clicked_num) {
 		this.button_clicked_num = button_clicked_num;

@@ -8,8 +8,8 @@ import com.kh.sopa.view.Login_Panel;
 public class TestMainFrame {
 	public static void main(String[] args) {
 		ObjectIO io = new ObjectIO();
-		io.QuizWriteTest();
-		io.UserWriteToFile();
+//		io.QuizWriteTest();
+//		io.UserWriteToFile();
 		
 		JFrame f = new JFrame("realtest");
 		f.setSize(1024, 768);

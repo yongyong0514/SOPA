@@ -2,7 +2,6 @@ package com.kh.sopa.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -43,9 +42,9 @@ public class Login_Panel extends JPanel {
 		this.setLayout(null);
 
 		JPanel bigPanel = new JPanel();
-		bigPanel.setBackground(Color.BLUE);
+		bigPanel.setBackground(new Color(252, 228, 167));
 		bigPanel.setLayout(null);
-		bigPanel.setBounds(0, 0, 1024, 500);
+		bigPanel.setBounds(0, 0, 1024, 768);
 		this.add(bigPanel);
 
 		// 로그인 창 sopa 라벨
@@ -58,30 +57,30 @@ public class Login_Panel extends JPanel {
 		id_label = new JLabel("아이디 입력");
 		id_label.setBounds(280, 350, 100, 50);
 		id_label.setFont(new Font("바탕", Font.ITALIC, 12));
-		this.add(id_label);
+		bigPanel.add(id_label);
 
 		// 로그인 창 아이디 입력 패널
 		login_id = new JTextField(20);
 		login_id.setBounds(380, 350, 200, 40);
 		login_id.setFont(new Font("바탕", Font.ITALIC, 12));
-		this.add(login_id);
+		bigPanel.add(login_id);
 
 		// 로그인 창 비밀번호 입력 라벨
 		pw_label = new JLabel("비밀번호 입력");
 		pw_label.setBounds(280, 400, 100, 50);
 		pw_label.setFont(new Font("바탕", Font.ITALIC, 12));
-		this.add(pw_label);
+		bigPanel.add(pw_label);
 
 		// 로그인 창 비밀번호 입력 패널
 		login_pw = new JPasswordField(20);
 		login_pw.setBounds(380, 400, 200, 40);
 		login_pw.setFont(new Font("바탕", Font.ITALIC, 12));
-		this.add(login_pw);
+		bigPanel.add(login_pw);
 
 		// 로그인 창 로그인 버튼
 		login_quiz = new JButton("로그인");
 		login_quiz.setBounds(640, 340, 80, 120);
-		this.add(login_quiz);
+		bigPanel.add(login_quiz);
 		login_quiz.addMouseListener(new MouseAdapter() {
 
 			// 1.클릭 -> 대기
@@ -129,11 +128,11 @@ public class Login_Panel extends JPanel {
 			}
 		});
 
-		// 로그인 창 아이디 찾기 버튼
-		sign_up = new JButton("아이디 찾기");
+		// 회원가입 버튼
+		sign_up = new JButton("회원가입");
 		sign_up.setBounds(350, 500, 100, 20);
 		sign_up.setFont(new Font("바탕", Font.ITALIC, 10));
-		this.add(sign_up);
+		bigPanel.add(sign_up);
 		sign_up.addMouseListener(new MouseAdapter() {
 
 			// 클릭 -> 회원가입 패널
@@ -151,7 +150,7 @@ public class Login_Panel extends JPanel {
 		find_id = new JButton("아이디 찾기");
 		find_id.setBounds(450, 500, 100, 20);
 		find_id.setFont(new Font("바탕", Font.ITALIC, 10));
-		this.add(find_id);
+		bigPanel.add(find_id);
 		find_id.addMouseListener(new MouseAdapter() {
 
 			// 클릭 -> 아이디 찾기 패널
@@ -169,7 +168,7 @@ public class Login_Panel extends JPanel {
 		find_pw = new JButton("비밀번호 찾기");
 		find_pw.setBounds(550, 500, 100, 20);
 		find_pw.setFont(new Font("바탕", Font.ITALIC, 10));
-		this.add(find_pw);
+		bigPanel.add(find_pw);
 		find_pw.addMouseListener(new MouseAdapter() {
 
 			// 클릭 -> 비밀번호 찾기 패널
@@ -184,7 +183,12 @@ public class Login_Panel extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		Find_Id fi = new Find_Id();
+		JFrame f = new JFrame();
+		f.setSize(1024, 768);
+		f.setTitle("test");
+		f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
+		f.add(new Login_Panel(f));
+		f.setVisible(true);
 	}
 
 //	public static void main(String[] args) {
