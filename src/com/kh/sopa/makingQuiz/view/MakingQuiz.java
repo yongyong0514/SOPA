@@ -42,6 +42,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 	private JPanel qPanel;
 	private JPanel aPanel;
 	private JPanel aPanel_1;
+	
 	private JPanel aPanel_2;
 	private JPanel aPanel_3;
 	private JPanel aPanel_4;

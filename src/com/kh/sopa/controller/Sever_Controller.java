@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,58 +20,64 @@ public class Sever_Controller {
 	private ServerSocket serverSocket;
 	private Socket socket;
 	private Sever_view gui;
+	// 유저가 플레이할 게임방
 	private ArrayList<User_VO> room1 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room2 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room3 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room4 = new ArrayList<User_VO>();
 	private ArrayList<User_VO> room5 = new ArrayList<User_VO>();
-	
-	
+	// 유저가 플레이한 게임방의 결과모음
+	private ArrayList room1_result = new ArrayList();
+	private ArrayList room2_result = new ArrayList();
+	private ArrayList room3_result = new ArrayList();
+	private ArrayList room4_result = new ArrayList();
+	private ArrayList room5_result = new ArrayList();
+
 	private Map<String, DataOutputStream> room1Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room2Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room3Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room4Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room5Map = new HashMap<String, DataOutputStream>();
-	
+
 	private Map<String, DataOutputStream> clientMap = new HashMap<String, DataOutputStream>();
-	
+
 	public void setGui(Sever_view gui) {
 		this.gui = gui;
 	}
+
 	private int cnt1 = 0;
 	private int cnt2 = 0;
 	private int cnt3 = 0;
 	private int cnt4 = 0;
 	private int cnt5 = 0;
-	
+
 	// 소켓에 접속하는 메소드
 	public void setting() {
 		try {
 			Collections.synchronizedMap(clientMap);
-			
+
 			serverSocket = new ServerSocket(8080);
-			
-			while(true) {
+
+			while (true) {
 				System.out.println("접속자 대기중");
-				
+
 				socket = serverSocket.accept();
-				
-				System.out.println(socket.getInetAddress()+ "에서 접속했습니다.");
-				
+
+				System.out.println(socket.getInetAddress() + "에서 접속했습니다.");
+
 				Receiver receiver = new Receiver(socket);
 				receiver.start();
 			}
-		}catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("서버 소켓 에러");
 		}
 	}
-	
+
 	public void sendMessage(String msg) {
 		Iterator<String> itearator = clientMap.keySet().iterator();
 		String key = "";
-		
-		
+
 		while (itearator.hasNext()) {
 			key = itearator.next();
 			try {
@@ -81,18 +88,19 @@ public class Sever_Controller {
 			}
 		}
 	}
+
 	// nic은 ID ,
-	public void addClient(String user_id, DataOutputStream out) throws IOException{
+	public void addClient(String user_id, DataOutputStream out) throws IOException {
 		String message = user_id + "님이 접속하셨습니다.\n";
-		
+
 		clientMap.put(user_id, out);
 		sendMessage(message);
 	}
-	
+
 	public void room_addClient(User_VO vo, DataOutputStream out, int room_number) {
 		room1.add(vo);
 		room1Map.put(vo.getUser_id(), out);
-		
+
 		for (int i = 0; i < room1.size(); i++) {
 			System.out.println("getUser_id : " + room1.get(i).getUser_id() + "\n");
 			System.out.println("getUser_pw : " + room1.get(i).getUser_pw() + "\n");
@@ -107,11 +115,11 @@ public class Sever_Controller {
 			System.out.println("getUser_gaming_correct_quiz : " + room1.get(i).getUser_gaming_correct_quiz() + "\n");
 			System.out.println("getUser_gaming_time : " + room1.get(i).getUser_gaming_time() + "\n");
 		}
-		
+
 		Iterator<String> iterator_room1 = room1Map.keySet().iterator();
 		String key_room1 = "";
 		String msg_room = "방에 입장하셨습니다.";
-		while(iterator_room1.hasNext()) {
+		while (iterator_room1.hasNext()) {
 			key_room1 = iterator_room1.next();
 			try {
 				System.out.println("유저 입장 완료");
@@ -122,12 +130,14 @@ public class Sever_Controller {
 			}
 		}
 	}
-	
+
+	// 받는 스레드
 	class Receiver extends Thread {
 		User_VO vo = new User_VO();
 		private DataInputStream in;
 		private DataOutputStream out;
 		private String user_id;
+
 		// DataOutputStream을 사용해서 객체의 순서가 중요합니다.
 		// vo객체에 User_VO의 정보를 모두 담았다.
 		public Receiver(Socket socket) {
@@ -147,9 +157,9 @@ public class Sever_Controller {
 				vo.setUser_gaming_cookie(in.readInt());
 				vo.setUser_gaming_correct_quiz(in.readInt());
 				vo.setUser_gaming_time(in.readLong());
-				System.out.println(vo.getUser_id() + " " + vo.getUser_pw() + " " 
-				+ vo.getUser_all_quiz() + " 새로 생된 객체의 정보");
-				
+				System.out.println(
+						vo.getUser_id() + " " + vo.getUser_pw() + " " + vo.getUser_all_quiz() + " 새로 생된 객체의 정보");
+
 				System.out.println("Receiver : " + user_id);
 				addClient(user_id, out);
 				System.out.println("접속자수 : " + clientMap.size());
@@ -157,9 +167,9 @@ public class Sever_Controller {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// 클라이언트에서 받은 정보를 다른 클라이언트에 뿌려주는 메소드
-		
+
 		@Override
 		public void run() {
 			String msg = "";
@@ -168,25 +178,64 @@ public class Sever_Controller {
 					msg = in.readUTF();
 					String[] msg_split = msg.split("/");
 					int head = Integer.valueOf(msg_split[0]);
-					
+
 					if (head == 0) {
-						switch(msg_split[1]) {
-						case "logout":	break;
+						switch (msg_split[1]) {
+						case "logout":
+							break;
 						case "room_inter":
 							room_addClient(vo, out, Integer.valueOf(msg_split[2]));
 							break;
-						case "game" : 
-							if(msg_split[2].equals("ready")) {
+						case "game":
+							if (msg_split[2].equals("ready")) {
 								System.out.println("사용자가 게임 레디버튼을 눌렀습니다.");
-								System.out.println("방번호 : "+ msg_split[3]);
+								System.out.println("방번호 : " + msg_split[3]);
 								room_number(Integer.valueOf(msg_split[3]));
-								
+
 							}
-							
+
 						}
 					} else if (head == 1) {
 						System.out.println(msg_split[1] + ":  run에서 보낸 메시지 ");
 						sendMessage(msg_split[1]);
+					} else if (head == 2) {
+						// ----2/getUser_all_quiz/getUser_correct_quiz/setUser_gaming_cookie/setUser_gaming_correct_quiz
+						System.out.println("게임중 얻은 쿠키 : " + msg_split[1] + "맞은 퀴즈: " + msg_split[2] + "모든문제를 푼 시간 : "
+								+ msg_split[3] + "문제 개수 : " + msg_split[4] + "방번호 : " + msg_split[5] + "해당 유저 ID "
+								+ msg_split[6]);
+
+						switch (Integer.valueOf(msg_split[5])) {
+						case 1:
+							setUserInformation(room1, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
+									Integer.valueOf(msg_split[2]), msg_split[6]);
+
+							break;
+						case 2:
+							setUserInformation(room2, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
+									Integer.valueOf(msg_split[2]), msg_split[6]);
+							break;
+						case 3:
+							setUserInformation(room3, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
+									Integer.valueOf(msg_split[2]), msg_split[6]);
+							break;
+						case 4:
+							setUserInformation(room4, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
+									Integer.valueOf(msg_split[2]), msg_split[6]);
+							break;
+						case 5:
+							setUserInformation(room5, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
+									Integer.valueOf(msg_split[2]), msg_split[6]);
+						}
+						// 유저게임 결과 배열
+//						String array[] = new String[4];
+//						
+//						array[0] = msg_split[1];
+//						array[1] = msg_split[2];
+//						array[2] = msg_split[3];
+//						array[3] = msg_split[4];
+//						
+//						room1_result.add(array);
+//						
 					}
 
 				}
@@ -195,8 +244,8 @@ public class Sever_Controller {
 			}
 		}
 	}
-	
-	//방이 생성될때 array_size가 정해저야한다.
+
+	// 방이 생성될때 array_size가 정해저야한다.
 	public void room_number(int roomNumber) {
 		System.out.println("방인원수 세기 ");
 		int room1_ready_size = room1.size();
@@ -204,59 +253,96 @@ public class Sever_Controller {
 		int room3_ready_size = room3.size();
 		int room4_ready_size = room4.size();
 		int room5_ready_size = room5.size();
-		
-		
-		
-		switch(roomNumber) {
-		case 1 : 
+
+		switch (roomNumber) {
+		case 1:
 			cnt1++;
-			if(cnt1 == room1_ready_size) {
+			if (cnt1 == room1_ready_size) {
 				System.out.println("현재 1번방에 들어온 인원수 : " + cnt1);
-				System.out.println("최대 인원수 : "+ room1_ready_size);
-				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+				System.out.println("최대 인원수 : " + room1_ready_size);
+
+				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
 			break;
-		case 2: 
+		case 2:
 			cnt2++;
-			if(cnt2 == room2_ready_size) {
+			if (cnt2 == room2_ready_size) {
 				System.out.println("현재 2번방에 들어온 인원수 : " + cnt2);
-				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+
+				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
 			break;
-		case 3: 
+		case 3:
 			cnt3++;
-			if(cnt3 == room3_ready_size) {
+			if (cnt3 == room3_ready_size) {
 				System.out.println("현재 3번방에 들어온 인원수 : " + cnt3);
-				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
 			break;
-		case 4: 
+		case 4:
 			cnt4++;
-			if(cnt4 == room4_ready_size) {
+			if (cnt4 == room4_ready_size) {
 				System.out.println("현재 4번방에 들어온 인원수 : " + cnt4);
-				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
 			break;
 		case 5:
-			
+
 			cnt5++;
-			if(cnt5 == room5_ready_size) {
+			if (cnt5 == room5_ready_size) {
 				System.out.println("현재 5번방에 들어온 인원수 : " + cnt5);
-				//SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
+				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
 			break;
-			
-			
-		
-			
+
 		}
 	}
-	
+
+	// 클라이언트 로그아웃
 	public void removeClient(String user_id) {
-		String message= user_id + "님이 나가셨습니다. \n";
+		String message = user_id + "님이 나가셨습니다. \n";
 		sendMessage(message);
 		clientMap.remove(user_id);
 		System.out.println("접속자수 : " + clientMap.size());
 	}
-	
+
+	// 해당하는 유저 정보를 방에 있는 유저 VO에 게임결과를 삽입하는 메소드
+	public void setUserInformation(ArrayList<User_VO> room, int cookie, Long time, int correct_quiz, String user_id) {
+		for (int i = 0; i < room.size(); i++) {
+			if (room.get(i).getUser_id().equals(user_id)) {
+				room.get(i).setUser_gaming_cookie(cookie);
+				room.get(i).setUser_gaming_correct_quiz(correct_quiz);
+				room.get(i).setUser_gaming_time(time);
+			}
+		}
+	}
+	//유저 정리하는것
+
+	public void Game_reuslt_sort(ArrayList<User_VO> vo) {
+		vo.sort(new Comparator() {
+
+			@Override
+			public int compare(Object o1, Object o2) {
+				// TODO Auto-generated method stub
+				User_VO tmp1 = (User_VO) o1;
+				User_VO tmp2 = (User_VO) o2;
+				int res = 0;
+				if (tmp1.getUser_correct_quiz() == tmp2.getUser_correct_quiz())
+					if (tmp1.getUser_gaming_time() > tmp2.getUser_gaming_time()) {
+						res = 1;
+					} else {
+						res = -1;
+					}
+
+				if (tmp1.getUser_correct_quiz() > tmp2.getUser_correct_quiz()) {
+					res = 1;
+				}
+				if (tmp1.getUser_correct_quiz() < tmp2.getUser_correct_quiz()) {
+					res = -1;
+				}
+				return res;
+			}
+
+		});
+	}
 }
