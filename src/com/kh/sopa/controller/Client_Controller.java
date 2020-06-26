@@ -82,6 +82,15 @@ public class Client_Controller {
 			e.printStackTrace();
 		}
 	}
+	public void result_game_sendMessage(String msg) {
+		try {
+			out.writeUTF("2/" + msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("게임 결과 전송 오류");
+		}
+	}
 	
 	public void sendSystemMessage(String msg) {
 		try {
@@ -96,5 +105,9 @@ public class Client_Controller {
 	//닉네임 setter
 	public void setNicknames(String client_id) {
 		this.client_id = client_id;
+	}
+	
+	public String getNicknames() {
+		return client_id;
 	}
 }
