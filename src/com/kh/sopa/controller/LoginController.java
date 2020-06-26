@@ -1,5 +1,6 @@
 package com.kh.sopa.controller;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,8 +22,6 @@ import com.kh.sopa.view.Sign_Up;
 
 
 
-
-
 public class LoginController {
 	private User_VO uv;
 	private User_DAO ud;
@@ -30,30 +29,23 @@ public class LoginController {
 	private Sign_Up su;
 	private Find_Id fi;
 	private Find_Pwd fp;
-	
-	
-	
-		
 
-	//회원 가입 객체 생성
+	// 회원 가입 객체 생성
 	public void user_make(User_VO uv) {
-		
-		 ud = new User_DAO();
-		 ud.userOutput(uv);
-		
-		}
-	
-	
-	//회원 아이디 찾기
+		ud = new User_DAO();
+		ud.userOutput(uv);
+
+	}
+
+	// 회원 아이디 찾기
 	public void fine_user() {
 		User_VO uv = null;
 		ud = new User_DAO();
 		ud.findId();
-		
-	
+
 	}
 
-
+	//비밀번호 수정
 	public void findPw() {
 
 		User_DAO ud;
@@ -61,14 +53,4 @@ public class LoginController {
 		ud.findPw();
 	}
 	
-	
-
-				//중복 값 찾기
-			
-				
-				
-		}
-
-	//회원 비밀번호 찾기
-
-
+}
