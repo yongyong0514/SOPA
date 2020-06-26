@@ -13,8 +13,8 @@ import com.kh.sopa.model.vo.Quiz_VO;
 public class Quiz_DAO {
 
 	public Quiz_DAO() {}
-	
-	// ��Ʈ���� ���˿� �޼ҵ�
+
+	// 테스트용 세트 파일 읽기 메소드
 	public ArrayList<Quiz_VO> readQs() {
 		ObjectInputStream ois = null;
 		ArrayList<Quiz_VO> list = null;
@@ -26,7 +26,8 @@ public class Quiz_DAO {
 
 		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
-			System.out.println("��Ʈ ������ �����Ƿ� ���ϻ����ؾ� �մϴ�.");
+
+			System.out.println("");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -42,7 +43,7 @@ public class Quiz_DAO {
 		return list;
 	}
 
-	// ��Ʈ�� ��ġ�� ���� ���� ����Ʈ�� �ҷ����� �޼ҵ�
+	// 퀴즈 세트 파일을 읽어옵니다.
 	public ArrayList<Quiz_VO> readQuizSet() {
 		ObjectInputStream ois = null;
 		ArrayList<Quiz_VO> set = null;
@@ -53,7 +54,8 @@ public class Quiz_DAO {
 
 		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
-			System.out.println("���� ������ �����Ƿ� ���ϻ����ؾ� �մϴ�.");
+
+			System.out.println("퀴즈 세트 파일 없음");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -68,7 +70,7 @@ public class Quiz_DAO {
 		return set;
 	}
 
-	// ���ο� ������ �߰��ϱ� ���ؼ� ���� ����Ʈ�� �ҷ����� �޼ҵ�
+	// 퀴즈 리스트의 퀴즈를 읽어옵니다.
 	public ArrayList<Quiz_VO> readQuizList() {
 		ObjectInputStream ois = null;
 		ArrayList<Quiz_VO> list = null;
@@ -80,10 +82,14 @@ public class Quiz_DAO {
 
 		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
-			System.out.println("���� ������ �����Ƿ� ���ϻ���");
+
+			System.out.println("퀴즈 리스트 파일 없음");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
-		} finally {
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		finally {
 			if (ois != null) {
 				try {
 					ois.close();
@@ -96,7 +102,8 @@ public class Quiz_DAO {
 		return list;
 	}
 
-	// ���ο� ��Ʈ���� �����ؼ� ���� ��Ʈ�� ����� �޼ҵ�
+
+	// 퀴즈 리스트의 문제들을 세트로 만듭니다
 	public static void writeSet(ArrayList<Quiz_VO> set) {
 		ObjectOutputStream oos = null;
 		try {
@@ -114,7 +121,7 @@ public class Quiz_DAO {
 		}
 	}
 
-	// ���� ����Ʈ�� ���� 1���� ����ϴ� �޼ҵ�
+	// 추가한 문제를 퀴즈 리스트에 추가합니다
 	public static void writeQuiz(ArrayList<Quiz_VO> list) {
 		ObjectOutputStream oos = null;
 		try {
