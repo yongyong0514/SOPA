@@ -20,16 +20,17 @@ import javax.swing.Timer;
 
 public class JdialogAuto implements ActionListener {
 
-   private SolvingQuiz sq = new SolvingQuiz();
-   private static final int TIME_START = 1;
-   private int count = TIME_START;
-   private Timer timer = new Timer(500, this);
-   private JDialog dialog = new JDialog();
-   private JOptionPane optPane = new JOptionPane();
-   private int num;
-   private final JLabel label = new JLabel(message());
-   private JLabel label1 = new JLabel(message1());
-   
+
+	private SolvingQuiz sq = new SolvingQuiz();
+	private static final int TIME_START = 1;
+	private int count = TIME_START;
+	private Timer timer = new Timer(500, this);
+	private JDialog dialog = new JDialog();
+	private JOptionPane optPane = new JOptionPane();
+	private int num;
+	private final JLabel label = new JLabel(message());
+	private JLabel label1 = new JLabel(message1());
+	
     public static void dialog() {
         EventQueue.invokeLater(new Runnable() {
 
@@ -49,46 +50,47 @@ public class JdialogAuto implements ActionListener {
     }
     
     public void falseDialog() {
-       //Image icon = new ImageIcon("images/user.PNG").getImage().getScaledInstance(150, 150, 0);
-             timer.setCoalesce(false);
-             optPane.setMessage(label1);
-             label1.setHorizontalAlignment(JLabel.CENTER);
-             label1.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-             label1.setForeground(Color.red);
-             dialog.add(optPane);
-             dialog.pack();
-             dialog.setVisible(true);
-             dialog.setBounds(380, 320 , 260, 180);
-             timer.start();
+
+    	//Image icon = new ImageIcon("images/user.PNG").getImage().getScaledInstance(150, 150, 0);
+    			timer.setCoalesce(false);
+    			optPane.setMessage(label1);
+    			label1.setHorizontalAlignment(JLabel.CENTER);
+    			label1.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+    			label1.setForeground(Color.red);
+    			dialog.add(optPane);
+    			dialog.pack();
+    			dialog.setVisible(true);
+    			dialog.setBounds(380, 320 , 260, 180);
+    			timer.start();
     }
       
     
-   
-   public void createDialog( ) {
-      //Image icon = new ImageIcon("images/user.PNG").getImage().getScaledInstance(150, 150, 0);
-      timer.setCoalesce(false);
-      optPane.setMessage(label);
-      label.setHorizontalAlignment(JLabel.CENTER);
-      label.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-      label.setForeground(Color.red);
-      dialog.add(optPane);
-      dialog.pack();
-      dialog.setVisible(true);
-      dialog.setBounds(380, 320 , 260, 180);
-      timer.start();
-   }
-   
+	
+	public void createDialog( ) {
+		//Image icon = new ImageIcon("images/user.PNG").getImage().getScaledInstance(150, 150, 0);
+		timer.setCoalesce(false);
+		optPane.setMessage(label);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		label.setForeground(Color.red);
+		dialog.add(optPane);
+		dialog.pack();
+		dialog.setVisible(true);
+		dialog.setBounds(380, 320 , 260, 180);
+		timer.start();
+	}
+	
 
-   private String message() {
-      return "정답!!!";
-   
-   }
-   
-   private String message1() {
-      return "오답!!!";
-   
-   
-   }
+	private String message() {
+		return "정답!!!";
+	
+	}
+	
+	private String message1() {
+		return "오답!!!";
+	
+	
+	}
 
    @Override
    public void actionPerformed(ActionEvent e) {

@@ -364,5 +364,4 @@ public class SolvingQuiz extends JPanel implements ActionListener {
       uv.setUser_gaming_time((long)amountOfSecInSet);
       result_user_gaming_time = uv.getUser_gaming_time();
    }
-
 }
