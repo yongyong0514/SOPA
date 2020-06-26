@@ -35,16 +35,4 @@ public class MakingQuizManager {
 			qd.writeSet(set);
 		}
 	}
-	
-	public String streamQList() {
-		Quiz_DAO qd = new Quiz_DAO();
-		ArrayList<Quiz_VO> list = qd.readQuizList();
-		String qlist = null;
-		
-		for(int i = 0; i < list.size(); i++) {
-			
-			qlist += list.get(i).getQuiz_title();
-		}
-		return qlist;
-	}
 }
