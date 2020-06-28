@@ -15,14 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.kh.sopa.controller.ObjectIO;
+import com.kh.sopa.model.DAO.User_DAO;
+import com.kh.sopa.model.vo.User_VO;
+
 //결과페이지  클래스
 public class ResultPage extends JPanel {
 
-	/*
-	 * Test_QuizResultDao qd = new Test_QuizResultDao(); ArrayList<Test_QuizResult>
-	 * quizRoom1 = qd.fileOpen();
-	 */
-
+	
 	public ResultPage() {
 		setLayout(null);
 		setBounds(0, 0, 1024, 768);
@@ -30,7 +30,7 @@ public class ResultPage extends JPanel {
 		JPanel all_panel = new JPanel();
 		all_panel.setLayout(null);
 		all_panel.setBounds(0, 0, 1024, 768);
-		all_panel.setBackground(Color.BLUE);
+		all_panel.setBackground(new Color(254, 228, 167));
 		all_panel.setVisible(true);
 		this.add(all_panel);
 		//
@@ -42,24 +42,33 @@ public class ResultPage extends JPanel {
 		panel.setBackground(Color.WHITE);
 		//
 		// // 상단 오른쪽의 뒤로가기 버튼
-		JButton panel_stopBtn = new JButton("뒤로가기");
-		panel_stopBtn.setBounds(840, 0, 100, 50);
-		panel_stopBtn.setBackground(Color.yellow);
+		JButton back = new JButton();
+		back.setBounds(840, 0, 100, 50);
+		back.setBackground(Color.yellow);
+		
+		//뒤로가기버튼 이미지 
+		Image back_Ima = new ImageIcon("image/back.PNG").getImage().getScaledInstance(100, 50, 0);
+		JLabel back_ImaL = new JLabel(new ImageIcon(back_Ima));
+		back_ImaL.setSize(100, 50);
 
-		panel.add(panel_stopBtn);
+
+		back.add(back_ImaL);
+		
+
+		panel.add(back);
 		//
 		// // 123 순위 결과(rank패널)출력 패널
 		JPanel rankPanel = new JPanel();
 		rankPanel.setLayout(null);
-		rankPanel.setBounds(40, 70, 940, 460);
+		rankPanel.setBounds(40, 70, 940, 530);
 		rankPanel.setBackground(Color.WHITE);
 		//
 		// // rank패널안_이미지
 		//
-		Image rank_ima = new ImageIcon("image/rank.PNG").getImage().getScaledInstance(400, 400, 0);
+		Image rank_ima = new ImageIcon("image/rank.PNG").getImage().getScaledInstance(500, 500, 0);
 		JLabel rank_ImaL = new JLabel(new ImageIcon(rank_ima));
-		rank_ImaL.setSize(400, 400);
-		rank_ImaL.setLocation(270, 100);
+		rank_ImaL.setSize(500, 500);
+		rank_ImaL.setLocation(220, 110);
 
 		rankPanel.add(rank_ImaL);
 		//
@@ -69,59 +78,66 @@ public class ResultPage extends JPanel {
 		pp.setSize(920, 50);
 		pp.setFont(new Font("바탕", Font.BOLD, 28));
 		pp.setHorizontalAlignment(JLabel.CENTER);
-		pp.setLocation(10, 405);
+		pp.setLocation(10, 470);
 		pp.setText("tt");
 		
 		rankPanel.add(pp);
 		
 		
-		//1등
-		JPanel first = new JPanel();
-		first.setSize(80,150);
-		first.setLayout(new FlowLayout(FlowLayout.CENTER));
-		first.setLocation(270, 100);
-		
-		rankPanel.add(first);
-		//
-		
-		// // 1등 이모티콘 이미지 
-		Image FirstEmoji = new ImageIcon("Emoji/emoji_19.GIF").getImage().getScaledInstance(100, 100, 0);
-		JLabel FirstEmojiLab = new JLabel(new ImageIcon(FirstEmoji));
-		FirstEmojiLab.setSize(80, 80);
-		//FirstEmojiLab.setLocation(270, 100);
-		
+
+		// // 1등 이모티콘 이미지
+		Image firstEmoji = new ImageIcon("Emoji/emoji_10.GIF").getImage().getScaledInstance(100, 100, 0);
+		JLabel firstEmojiLab = new JLabel(new ImageIcon(firstEmoji));
+		firstEmojiLab.setSize(90, 90);
+		firstEmojiLab.setLocation(430, 125);
+
 		
 		JLabel firstId = new JLabel();
-		firstId.setSize(80,10);
+		firstId.setSize(90, 25);
+		firstId.setLocation(430, 215);
 		firstId.setFont(new Font("바탕", Font.BOLD, 15));
 		firstId.setHorizontalAlignment(JLabel.CENTER);
-		firstId.setText("1등아이디");
+		firstId.setText("1등아이디"); //1등아이디...ㅎㅎ
 		
-		first.add(FirstEmojiLab);
-		first.add(firstId);
-		
-		
-		
-		// // FirstEmojiLab.setText(quizRoom1.get(0).getUser_id());
+
+		rankPanel.add(firstEmojiLab);
+		rankPanel.add(firstId);
+
 		
 		//
 		// // 2등 이모티콘 이미지 및 아이디
 		Image secondEmoji = new ImageIcon("Emoji/emoji_19.GIF").getImage().getScaledInstance(100, 100, 0);
-		JLabel secondEmojiLab = new JLabel(new ImageIcon(FirstEmoji));
-		secondEmojiLab.setSize(80, 80);
-		secondEmojiLab.setLocation(450, 100);
-		// // secondEmojiLab.setText(quizRoom1.get(1).getUser_id());
+		JLabel secondEmojiLab = new JLabel(new ImageIcon(secondEmoji));
+		secondEmojiLab.setSize(90, 90);
+		secondEmojiLab.setLocation(280, 195);
+		
+		JLabel secondId = new JLabel();
+		secondId.setSize(90, 25);
+		secondId.setLocation(280, 285);
+		secondId.setFont(new Font("바탕", Font.BOLD, 15));
+		secondId.setHorizontalAlignment(JLabel.CENTER);
+		secondId.setText("2등아이디"); //2등아이디...ㅎㅎ
 
 		rankPanel.add(secondEmojiLab);
-		//
+		rankPanel.add(secondId);
+		
+		
+		
 		// // 3등 이모티콘 이미지 및 아이디
-		Image thirdLEmoji = new ImageIcon("Emoji/emoji_19.GIF").getImage().getScaledInstance(100, 100, 0);
-		JLabel thirdEmojiLab = new JLabel(new ImageIcon(FirstEmoji));
-		thirdEmojiLab.setSize(100, 80);
-		thirdEmojiLab.setLocation(600, 100);
-//		FirstEmojiLab.setLayout(new FlowLayout(FlowLayout.CENTER));
-		 thirdEmojiLab.setText("11");
-		//
+		Image thirdEmoji = new ImageIcon("Emoji/emoji_17.GIF").getImage().getScaledInstance(100, 100, 0);
+		JLabel thirdEmojiLab = new JLabel(new ImageIcon(thirdEmoji));
+		thirdEmojiLab.setSize(90, 90);
+		thirdEmojiLab.setLocation(580, 195);
+		
+
+		 JLabel thirdId = new JLabel();
+		 thirdId.setSize(80, 25);
+		 thirdId.setLocation(580, 285);
+		 thirdId.setFont(new Font("바탕", Font.BOLD, 15));
+		 thirdId.setHorizontalAlignment(JLabel.CENTER);
+		 thirdId.setText("3등아이디"); //3등아이디...ㅎㅎ
+
+		rankPanel.add(thirdId);
 		rankPanel.add(thirdEmojiLab);
 
 		//
@@ -169,7 +185,7 @@ public class ResultPage extends JPanel {
 
 		// 4등rank 패널
 		JPanel four = new JPanel();
-		four.setBounds(40, 540, 940, 50);
+		four.setBounds(40, 610, 940, 50);
 		four.setBackground(Color.WHITE);
 		four.setLayout(new BorderLayout());
 
@@ -193,7 +209,7 @@ public class ResultPage extends JPanel {
 		// // 5등rank 패널
 		JPanel five = new JPanel();
 		five.setLayout(new BorderLayout());
-		five.setBounds(40, 600, 940, 50);
+		five.setBounds(40, 670, 940, 50);
 		five.setBackground(Color.WHITE);
 		//
 		JLabel five_Label = new JLabel(" 5 등");

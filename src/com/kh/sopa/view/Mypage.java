@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.kh.sopa.model.vo.User_VO;
+
 /*import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -23,16 +25,19 @@ import org.jfree.data.general.DefaultPieDataset;*/
 
 public class Mypage extends JPanel {
 	private JPanel contentPane;
-
-	public Mypage() {
+	
+	User_VO tmp = new User_VO();
+	
+	public Mypage(String user_id) {
 		setVisible(true);
 		setBounds(0, 0, 1024, 768);
 		setLayout(null);
 
+		System.out.println(user_id);
 		// 마이페이지 패널
 		JPanel myPage = new JPanel();
 		myPage.setLayout(null);
-		myPage.setBounds(40, 70, 940, 400);
+		myPage.setBounds(0, 0, 1024, 430);
 		myPage.setBackground(Color.YELLOW);
 
 		// 123랭크 누적 패널
@@ -78,7 +83,7 @@ public class Mypage extends JPanel {
 		JLabel firstL = new JLabel();
 		firstL.setSize(60, 10);
 		firstL.setLocation(60, 110);
-		firstL.setText("1등횟수");
+		firstL.setText(" ");
 
 		totalRank.add(firstL);
 
@@ -175,12 +180,30 @@ public class Mypage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
-				ChangePage cp = new ChangePage();
+				ChangePage cp = new ChangePage(user_id);
 
 				super.mouseClicked(arg0);
 			}
 		});
-
+		
+		
+		//뒤로 가기 버튼
+		JButton back = new JButton("뒤로가기");
+		back.setBounds(840, 0, 100, 50);
+		back.setBackground(Color.yellow);
+		
+		
+		
+		change.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			
+				super.mouseClicked(arg0);
+		}
+	});
+		
+		
+		myPage.add(back);
 		myPage.add(totalRank);
 		myPage.add(percentage);
 		myPage.add(change);
@@ -189,11 +212,11 @@ public class Mypage extends JPanel {
 
 	}
 
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		JFrame jf = new JFrame();
 		jf.add(new Mypage());
 		jf.setVisible(true);
 		jf.setSize(1024, 768);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+	}*/
 }
