@@ -14,9 +14,9 @@ public class TestMainFrame {
 		JFrame f = new JFrame("realtest");
 		f.setSize(1024, 768);
 		f.setLayout(null);
-		f.add(new Login_Panel(f));
+//		f.add(new Login_Panel(f));
 		
-	//	f.add(new StandRoomPanelTest(f, "powerman"));
+		f.add(new StandRoomPanelTest(f, "powerman"));
 	//	f.add(new StandRoomPanelTest(f, "weakman"));
 
 		

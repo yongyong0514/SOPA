@@ -172,6 +172,18 @@ public class SubPanel extends JPanel {
 		userPanel.add(quit);
 		quit.setBounds(150, 200, 150, 40);
 		
+		JButton reFresh = new JButton();
+		reFresh.setText("새로고침");
+		reFresh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("새로고");
+			}
+			
+		});
+		userPanel.add(reFresh);
+		reFresh.setBounds(0, 250, 300, 40);
 		this.add(userPanel);
 		
 		// chatting

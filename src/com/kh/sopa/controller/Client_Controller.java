@@ -150,7 +150,7 @@ public class Client_Controller {
 
 	// Client_id = user_id
 	public void connect(User_VO vo) {
-		String ip = "192.168.0.2";
+		String ip = "192.168.219.107";
 
 		int port = 8080;
 		try {
