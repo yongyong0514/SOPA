@@ -306,4 +306,7 @@ public class Sign_Up extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
+	public static void main(String[] args) {
+		Sign_Up dd = new Sign_Up();
+	}
 }
