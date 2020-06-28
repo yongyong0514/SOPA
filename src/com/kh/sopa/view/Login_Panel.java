@@ -2,10 +2,13 @@ package com.kh.sopa.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import com.kh.sopa.controller.ObjectIO;
 import com.kh.sopa.model.vo.User_VO;
@@ -22,7 +26,7 @@ public class Login_Panel extends JPanel {
 	private JPanel contentPane;
 	private JLabel sopa, id_label, pw_label;
 	private JTextField login_id;
-	private JPasswordField login_pw;
+	private JTextField login_pw;
 	private JButton login_quiz, sign_up, find_id, find_pw;
 	JFrame mainFrame;
 	JPanel thisPage;
@@ -53,28 +57,50 @@ public class Login_Panel extends JPanel {
 		sopa.setFont(new Font("바탕", Font.ITALIC, 50));
 		bigPanel.add(sopa);
 
-		// 로그인 창 아이디 입력 라벨
-		id_label = new JLabel("아이디 입력");
-		id_label.setBounds(280, 350, 100, 50);
-		id_label.setFont(new Font("바탕", Font.ITALIC, 12));
-		bigPanel.add(id_label);
-
 		// 로그인 창 아이디 입력 패널
-		login_id = new JTextField(20);
-		login_id.setBounds(380, 350, 200, 40);
-		login_id.setFont(new Font("바탕", Font.ITALIC, 12));
+		;
+		Image im2 = new ImageIcon("image/text300.PNG").getImage();
+
+		login_id = new JTextField() {
+			public void setBorder(Border border) {
+			}
+
+			{
+				setOpaque(false);
+			}
+
+			public void paintComponent(Graphics g) {
+				g.drawImage(im2, 0, 0, null);
+				super.paintComponent(g);
+			}
+		};
+		// 기본 입력
+		login_id.setText("  아이디를 입력하세요");
+		login_id.setBounds(280, 350, 350, 50);
+		login_id.setForeground(Color.GRAY);
+		login_id.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		bigPanel.add(login_id);
 
-		// 로그인 창 비밀번호 입력 라벨
-		pw_label = new JLabel("비밀번호 입력");
-		pw_label.setBounds(280, 400, 100, 50);
-		pw_label.setFont(new Font("바탕", Font.ITALIC, 12));
-		bigPanel.add(pw_label);
+		Image im3 = new ImageIcon("image/text300.PNG").getImage();
+		login_pw = new JTextField() {
+			public void setBorder(Border border) {
+			}
 
-		// 로그인 창 비밀번호 입력 패널
-		login_pw = new JPasswordField(20);
-		login_pw.setBounds(380, 400, 200, 40);
-		login_pw.setFont(new Font("바탕", Font.ITALIC, 12));
+			{
+				setOpaque(false);
+			}
+
+			public void paintComponent(Graphics g) {
+				g.drawImage(im3, 0, 0, null);
+				super.paintComponent(g);
+			}
+		};
+		// 기본 입력
+		login_pw.setText("  비밀번호를 입력하세요");
+		login_pw.setBounds(280, 420, 350, 50);
+		login_pw.requestFocus(false);
+		login_pw.setForeground(Color.GRAY);
+		login_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		bigPanel.add(login_pw);
 
 		// 로그인 창 로그인 버튼
@@ -129,9 +155,14 @@ public class Login_Panel extends JPanel {
 		});
 
 		// 회원가입 버튼
-		sign_up = new JButton("회원가입");
-		sign_up.setBounds(350, 500, 100, 20);
-		sign_up.setFont(new Font("바탕", Font.ITALIC, 10));
+		ImageIcon im5 = new ImageIcon("image/sign.PNG");
+		sign_up = new JButton(im5);
+		// 위치고정
+		sign_up.setRolloverIcon(im5);
+		sign_up.setBorderPainted(false);
+		sign_up.setContentAreaFilled(false);
+		sign_up.setFocusable(false);
+		sign_up.setBounds(250, 500, 150, 60);
 		bigPanel.add(sign_up);
 		sign_up.addMouseListener(new MouseAdapter() {
 
@@ -147,9 +178,15 @@ public class Login_Panel extends JPanel {
 		});
 
 		// 로그인 창 아이디 찾기 버튼
-		find_id = new JButton("아이디 찾기");
-		find_id.setBounds(450, 500, 100, 20);
-		find_id.setFont(new Font("바탕", Font.ITALIC, 10));
+		ImageIcon im6 = new ImageIcon("image/findid.PNG");
+		find_id = new JButton(im6);
+		// 위치고정
+		find_id.setRolloverIcon(im6);
+		find_id.setBorderPainted(false);
+		find_id.setContentAreaFilled(false);
+		find_id.setFocusable(false);
+		find_id.setBounds(373, 500, 160, 60);
+
 		bigPanel.add(find_id);
 		find_id.addMouseListener(new MouseAdapter() {
 
@@ -165,9 +202,15 @@ public class Login_Panel extends JPanel {
 		});
 
 		// 로그인 창 비밀번호 찾기
-		find_pw = new JButton("비밀번호 찾기");
-		find_pw.setBounds(550, 500, 100, 20);
-		find_pw.setFont(new Font("바탕", Font.ITALIC, 10));
+		ImageIcon im7 = new ImageIcon("image/findpw.PNG");
+		find_pw = new JButton(im7);
+		// 위치고정
+		find_pw.setRolloverIcon(im7);
+		find_pw.setBorderPainted(false);
+		find_pw.setContentAreaFilled(false);
+		find_pw.setFocusable(false);
+		find_pw.setBounds(515, 500, 180, 60);
+
 		bigPanel.add(find_pw);
 		find_pw.addMouseListener(new MouseAdapter() {
 
