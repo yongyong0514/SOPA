@@ -1,6 +1,7 @@
 package com.kh.sopa.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,115 +22,111 @@ import com.kh.sopa.model.vo.User_VO;
 
 public class ChangePage extends JFrame {
 	String user_id;
-	
+
 	public ChangePage(String user_id) {
-	
-		//정보수정 프레임
+
+		// 정보수정 프레임
 		JFrame change = new JFrame("정보를 수정해요");
-		change.setBounds(300,300, 400,300);
+		change.setBounds(300, 300, 400, 300);
+		change.setBackground(new Color(255,170,0));
 		change.setLayout(null);
 		change.setVisible(true);
 		change.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		
-	    //sopa 라벨
-	     JLabel sopa = new JLabel("S.O.P.A");
-	     sopa.setBounds(115, 20, 200, 40);
-	     sopa.setFont(new Font("바탕", Font.ITALIC, 40));
-	     change.add(sopa);
+		// sopa 라벨
+		JLabel sopa = new JLabel("S.O.P.A");
+		sopa.setBounds(115, 20, 200, 40);
+		sopa.setFont(new Font("바탕", Font.ITALIC, 40));
+		change.add(sopa);
 
-		
-	     
-	     
-	    //sopa 계정을 수정해요
-	    JLabel text = new JLabel("계정을 수정해요");
-	     text.setBounds(115, 65, 300, 30);
-	     text.setFont(new Font("바탕", Font.ITALIC, 20));
-	     change.add(text);
+		// sopa 계정을 수정해요
+		JLabel text = new JLabel("계정을 수정해요");
+		text.setBounds(115, 65, 300, 30);
+		text.setFont(new Font("바탕", Font.ITALIC, 20));
+		change.add(text);
 
-	     
-	     
-	     
-	   //비밀번호 수정입력창
-	     JTextField pw = new JTextField(10);
-	      pw.setBounds(100, 105, 200, 40);
-	      pw.setFont(new Font("바탕", Font.ITALIC, 12));
-	     
-	      
-	      
-	    
-	      change.add(pw);
+		// 비밀번호 수정입력창
+		JTextField pw = new JTextField(10);
+		pw.setBounds(100, 105, 200, 40);
+		pw.setText("  수정 비밀번호를 입력하세요.");
+		pw.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		pw.setForeground(Color.GRAY);
+		pw.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// 클릭시 초기화
+				pw.setText("  ");
+				pw.requestFocus();
+				pw.setForeground(Color.black);
 
-		
-	      //전화번호 입력창
-	      JTextField phone = new JTextField(10);
-	      phone.setBounds(100, 155, 200, 40);
-	      phone.setFont(new Font("바탕", Font.ITALIC, 12));
-	      
-	      change.add(phone);
-	      
-	      
-	      //확인 버튼
-	      JButton back = new JButton("확인");
-	      back.setBounds(120, 205, 110, 30);
-	      back.setFont(new Font("바탕", Font.ITALIC, 13));
-	      change.add(back);
-	   
-	      back.addActionListener(new ActionListener() {
+			}
+		});
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String pwc =  pw.getText();
-					String phonec = phone.getText();
-					
-					ArrayList<User_VO> userList = new ArrayList<User_VO>();
-					userList = new User_DAO().userInput();
-					
-					System.out.println();
-					
-					for(int i = 0; i < userList.size(); i++) {
-						if(user_id.equals(userList.get(i).getUser_id())) {
-							userList.get(i).setUser_pw(pwc);
-							userList.get(i).setUser_phone_number(phonec);
-							
-						}
-						
+		change.add(pw);
+
+		// 전화번호 입력창
+		JTextField phone = new JTextField(10);
+		phone.setBounds(100, 155, 200, 40);
+		phone.setText("  핸드폰번호를 입력하세요.");
+		phone.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		phone.setForeground(Color.GRAY);
+		phone.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// 클릭시 초기화
+				phone.setText("  ");
+				phone.requestFocus();
+				phone.setForeground(Color.black);
+
+			}
+		});
+
+		change.add(phone);
+
+		// 확인 버튼
+		JButton back = new JButton("확인");
+		back.setBounds(120, 205, 110, 30);
+		back.setFont(new Font("바탕", Font.ITALIC, 12));
+		change.add(back);
+
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String pwc = pw.getText();
+				String phonec = phone.getText();
+
+				ArrayList<User_VO> userList = new ObjectIO().UserReadToFile();
+
+				System.out.println();
+
+				for (int i = 0; i < userList.size(); i++) {
+					if (user_id.equals(userList.get(i).getUser_id())) {
+						userList.get(i).setUser_pw(pwc);
+						userList.get(i).setUser_phone_number(phonec);
+
 					}
-				
+
 				}
 
-	       });
-	      
-	      // 1.클릭 -> Mypage 화면   
-	      back.addMouseListener(new MouseAdapter() {
-	      @Override 
-	      public void mouseClicked(MouseEvent arg0) {
-	    	  
-	    	  change.dispose();
-	    	  super.mouseClicked(arg0);
-	      }
-	 });
-	 }
-		
-		
+			}
 
-		
-		
+		});
 
-		
-		
-	
-		
-		
-		
+		// 1.클릭 -> Mypage 화면
+		back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 
-		
-	
-	/*
+				change.dispose();
+				super.mouseClicked(arg0);
+			}
+		});
+	}
+
 	public static void main(String[] args) {
-		 ChangePage cp = new ChangePage(user_id);
-		 
-		
-	}*/
+		ChangePage cp = new ChangePage("user_id");
+
+	}
 
 }
