@@ -18,6 +18,7 @@ public class TestMainFrame {
 		
 	//	f.add(new StandRoomPanelTest(f, "powerman"));
 		f.add(new StandRoomPanelTest(f, "weakman"));
+
 		
 		f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
 		f.setVisible(true);

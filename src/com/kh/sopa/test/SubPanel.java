@@ -17,12 +17,15 @@ import javax.swing.JTextField;
 
 import com.kh.sopa.controller.Client_Controller;
 import com.kh.sopa.controller.ObjectIO;
+import com.kh.sopa.makingQuiz.view.MakingQuiz;
 import com.kh.sopa.model.vo.User_VO;
 import com.kh.sopa.view.Login_Panel;
+import com.kh.sopa.view.Mypage;
 
 public class SubPanel extends JPanel {
 	JFrame mainFrame = null;
 	JPanel mainPanel = null;
+	JPanel roomPanel = null;
 	JPanel thisPage = null;
 	
 	JTextArea chatArea = null;
@@ -35,24 +38,25 @@ public class SubPanel extends JPanel {
 	public SubPanel() {}
 	// user in constructor parameter
 	// reason --> user panel : show user info
-	public SubPanel(JFrame mf, JPanel mp, String user) {
+	public SubPanel(JFrame mf, JPanel mp, JPanel rp, String user) {
 		this.mainFrame = mf;
 		this.mainPanel = mp;
+		this.roomPanel = rp;
 		this.thisPage = this;
 		
-		this.setBackground(Color.ORANGE);
+		this.setBackground(new Color(252, 209, 108));
 		this.setBounds(0, 430, 1024, 338);
 		this.setLayout(null);
 		
 		
 		JPanel userPanel = new JPanel();
-		userPanel.setBackground(Color.GREEN);
+		userPanel.setBackground(new Color(252, 209, 108));
 		userPanel.setBounds(724, 0, 300, 338);
 		userPanel.setLayout(null);
 		
 		JPanel userIdPanel = new JPanel();
 		JLabel userIdLabel = new JLabel();
-		userIdPanel.setBackground(Color.RED);
+		userIdPanel.setBackground(new Color(252, 228, 167));
 		userIdPanel.add(userIdLabel);
 		
 		userPanel.add(userIdPanel);
@@ -61,14 +65,14 @@ public class SubPanel extends JPanel {
 		
 		JPanel userCookiePanel = new JPanel();
 		JLabel userCookieLabel = new JLabel();
-		userCookiePanel.setBackground(Color.BLUE);
+		userCookiePanel.setBackground(new Color(252, 228, 167));
 		userCookiePanel.add(userCookieLabel);
 		
 		userPanel.add(userCookiePanel);
 		userCookiePanel.setBounds(0, 100, 150, 30);
 		
 		JPanel userEmoPanel = new JPanel();
-		userEmoPanel.setBackground(Color.DARK_GRAY);
+		userEmoPanel.setBackground(Color.WHITE);
 		
 		userPanel.add(userEmoPanel);
 		userEmoPanel.setBounds(150, 0, 150, 130);
@@ -101,9 +105,12 @@ public class SubPanel extends JPanel {
 		myInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("label : " + userIdLabel.getText());
-				System.out.println("cookie : " + userCookieLabel.getText());
-				System.out.println(((JButton) e.getSource()).getText());
+				mp.remove(roomPanel);
+				mp.add(new Mypage(userIdLabel.getText(),mainPanel, roomPanel, mainFrame));
+				mainFrame.repaint();
+//				System.out.println("label : " + userIdLabel.getText());
+//				System.out.println("cookie : " + userCookieLabel.getText());
+//				System.out.println(((JButton) e.getSource()).getText());
 			}
 		});
 		userPanel.add(myInfo);
@@ -136,6 +143,11 @@ public class SubPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// change MakeRoom Panel;
+				
+				mainFrame.remove(mainPanel);
+				mainFrame.remove(thisPage);
+				mainFrame.add(new MakingQuiz(mainFrame, mp));
+				mainFrame.repaint();
 				System.out.println(((JButton) e.getSource()).getText());
 			}
 		});
@@ -167,11 +179,11 @@ public class SubPanel extends JPanel {
 		this.add(chatArea);
 		chatArea.setEditable(false);
 		chatArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-		chatArea.setBounds(270, 0, 380, 250);
+		chatArea.setBounds(270, 0, 455, 250);
 		
 		messageArea = new JTextField();
 		this.add(messageArea);
-		messageArea.setBounds(265, 250, 390, 50);
+		messageArea.setBounds(265, 250, 465, 50);
 		messageArea.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

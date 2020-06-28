@@ -1,6 +1,5 @@
 package com.kh.sopa.view_Song;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.kh.sopa.controller.Client_Controller;
-import com.kh.sopa.test.SubPanel;
+import com.kh.sopa.power.test.SolvingQuizTest;
 import com.kh.sopa.view.SolvingQuiz;
 
 public class Gaming_stand_room extends JPanel {
@@ -22,6 +21,7 @@ public class Gaming_stand_room extends JPanel {
 	JPanel StandRoomPanel;
 	boolean game_stable;
 	Client_Controller client = null;
+	String roomTitle = null;
 	String user = "";
 	int room_number;
 	public Gaming_stand_room() {
