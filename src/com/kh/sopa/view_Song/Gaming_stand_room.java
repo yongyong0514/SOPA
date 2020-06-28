@@ -24,12 +24,15 @@ public class Gaming_stand_room extends JPanel {
 	String roomTitle = null;
 	String user = "";
 	int room_number;
+	private String title;
+
 	public Gaming_stand_room() {
 	}
 
 	private boolean game_start = false;
 
-	public Gaming_stand_room(JPanel StandRoomPanel, JFrame mf, String user, Client_Controller client, int cnt) {
+	public Gaming_stand_room(JPanel StandRoomPanel, JFrame mf, String user, Client_Controller client, int cnt,
+			String title) {
 		this.room_number = cnt;
 		this.user = user;
 		this.mainFrame = mf;
@@ -40,7 +43,7 @@ public class Gaming_stand_room extends JPanel {
 		int first_number = 0;
 		String GuBunJa = "/";
 		int second_number = 0;
-
+		this.roomTitle = title;
 		String player = "0/0";
 
 		// 게임 대기방
@@ -73,7 +76,7 @@ public class Gaming_stand_room extends JPanel {
 				// TODO Auto-generated method stub
 				String msg = "game/ready/" + cnt;
 				client.sendSystemMessage(msg);
-				client.gaming_stable(StandRoomPanel, mf, client, cnt);
+				client.gaming_stable(StandRoomPanel, mf, client, cnt, title);
 //				mainFrame.remove(StandRoomPanel);
 //				SolvingQuiz solvingquiz = new SolvingQuiz(mf,client,cnt);
 //				mainFrame.add(solvingquiz);
@@ -96,17 +99,18 @@ public class Gaming_stand_room extends JPanel {
 //		sp.setVisible(true);
 
 	}
-	public void stable_chage(JFrame mainFrame,Client_Controller client,int room_number) {
+
+	public void stable_chage(JFrame mainFrame, Client_Controller client, int room_number) {
 		mainFrame.remove(StandRoomPanel);
-		SolvingQuiz solvingquiz = new SolvingQuiz(mainFrame,client,room_number);
+		SolvingQuiz solvingquiz = new SolvingQuiz(mainFrame, client, room_number,roomTitle);
 		mainFrame.add(solvingquiz);
 		mainFrame.repaint();
 		mainFrame.setVisible(true);
 	}
-	
-	
-	
-	
+
+	public void gettitle(String title) {
+		this.title = title;
+	}
 
 //	public static void main(String[] args) {
 //		JFrame f = new JFrame();

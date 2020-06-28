@@ -60,6 +60,7 @@ public class StandRoomPanelTest extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
 					int cnt = 0;
 					System.out.println(((JButton) e.getSource()).getText());
 					System.out.println("버튼 액션 리스너에서 서버로 정보를 보내야함");
@@ -82,7 +83,7 @@ public class StandRoomPanelTest extends JPanel {
 					
 					System.out.println("대기방으로 이동합니다.");
 					thisPage.remove(roomPanel);
-					thisPage.add(new Gaming_stand_room(thisPage, mainFrame, "", client, cnt));
+					thisPage.add(new Gaming_stand_room(thisPage, mainFrame, "", client, cnt,t));
 					System.out.println("EORLTLF");
 					mainFrame.repaint();
 

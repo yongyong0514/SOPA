@@ -18,6 +18,7 @@ import com.kh.sopa.view_Song.Gaming_stand_room;
 
 
 public class Client_Controller {
+	private String room_title;
 	private Client_Controller client;
 	private int room_number;
 	private JFrame main_frame;
@@ -122,8 +123,9 @@ public class Client_Controller {
 	public void solvingquiz_remove_info(JPanel solving) {
 		this.solving = solving;
 	}
-	public void solvingquiz_frame_info(JFrame main) {
+	public void solvingquiz_frame_info(JFrame main,String title) {
 		this.main_frame = main;
+		this.room_title = title;
 	}
 	
 	public void change_resultpage(JFrame mainframe, String[] result) {
@@ -226,16 +228,17 @@ public class Client_Controller {
 		return client_id;
 	}
 
-	public void gaming_stable(JPanel StandRoomPanel, JFrame mainFrame , Client_Controller client, int room_number) {
+	public void gaming_stable(JPanel StandRoomPanel, JFrame mainFrame , Client_Controller client, int room_number,String room_title) {
 		this.StandRoomPanel = StandRoomPanel;
 		this.main_frame = mainFrame;
 		this.client = client;
 		this.room_number = room_number;
+		this.room_title = room_title;
 	}
 	
 	public void stable_chage() {
 		main_frame.remove(StandRoomPanel);
-		SolvingQuiz solvingquiz = new SolvingQuiz(main_frame,client,room_number);
+		SolvingQuiz solvingquiz = new SolvingQuiz(main_frame,client,room_number,room_title);
 		main_frame.add(solvingquiz);
 		main_frame.repaint();
 		main_frame.setVisible(true);
