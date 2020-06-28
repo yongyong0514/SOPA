@@ -1,9 +1,7 @@
 package com.kh.sopa.makingQuiz.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -24,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -37,6 +34,7 @@ import javax.swing.table.JTableHeader;
 import com.kh.sopa.makingQuiz.controller.MakingQuizManager;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.model.vo.Quiz_VO;
+import com.kh.sopa.view.JdialogAuto;
 
 public class MakingQuiz extends JPanel implements ActionListener, ItemListener, MouseListener {
 	ArrayList<Quiz_VO> selectSet = new ArrayList<Quiz_VO>(); // 시작버튼 클릭시 가져갈 ArrayList
@@ -89,14 +87,19 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 	private JPanel iSubPanel;
 	private String sname;
 
-	private void insertList() {
+	private JFrame mf = null;
+	private JPanel thisPage = null; 
 
+	public MakingQuiz() {
 	}
 
-	public MakingQuiz(JFrame jf) {
+	public MakingQuiz(JFrame jf/* , JPanel mf */) {
 		// 폰트
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		fm.fontChange(ge);
+
+		 thisPage = this;
+		// this.mf = jf;
 
 		for (int i = 0; i < selectSet.size(); i++) {
 			System.out.println(selectSet.get(i));
@@ -113,16 +116,21 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		mqPanel.setLayout(null);
 
 		//// 뒤로가기 버튼입니다
+		JPanel top = new JPanel();
+		top.setBounds(13, 10, 992, 40);
+		top.setBackground(Color.WHITE);
+		top.setLayout(null);
+		mqPanel.add(top);
 		JButton goBack = new JButton("뒤로가기") {
 			@Override
 			public void setBorder(Border border) {
 			}
 		};
 
-		goBack.setBounds(852, 10, 153, 37);
+		goBack.setBounds(840, 1, 153, 37);
 		goBack.setBackground(new Color(255, 179, 0));
 		goBack.setFont(new Font("CookieRun Regular", Font.PLAIN, 18));
-		mqPanel.add(goBack);
+		top.add(goBack);
 
 		//// 좌측 리스트 패널, 세트리스트와 문제리스트가 위치합니다
 		JPanel lPanel = new JPanel();
@@ -327,7 +335,8 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 							|| (answer_4.getText().equals("")) || (cookie.getText().equals(""))
 							|| difficulty_result == 0 || answerRadio_5.isSelected()) {
 
-						System.out.println("empty");
+						MqDialog md = new MqDialog();
+						md.nullListDialog();
 						return;
 					} else {
 						qv.setQuiz_set_info(null);
@@ -348,8 +357,6 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 						mqm.insertQuiz(qv);
 
 						Clear();
-						// showImgPanel.revalidate();
-						// showImgPanel.repaint();
 
 					}
 
@@ -418,8 +425,10 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			public void actionPerformed(ActionEvent a) {
 				try {
 					if ((set_info.getText().equals(null)) || (subject.getText().equals(null))
-							|| (people.getText().equals(0))) {
-						System.out.println("empty check");
+							|| ((people.getText().equals("")))) {
+
+						MqDialog md = new MqDialog();
+						md.nullSetDialog();
 
 						return;
 
@@ -718,10 +727,17 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			public void setBorder(Border border) {
 			}
 		};
+		Image icon1 = new ImageIcon("image/circle.PNG").getImage().getScaledInstance(50, 50, 0);
+		JLabel icon1Label = new JLabel();
+		icon1Label.setIcon(new ImageIcon(icon1));
+		icon1Label.setBounds(10, 25, 50 ,50);
+		aPanel_1.add(icon1Label);
+		
 		answer_1.setColumns(10);
 		answer_1.setBackground(new Color(255, 158, 142));
 		answer_1.setBounds(73, 38, 400, 50);
 		aPanel_1.add(answer_1);
+
 		// 라디오 버튼, 1번 답의 정답 여부를 체크합니다
 		answerRadio_1 = new JRadioButton("정답");
 		answerRadio_1.setFont(new Font("CookieRun Regular", Font.PLAIN, 17));
@@ -748,6 +764,12 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			public void setBorder(Border border) {
 			}
 		};
+		Image icon2 = new ImageIcon("image/x.PNG").getImage().getScaledInstance(50, 50, 0);
+		JLabel icon2Label = new JLabel();
+		icon2Label.setIcon(new ImageIcon(icon2));
+		icon2Label.setBounds(10, 25, 50 ,50);
+		aPanel_2.add(icon2Label);
+		
 		answer_2.setBackground(new Color(255, 189, 166));
 		answer_2.setColumns(10);
 		answer_2.setBounds(73, 38, 400, 50);
@@ -778,6 +800,12 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			public void setBorder(Border border) {
 			}
 		};
+		Image icon3 = new ImageIcon("image/triangle.PNG").getImage().getScaledInstance(50, 50, 0);
+		JLabel icon3Label = new JLabel();
+		icon3Label.setIcon(new ImageIcon(icon3));
+		icon3Label.setBounds(10, 25, 50 ,50);
+		aPanel_3.add(icon3Label);
+		
 		answer_3.setColumns(10);// 텍스트 필드, 3번답, 3번 패널에 들어갑니다
 		answer_3.setBackground(new Color(193, 238, 231));
 		answer_3.setColumns(10);
@@ -809,6 +837,12 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			public void setBorder(Border border) {
 			}
 		};
+		Image icon4 = new ImageIcon("image/rectangle.PNG").getImage().getScaledInstance(50, 50, 0);
+		JLabel icon4Label = new JLabel();
+		icon4Label.setIcon(new ImageIcon(icon4));
+		icon4Label.setBounds(10, 25, 50 ,50);
+		aPanel_4.add(icon4Label);
+		
 		answer_4.setColumns(10);
 		answer_4.setBackground(new Color(213, 239, 144));
 		answer_4.setBounds(73, 38, 400, 50);
@@ -857,7 +891,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		showImgPanel.setSize(460, 260);
 		showImgPanel.setLocation(5, 5);
 		showImgPanel.setBackground(Color.WHITE);
-//		 showImgPanel.setLayout(null);
+		// showImgPanel.setLayout(null);
 		iSubPanel.add(showImgPanel);
 
 		JLabel addImgButtonLabel = new JLabel();
@@ -910,11 +944,10 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		Quiz_DAO qd = new Quiz_DAO();
 		JFrame jf = new JFrame();
 		jf.setSize(1024, 768);
-		jf.getContentPane().setLayout(null);
+		jf.setLayout(null);
 		jf.setResizable(false);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
-		jf.getContentPane().add(new MakingQuiz(jf));
-
+		jf.add(new MakingQuiz(jf/* ,mf */));
 		jf.setVisible(true);
 
 		ArrayList<Quiz_VO> list = qd.readQuizList();
@@ -953,6 +986,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		cookie.setText(null);
 		image.setText(null);
 		// people.setText(null); //세트 정보
+		showImgPanel = null;
 
 	}
 
