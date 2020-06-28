@@ -32,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
 import com.kh.sopa.makingQuiz.model.controller.MakingQuizManager;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.model.vo.Quiz_VO;
+import com.kh.sopa.test.StandRoomPanelTest;
+import com.kh.sopa.test.SubPanel;
 
 public class MakingQuiz extends JPanel implements ActionListener, ItemListener, MouseListener, FocusListener {
 	MakingQuizManager mqm = new MakingQuizManager();
@@ -93,13 +95,17 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 
 	private DefaultTableModel modelList;
 	private DefaultTableModel modelSet;
-
 	
+	private JPanel thisPage = null;
+	private JPanel srpt = null;
 	
-	public MakingQuiz(JFrame jf) {
+	public MakingQuiz(JFrame jf, JPanel srpt) {
 		this.setLayout(null);
 		this.setBounds(0, 0, 1024, 768);
-
+		
+		thisPage = this;
+		this.srpt = srpt;
+		
 		//최하단 패널 여기에 모든 패널이 올라옵니다
 		JPanel mqPanel = new JPanel();
 		mqPanel.setBounds(0, 0, 1024, 768);
@@ -117,7 +123,20 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		qSetPanel.setBounds(7, 7, 160, 340);
 		qSetPanel.setBackground(new Color(254, 228, 167));
 		
-
+		JButton goBack = new JButton("뒤로가기");
+		goBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jf.remove(thisPage);
+				jf.add(srpt);
+				jf.repaint();
+			}
+		});
+	    goBack.setBounds(849, 21, 153, 37);
+	    goBack.setBackground(new Color(255, 179, 0));
+	    goBack.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+	    mqPanel.add(goBack);
+	    
 		try {
 
 			// 세트 리스트에서 세트 이름을 불러와서 정렬 후 표시합니다
@@ -667,7 +686,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		jf.setLayout(null);
 		jf.setResizable(false);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
-		jf.add(new MakingQuiz(jf));
+//		jf.add(new MakingQuiz(jf));
 
 		jf.setVisible(true);
 		

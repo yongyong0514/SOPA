@@ -37,7 +37,7 @@ public class Client_Controller {
 	}
 	// Client_id =  user_id
 	public void connect(User_VO vo) {
-		String ip = "192.168.130.27";
+		String ip = "192.168.1.31";
 		int port = 8080;
 		try {
 			socket = new Socket(ip, port);
