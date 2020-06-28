@@ -15,9 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.kh.sopa.controller.ObjectIO;
+import com.kh.sopa.model.DAO.User_DAO;
+import com.kh.sopa.model.vo.User_VO;
+
 public class ChangePage extends JFrame {
+	String user_id;
 	
-	public ChangePage() {
+	public ChangePage(String user_id) {
 	
 		//정보수정 프레임
 		JFrame change = new JFrame("정보를 수정해요");
@@ -67,7 +72,7 @@ public class ChangePage extends JFrame {
 	      //확인 버튼
 	      JButton back = new JButton("확인");
 	      back.setBounds(120, 205, 110, 30);
-	      back.setFont(new Font("바탕", Font.ITALIC, 12));
+	      back.setFont(new Font("바탕", Font.ITALIC, 13));
 	      change.add(back);
 	   
 	      back.addActionListener(new ActionListener() {
@@ -77,17 +82,20 @@ public class ChangePage extends JFrame {
 					String pwc =  pw.getText();
 					String phonec = phone.getText();
 					
-			/*			ArrayList<Test_QuizResult> test = new ArrayList<Test_QuizResult>();
-					test = new Test_QuizResultDao().fileOpen();
-					for(int i = 0; i < test.size(); i++) {
-						if(userIdLabel.setText(tmp.getUser_id().equals(test.get(i).getUser_id())) {
-							test.get(i).setTotalsec(pwc);
-							test.get(i).setAdd_correct_num(phonec);
+					ArrayList<User_VO> userList = new ArrayList<User_VO>();
+					userList = new User_DAO().userInput();
+					
+					System.out.println();
+					
+					for(int i = 0; i < userList.size(); i++) {
+						if(user_id.equals(userList.get(i).getUser_id())) {
+							userList.get(i).setUser_pw(pwc);
+							userList.get(i).setUser_phone_number(phonec);
 							
 						}
 						
 					}
-				*/
+				
 				}
 
 	       });
@@ -116,12 +124,12 @@ public class ChangePage extends JFrame {
 		
 
 		
-		
 	
+	/*
 	public static void main(String[] args) {
-		 ChangePage cp = new ChangePage();
+		 ChangePage cp = new ChangePage(user_id);
 		 
 		
-	}
+	}*/
 
 }
