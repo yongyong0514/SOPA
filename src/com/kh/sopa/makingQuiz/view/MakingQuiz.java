@@ -1,6 +1,7 @@
 package com.kh.sopa.makingQuiz.view;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -33,6 +34,7 @@ import javax.swing.table.JTableHeader;
 import com.kh.sopa.makingQuiz.controller.MakingQuizManager;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.model.vo.Quiz_VO;
+import com.kh.sopa.view.JdialogAuto;
 
 public class MakingQuiz extends JPanel implements ActionListener, ItemListener, MouseListener {
 	ArrayList<Quiz_VO> selectSet = new ArrayList<Quiz_VO>(); // 시작버튼 클릭시 가져갈 ArrayList
@@ -69,7 +71,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 
 	private JButton startButton;
 	private JButton addSetListBtn;
-//	private JButton delSetListBtn;
+	private JButton delSetListBtn;
 	private JButton addListBtn;
 	private JButton delListBtn;
 	// private JButton upDate;
@@ -475,35 +477,35 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 			}
 		});
 
-//		// 버튼, 삭제, 세트 리스트에서 선택한 문제를 삭제합니다
-//		delSetListBtn = new JButton("세트에서 삭제") {
-//			public void setBorder(Border border) {
-//			}
-//		};
-//		delSetListBtn.setFont(new Font("CookieRun Regular", Font.PLAIN, 18));
-//		delSetListBtn.setBackground(new Color(255, 179, 0));
-//		delSetListBtn.setBounds(7, 395, 160, 40);
-//		lPanel.add(delSetListBtn);
-//		delSetListBtn.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent a) {
-//				int index = tableSet.getSelectedRow();
-//				System.out.println(index);
-//				try {
-//
-//					if (index >= 0 && index <= tableSet.getRowCount()) {
-//						modelSet.removeRow(index);
-//						mqm.deleteQuizSet(index);
-//
-//					}
-//
-//				} catch (NullPointerException e) {
-//					System.out.println("세트에서 삭제시 null 값 체크");
-//				}
-//			}
-//
-//		});
+		// 버튼, 삭제, 세트 리스트에서 선택한 문제를 삭제합니다
+		delSetListBtn = new JButton("세트에서 삭제") {
+			public void setBorder(Border border) {
+			}
+		};
+		delSetListBtn.setFont(new Font("CookieRun Regular", Font.PLAIN, 18));
+		delSetListBtn.setBackground(new Color(255, 179, 0));
+		delSetListBtn.setBounds(7, 395, 160, 40);
+		lPanel.add(delSetListBtn);
+		delSetListBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent a) {
+				int index = tableSet.getSelectedRow();
+				System.out.println(index);
+				try {
+
+					if (index >= 0 && index <= tableSet.getRowCount()) {
+						modelSet.removeRow(index);
+						mqm.deleteQuizSet(index);
+
+					}
+
+				} catch (NullPointerException e) {
+					System.out.println("세트에서 삭제시 null 값 체크");
+				}
+			}
+
+		});
 
 		// 우측 문제 패널, 문제를 만드는 패널 입니다
 		JPanel qPanel = new JPanel();

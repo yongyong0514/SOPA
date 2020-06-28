@@ -1,6 +1,7 @@
 package com.kh.sopa.makingQuiz.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.model.vo.Quiz_VO;
@@ -57,32 +58,21 @@ public class MakingQuizManager {
 		qd.writeQuiz(list);
 	}
 
-//	public void deleteQuizSet(int index) {
-//		Quiz_DAO qd = new Quiz_DAO();
-//		ArrayList<Quiz_VO> set = qd.readQuizSet();
-//		ArrayList<Quiz_VO> result = new ArrayList<Quiz_VO>();
-//		
-//			for (int i = set.size() - 1; i >= 0; i--) {
-//				if (index == i) {
-////					Quiz_VO set = new Quiz_VO();
-//					set.remove(i).getQuiz_set_info();
-//					set.remove(i).getQuiz_title();
-//					set.remove(i).getQuiz_subject();
-//					set.remove(i).getQuiz_answer_1();
-//					set.remove(i).getQuiz_answer_2();
-//					set.remove(i).getQuiz_answer_3();
-//					set.remove(i).getQuiz_answer_4();
-//					set.remove(i).getQuiz_final_answer();
-//					set.remove(i).getQuiz_difficulty();
-//					set.remove(i).getQuiz_cookie();
-//					set.remove(i).getQuiz_image();
-//					set.remove(i).getQuiz_people();
-//				
-//					set.add(set);
-//				}
-//		}
-//		qd.writeSet(result);
-//	}
+	public void deleteQuizSet(int index) {
+		Quiz_DAO qd = new Quiz_DAO();
+		ArrayList<Quiz_VO> set = qd.readQuizSet();
+		ArrayList<Quiz_VO> result = new ArrayList<Quiz_VO>();
+		
+			for (int i = set.size() - 1; i >= 0; i--) {
+				if (index == i) {
+
+					set.remove(i);
+				
+
+				}
+		}
+		qd.writeSet(result);
+	}
 
 	public void deleteListWhenInsertSet() {
 		Quiz_DAO qd = new Quiz_DAO();
