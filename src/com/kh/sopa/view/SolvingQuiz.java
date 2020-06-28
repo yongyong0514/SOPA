@@ -2,15 +2,16 @@ package com.kh.sopa.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import com.kh.sopa.controller.Client_Controller;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
@@ -43,7 +44,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
    // 한 세트에서 얻은 총 쿠키수
    private int got_cookie_InSet = 0;
    // 한 세트에서 문제푸는데 걸린 총 시간의 합
-   private double amountOfSecInSet = 0;
+   private long amountOfSecInSet = 0;
    // 문제가 담겨진 배열의 인덱스
    private int cnt;
    //플레이어가 서버로 보낼 모든 문제 푼 시간 시간 
@@ -61,8 +62,8 @@ public class SolvingQuiz extends JPanel implements ActionListener {
    }
 
    public SolvingQuiz(JFrame jf,Client_Controller client ,int roomnumber) {
-	   this.client = client;
-	   this.mf = jf;
+	  this.client = client;
+	  this.mf = jf;
       this.setLayout(null);
       this.setBounds(0, 0, 1024, 768);
 //      this.setBackground(Color.RED);
@@ -80,14 +81,18 @@ public class SolvingQuiz extends JPanel implements ActionListener {
       timePanel.setSize(940, 50);
       timePanel.setBackground(Color.WHITE);
       
-      // 상단바 위 시간 흐르는 라벨
-      JLabel timeLabel = new JLabel();
-      timeLabel.setHorizontalAlignment(JLabel.CENTER);
-      timeLabel.setBounds(50, 5, 850, 40);
-      timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
-      timePanel.add(timeLabel);
-      
-      bigPanel.add(timePanel);
+		// 상단바 위 시간 흐르는 라벨
+		JLabel timeLabel = new JLabel();
+		timeLabel.setHorizontalAlignment(JLabel.CENTER);
+		timeLabel.setBounds(360, 5, 250, 40);
+		timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		timePanel.add(timeLabel, "Center");
+		Image icon = new ImageIcon("images/minitimer.PNG").getImage().getScaledInstance(40, 40, 0);
+		JLabel timerLabel = new JLabel();
+		timerLabel.setIcon(new ImageIcon(icon));
+		timerLabel.setBounds(372, 6, 40, 40);
+		timePanel.add(timerLabel);	
+		bigPanel.add(timePanel);
       
       // 상단 오른쪽의 그만해요 버튼
       JButton stopBtn = new JButton("그만해요");
@@ -129,6 +134,10 @@ public class SolvingQuiz extends JPanel implements ActionListener {
       // 문제버튼 1
       btn_quiz_answer_1 = new JButton();
       btn_quiz_answer_1.setBorderPainted(false);
+      //보기 버튼 왼쪽 작은 표시
+      Image minicircle = new ImageIcon("images/circle.PNG").getImage().getScaledInstance(50, 50, 0);
+      JLabel circleLabel = new JLabel();
+      circleLabel.setIcon(new ImageIcon(minicircle));
       btn_quiz_answer_1.setBounds(40, 475, 455, 110);
       btn_quiz_answer_1.setBackground(new Color(226, 91, 69));
       btn_quiz_answer_1.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -136,6 +145,10 @@ public class SolvingQuiz extends JPanel implements ActionListener {
       // 문제버튼 2
       btn_quiz_answer_2 = new JButton();
       btn_quiz_answer_2.setBorderPainted(false);
+      //보기 버튼 왼쪽 작은 표시
+      Image minix = new ImageIcon("images/x.PNG").getImage().getScaledInstance(50, 50, 0);
+	  JLabel minixLabel = new JLabel();
+	  minixLabel.setIcon(new ImageIcon(minix));
       btn_quiz_answer_2.setBounds(525, 475, 455, 110);
       btn_quiz_answer_2.setBackground(new Color(225, 131, 87));
       btn_quiz_answer_2.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -143,6 +156,10 @@ public class SolvingQuiz extends JPanel implements ActionListener {
       // 문제버튼 3
       btn_quiz_answer_3 = new JButton();
       btn_quiz_answer_3.setBorderPainted(false);
+      //보기 버튼 왼쪽 작은 표시
+      Image minitriangle = new ImageIcon("images/triangle.PNG").getImage().getScaledInstance(50, 50, 0);
+	  JLabel minitriangleLabel = new JLabel();
+	  minitriangleLabel.setIcon(new ImageIcon(minitriangle));
       btn_quiz_answer_3.setBounds(40, 600, 455, 110);
       btn_quiz_answer_3.setBackground(new Color(137, 213, 201));
       btn_quiz_answer_3.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -150,6 +167,10 @@ public class SolvingQuiz extends JPanel implements ActionListener {
       // 문제버튼 4
       btn_quiz_answer_4 = new JButton();
       btn_quiz_answer_4.setBorderPainted(false);
+      //보기 버튼 왼쪽 작은 표시
+	  Image minirectangle = new ImageIcon("images/rectangle.PNG").getImage().getScaledInstance(50, 50, 0);
+	  JLabel minirectangleLabel = new JLabel();
+	  minirectangleLabel.setIcon(new ImageIcon(minirectangle));
       btn_quiz_answer_4.setBounds(525, 600, 455, 110);
       btn_quiz_answer_4.setBackground(new Color(172, 201, 101));
       btn_quiz_answer_4.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -270,7 +291,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
          if (e.getSource() == btn_quiz_answer_1) {
             if (btn_quiz_answer_1.getText().equals(set.get(cnt).getQuiz_final_answer())) {
                System.out.println("정답");
-               ja.dialog();
+               ja.dialogCorrect();
                correct_num++;
                cookie_num += set.get(cnt).getQuiz_cookie();
                System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -280,12 +301,12 @@ public class SolvingQuiz extends JPanel implements ActionListener {
                System.out.println("오답");
                cookie_num = 0;
                got_cookie_InSet += 0;
-               ja.dialog1();
+               ja.dialogWrong();
             }
          } else if (e.getSource() == btn_quiz_answer_2) {
             if (btn_quiz_answer_2.getText().equals(set.get(cnt).getQuiz_final_answer())) {
                System.out.println("정답");
-               ja.dialog();
+               ja.dialogCorrect();
                correct_num++;
                cookie_num += set.get(cnt).getQuiz_cookie();
                System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -295,12 +316,12 @@ public class SolvingQuiz extends JPanel implements ActionListener {
                System.out.println("오답");
                cookie_num = 0;
                got_cookie_InSet += 0;
-               ja.dialog1();
+               ja.dialogWrong();
             }
          } else if (e.getSource() == btn_quiz_answer_3) {
             if (btn_quiz_answer_3.getText().equals(set.get(cnt).getQuiz_final_answer())) {
                System.out.println("정답");
-               ja.dialog();
+               ja.dialogCorrect();
                correct_num++;
                cookie_num += set.get(cnt).getQuiz_cookie();
                System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -310,13 +331,13 @@ public class SolvingQuiz extends JPanel implements ActionListener {
                System.out.println("오답");
                cookie_num = 0;
                got_cookie_InSet += 0;
-               ja.dialog1();
+               ja.dialogWrong();
             }
 
          } else if (e.getSource() == btn_quiz_answer_4) {
             if (btn_quiz_answer_4.getText().equals(set.get(cnt).getQuiz_final_answer())) {
                System.out.println("정답");
-               ja.dialog();
+               ja.dialogCorrect();
                correct_num++;
                cookie_num += set.get(cnt).getQuiz_cookie();
                System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
@@ -327,7 +348,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
                System.out.println("오답");
                cookie_num = 0;
                got_cookie_InSet += 0;
-               ja.dialog1();
+               ja.dialogWrong();
             }
          }
 

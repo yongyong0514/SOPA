@@ -29,15 +29,19 @@ public class RoomInfoPanel extends JPanel {
 		jf.setLayout(null);
 		jf.setBounds(0,0,1024,768);*/
 		
+		//방 정보 패널
 		JPanel roomInfoPanel = new JPanel();
 		roomInfoPanel.setLayout(null);
 		roomInfoPanel.setBounds(724, 515, 250, 180);
 		roomInfoPanel.setBackground(new Color(252, 209, 108));
 
+		//"지금 입장한 방은요"가 적힐 패널
 		JPanel roomNowPanel = new JPanel();
 		roomNowPanel.setLayout(null);
 		roomNowPanel.setBounds(10, 10, 220, 30);
 			
+		
+		//"지금 입장한 방은요" 라벨
 		JLabel roomNowLabel = new JLabel();
 		roomNowLabel.setText("지금 입장한 방은요");
 		roomNowLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -48,12 +52,15 @@ public class RoomInfoPanel extends JPanel {
 		roomInfoPanel.add(roomNowLabel);
 
 		
+		//방제목라벨
 		JLabel roomTitleLabel = new JLabel();
 		roomTitleLabel.setHorizontalAlignment(JLabel.CENTER);
 		roomTitleLabel.setBounds(10, 50, 230, 30);
 		roomTitleLabel.setOpaque(true);
 		roomTitleLabel.setBackground(new Color(254, 228, 167));
 		
+		
+		//문항수라벨
 		JLabel numInSetLabel = new JLabel("문항 수");
 		numInSetLabel.setHorizontalAlignment(JLabel.CENTER);
 		numInSetLabel.setBounds(10, 95, 110, 30);
@@ -62,7 +69,7 @@ public class RoomInfoPanel extends JPanel {
 		
 		roomInfoPanel.add(numInSetLabel);
 
-		
+		//문항수표기라벨
 		JLabel numInSetDisplayLabel = new JLabel();
 		numInSetDisplayLabel.setHorizontalAlignment(JLabel.CENTER);
 		numInSetDisplayLabel.setBounds(130, 95, 110, 30);
@@ -72,6 +79,7 @@ public class RoomInfoPanel extends JPanel {
 		roomInfoPanel.add(numInSetDisplayLabel);
 
 		
+		//주제라벨
 		JLabel setSubjectLabel = new JLabel("주제");
 		setSubjectLabel.setHorizontalAlignment(JLabel.CENTER);
 		setSubjectLabel.setBounds(10, 135, 110, 30);
@@ -80,7 +88,7 @@ public class RoomInfoPanel extends JPanel {
 		
 		roomInfoPanel.add(setSubjectLabel);
 
-		
+		//세트주제표기라벨
 		JLabel setSubjectDisplayLabel = new JLabel("출제자");
 		setSubjectDisplayLabel.setHorizontalAlignment(JLabel.CENTER);
 		setSubjectDisplayLabel.setBounds(130, 135, 110, 30);
@@ -90,7 +98,9 @@ public class RoomInfoPanel extends JPanel {
 		roomInfoPanel.add(setSubjectDisplayLabel);
 		
 		
-		//방제목이 세트제목 , 문제수, 문제 주제 담기
+		
+		
+		//방제목( 세트제목 ), 문제수, 문제 주제 담기
 		
 		Quiz_DAO qd = new Quiz_DAO();
 		ArrayList<Quiz_VO> set = qd.readQuizSet();
