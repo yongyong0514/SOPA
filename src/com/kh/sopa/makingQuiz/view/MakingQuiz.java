@@ -88,15 +88,21 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 	private JPanel showImgPanel;
 	private JPanel iSubPanel;
 	private String sname;
+	
+	private JPanel mainPanel = null;
+	private JPanel thisPage = null;
 
 	private void insertList() {
 
 	}
 
-	public MakingQuiz(JFrame jf) {
+	public MakingQuiz(JFrame jf, JPanel mp) {
 		// 폰트
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		fm.fontChange(ge);
+		
+		thisPage = this;
+		mainPanel = mp;
 
 		for (int i = 0; i < selectSet.size(); i++) {
 			System.out.println(selectSet.get(i));
@@ -113,15 +119,18 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		mqPanel.setLayout(null);
 
 		//// 뒤로가기 버튼입니다
-		JButton goBack = new JButton("뒤로가기") {
-			@Override
-			public void setBorder(Border border) {
-			}
-		};
-
+		JButton goBack = new JButton("뒤로가기");
 		goBack.setBounds(852, 10, 153, 37);
 		goBack.setBackground(new Color(255, 179, 0));
 		goBack.setFont(new Font("CookieRun Regular", Font.PLAIN, 18));
+		goBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jf.remove(thisPage);
+				jf.add(mp);
+				jf.repaint();
+			}
+		});
 		mqPanel.add(goBack);
 
 		//// 좌측 리스트 패널, 세트리스트와 문제리스트가 위치합니다
@@ -913,7 +922,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		jf.getContentPane().setLayout(null);
 		jf.setResizable(false);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
-		jf.getContentPane().add(new MakingQuiz(jf));
+//		jf.getContentPane().add(new MakingQuiz(jf, mp));
 
 		jf.setVisible(true);
 

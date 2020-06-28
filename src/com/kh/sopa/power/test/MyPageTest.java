@@ -1,13 +1,9 @@
-package com.kh.sopa.view;
+package com.kh.sopa.power.test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,34 +12,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import com.kh.sopa.model.vo.User_VO;
+import com.kh.sopa.view.ChangePage;
+import com.kh.sopa.view.Mypage;
 
 /*import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;*/
 
-public class Mypage extends JPanel {
+public class MyPageTest extends JPanel {
 	private JPanel contentPane;
-	
-	// 수정 부분
-	JPanel mainPanel = null;
-	JPanel thisPage = null;
-	JPanel roomPanel = null;
-	JFrame mainFrame = null;
 	
 	User_VO tmp = new User_VO();
 	
-	// 수정 부분 생성자 3개 추가
-	public Mypage(String user_id, JPanel mp, JPanel rp, JFrame mf) {
-		// 수정 부분 초기화 추가
-		this.mainPanel = mp;
-		this.thisPage = this;
-		this.roomPanel = rp;
-		this.mainFrame = mf;
-		
+	public MyPageTest(String user_id) {
 		setVisible(true);
 		setBounds(0, 0, 1024, 768);
 		setLayout(null);
@@ -207,15 +191,6 @@ public class Mypage extends JPanel {
 		back.setBounds(840, 0, 100, 50);
 		back.setBackground(Color.yellow);
 		
-		// 수정부분
-		back.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mp.remove(thisPage);
-				mp.add(rp);
-				mainFrame.repaint();
-			}
-		});
 		
 		
 		change.addMouseListener(new MouseAdapter() {
@@ -236,11 +211,11 @@ public class Mypage extends JPanel {
 
 	}
 
-	public static void main(String[] args) {
-		JFrame jf = new JFrame();
+//	public static void main(String[] args) {
+//		JFrame jf = new JFrame();
 //		jf.add(new Mypage("powerman"));
-		jf.setVisible(true);
-		jf.setSize(1024, 768);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+//		jf.setVisible(true);
+//		jf.setSize(1024, 768);
+//		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	}
 }

@@ -1,6 +1,5 @@
 package com.kh.sopa.view_Song;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.kh.sopa.controller.Client_Controller;
-import com.kh.sopa.test.SubPanel;
+import com.kh.sopa.power.test.SolvingQuizTest;
 import com.kh.sopa.view.SolvingQuiz;
 
 public class Gaming_stand_room extends JPanel{
@@ -20,12 +19,14 @@ public class Gaming_stand_room extends JPanel{
 	JPanel thispanel;
 	JPanel StandRoomPanel;
 	Client_Controller client = null;
+	String roomTitle = null;
 	String user = "";
 	public Gaming_stand_room() {}
 	
-	public Gaming_stand_room(JPanel StandRoomPanel,JFrame mf, String user,Client_Controller client ,int cnt) {
+	public Gaming_stand_room(JPanel StandRoomPanel,JFrame mf, String user,Client_Controller client ,int cnt, String title) {
 		this.user = user;
 		this.mainFrame = mf;
+		this.roomTitle = title;
 		this.setBackground(Color.RED);
 		this.setBounds(0, 0, 1024, 430);
 		this.thispanel = this;
@@ -75,7 +76,8 @@ public class Gaming_stand_room extends JPanel{
 //				mainFrame.remove(sub_penel);
 				mainFrame.remove(StandRoomPanel);
 //				mainFrame.setSize(1200,800);
-				SolvingQuiz solvingquiz = new SolvingQuiz(mf,client,cnt);
+//				SolvingQuiz solvingquiz = new SolvingQuiz(mf,client,cnt);
+				SolvingQuizTest solvingquiz = new SolvingQuizTest(mf,client,cnt, roomTitle);
 				mainFrame.add(solvingquiz);
 				mainFrame.repaint();
 				mainFrame.setVisible(true);
