@@ -70,7 +70,7 @@ public class Find_Id extends JFrame {
 		find_id.add(text);
 
 		// 전화번호 입력창
-
+		phone = new JTextField(20);
 		// 실행시, 초기 입력창 출력
 		Image im3 = new ImageIcon("image/text300.PNG").getImage();
 		phone = new JTextField() {
@@ -101,7 +101,6 @@ public class Find_Id extends JFrame {
 
 			}
 		});
-
 		find_id.add(phone);
 
 		// 뒤로가요 버튼
@@ -115,9 +114,9 @@ public class Find_Id extends JFrame {
 		back.setContentAreaFilled(false);
 		back.setFocusable(false);
 		back.setBounds(340, 480, 120, 60);
+		find_id.add(back);
 		// 클릭
 		back.addMouseListener(new MouseAdapter() {
-
 			// 1.클릭 -> 로그인화면
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -170,9 +169,5 @@ public class Find_Id extends JFrame {
 	public static String getText() {
 		// 받은 전화번호 값을 dao에 보냄
 		return phone.getText();
-	}
-
-	public static void main(String[] args) {
-		Find_Id fi = new Find_Id();
 	}
 }

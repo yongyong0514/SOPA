@@ -52,13 +52,25 @@ public class Login_Panel extends JPanel {
 		this.add(bigPanel);
 
 		// 로그인 창 sopa 라벨
-		sopa = new JLabel("S.O.P.A");
-		sopa.setBounds(430, 100, 300, 200);
-		sopa.setFont(new Font("바탕", Font.ITALIC, 50));
+		ImageIcon imi1;
+		imi1 = new ImageIcon("image/mainLabel.PNG");
+		sopa = new JLabel(imi1);
+		sopa.setBounds(280, 80, 400, 300);
 		bigPanel.add(sopa);
 
+		// 아이디 라벨
+		ImageIcon imi14 = new ImageIcon("image/idlabel.PNG");
+		id_label = new JLabel(imi14);
+		id_label.setBounds(160, 350, 120, 30);
+		bigPanel.add(id_label);
+
+		// 비밀번호 라벨
+		ImageIcon imi15 = new ImageIcon("image/pwLabel.PNG");
+		pw_label = new JLabel(imi15);
+		pw_label.setBounds(150, 430, 120, 30);
+		bigPanel.add(pw_label);
+
 		// 로그인 창 아이디 입력 패널
-		;
 		Image im2 = new ImageIcon("image/text300.PNG").getImage();
 
 		login_id = new JTextField() {
@@ -79,10 +91,21 @@ public class Login_Panel extends JPanel {
 		login_id.setBounds(280, 350, 350, 50);
 		login_id.setForeground(Color.GRAY);
 		login_id.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		login_id.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// 클릭시 초기화
+				login_id.setText("  ");
+				login_id.requestFocus();
+				login_pw.setForeground(Color.BLACK);
+			}
+		});
 		bigPanel.add(login_id);
 
-		Image im3 = new ImageIcon("image/text300.PNG").getImage();
-		login_pw = new JTextField() {
+		// 로그인 창 비밀번호 입력 패널
+		login_pw = new JPasswordField(20);
+		Image im6 = new ImageIcon("image/text300.PNG").getImage();
+		login_pw = new JPasswordField() {
 			public void setBorder(Border border) {
 			}
 
@@ -91,22 +114,37 @@ public class Login_Panel extends JPanel {
 			}
 
 			public void paintComponent(Graphics g) {
-				g.drawImage(im3, 0, 0, null);
+				g.drawImage(im6, 0, 0, null);
 				super.paintComponent(g);
 			}
 		};
 		// 기본 입력
-		login_pw.setText("  비밀번호를 입력하세요");
+		login_pw.setText("비밀번호 입력");
 		login_pw.setBounds(280, 420, 350, 50);
-		login_pw.requestFocus(false);
-		login_pw.setForeground(Color.GRAY);
 		login_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		login_pw.setForeground(Color.GRAY);
+		login_pw.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// 클릭시 초기화
+				login_pw.setText("");
+				login_pw.requestFocus();
+				login_pw.setForeground(Color.BLACK);
+			}
+		});
 		bigPanel.add(login_pw);
 
 		// 로그인 창 로그인 버튼
-		login_quiz = new JButton("로그인");
-		login_quiz.setBounds(640, 340, 80, 120);
+		ImageIcon im4 = new ImageIcon("image/loginbutton.PNG");
+		login_quiz = new JButton(im4);
+		// 위치고정
+		login_quiz.setRolloverIcon(im4);
+		login_quiz.setBorderPainted(false);
+		login_quiz.setContentAreaFilled(false);
+		login_quiz.setFocusable(false);
+		login_quiz.setBounds(590, 350, 80, 120);
 		bigPanel.add(login_quiz);
+
 		login_quiz.addMouseListener(new MouseAdapter() {
 
 			// 1.클릭 -> 대기
@@ -178,10 +216,10 @@ public class Login_Panel extends JPanel {
 		});
 
 		// 로그인 창 아이디 찾기 버튼
-		ImageIcon im6 = new ImageIcon("image/findid.PNG");
-		find_id = new JButton(im6);
+		ImageIcon im8 = new ImageIcon("image/findid.PNG");
+		find_id = new JButton(im8);
 		// 위치고정
-		find_id.setRolloverIcon(im6);
+		find_id.setRolloverIcon(im8);
 		find_id.setBorderPainted(false);
 		find_id.setContentAreaFilled(false);
 		find_id.setFocusable(false);
@@ -242,4 +280,5 @@ public class Login_Panel extends JPanel {
 //		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		f.setVisible(true);
 //	}
+
 }

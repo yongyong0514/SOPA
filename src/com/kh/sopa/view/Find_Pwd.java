@@ -77,6 +77,7 @@ public class Find_Pwd extends JFrame {
 				super.paintComponent(g);
 			}
 		};
+		find_pwd.add(user_id);
 		// 기본 입력
 		user_id.setText("  아이디를 입력하세요");
 		user_id.setBounds(340, 350, 350, 50);
@@ -122,6 +123,7 @@ public class Find_Pwd extends JFrame {
 				user_phone.setForeground(Color.BLACK);
 			}
 		});
+		find_pwd.add(user_phone);
 
 		// 뒤로가요 버튼
 		ImageIcon im5 = new ImageIcon("image/back.PNG");
