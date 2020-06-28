@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import com.kh.sopa.controller.Client_Controller;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
@@ -50,19 +49,20 @@ public class SolvingQuiz extends JPanel implements ActionListener {
    private long result_user_gaming_time = 0;
    // 유저 id
    private String user_id = "";
-   
+   private JPanel thispage;
    // 난이도별 초를 담아줄 배열
    private int[] sec = new int[set.size()];
-
+   private boolean ishead_hear = true;
    public SolvingQuiz() {
       this.setBackground(Color.RED);
       this.setBounds(0, 0, 1024, 300);
-
+      
    }
 
    public SolvingQuiz(JFrame jf,Client_Controller client ,int roomnumber) {
 	   this.client = client;
 	   this.mf = jf;
+	   this.thispage = this;
       this.setLayout(null);
       this.setBounds(0, 0, 1024, 768);
 //      this.setBackground(Color.RED);
@@ -228,7 +228,23 @@ public class SolvingQuiz extends JPanel implements ActionListener {
            
             client.result_game_sendMessage(msg);
             
-         
+            while(ishead_hear)
+            {
+            	boolean head_hear = client.get_ishead_hear();
+            	if(head_hear == false) {
+            		mf.remove(thispage);
+                    String[] msg_result = client.get_split_result();
+                    System.out.println("넘어가는 값 확인"+msg_result[1]);
+                    ResultPage resultpage = new ResultPage(mf,msg_result);
+                    mf.add(resultpage);
+                    mf.repaint();
+                    mf.setVisible(true);
+                    
+                    ishead_hear = false;
+            	}
+            	            }
+            
+            
          }
       }
       new quiz_thread().start();

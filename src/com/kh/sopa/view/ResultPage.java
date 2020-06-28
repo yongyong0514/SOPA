@@ -17,13 +17,15 @@ import javax.swing.border.EmptyBorder;
 
 //결과페이지  클래스
 public class ResultPage extends JPanel {
-
+		JFrame mf = null;
+		
+		
 	/*
 	 * Test_QuizResultDao qd = new Test_QuizResultDao(); ArrayList<Test_QuizResult>
 	 * quizRoom1 = qd.fileOpen();
 	 */
 
-	public ResultPage() {
+	public ResultPage(JFrame mf,String[] result) {
 		setLayout(null);
 		setBounds(0, 0, 1024, 768);
 
@@ -214,13 +216,13 @@ public class ResultPage extends JPanel {
 
 	}
 
-	public static void main(String[] args) {
-		JFrame f = new JFrame("ResultPage");
-		f.setBounds(0, 0, 1024, 768);
-		f.setLayout(null);
-		f.add(new ResultPage());
-
-		f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
-		f.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		JFrame f = new JFrame("ResultPage");
+//		f.setBounds(0, 0, 1024, 768);
+//		f.setLayout(null);
+//		f.add(new ResultPage());
+//
+//		f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
+//		f.setVisible(true);
+//	}
 }

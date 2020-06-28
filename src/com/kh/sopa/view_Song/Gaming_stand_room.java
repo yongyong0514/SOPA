@@ -13,21 +13,23 @@ import javax.swing.JPanel;
 
 import com.kh.sopa.controller.Client_Controller;
 import com.kh.sopa.test.SubPanel;
+import com.kh.sopa.view.SolvingQuiz;
 
 public class Gaming_stand_room extends JPanel{
 	JFrame mainFrame = null;
-	
+	JPanel thispanel;
+	JPanel StandRoomPanel;
 	Client_Controller client = null;
 	String user = "";
 	public Gaming_stand_room() {}
 	
-	public Gaming_stand_room(JFrame mf, String user,Client_Controller client ,int cnt) {
+	public Gaming_stand_room(JPanel StandRoomPanel,JFrame mf, String user,Client_Controller client ,int cnt) {
 		this.user = user;
 		this.mainFrame = mf;
 		this.setBackground(Color.RED);
 		this.setBounds(0, 0, 1024, 430);
-		
-		
+		this.thispanel = this;
+		this.StandRoomPanel = StandRoomPanel;
 		int first_number = 0;
 		String GuBunJa = "/";
 		int second_number = 0;
@@ -69,7 +71,14 @@ public class Gaming_stand_room extends JPanel{
 				// TODO Auto-generated method stub
 				String msg = "game/ready/"+cnt;
 				client.sendSystemMessage(msg);
-				
+//				mainFrame.remove(thispanel);
+//				mainFrame.remove(sub_penel);
+				mainFrame.remove(StandRoomPanel);
+//				mainFrame.setSize(1200,800);
+				SolvingQuiz solvingquiz = new SolvingQuiz(mf,client,cnt);
+				mainFrame.add(solvingquiz);
+				mainFrame.repaint();
+				mainFrame.setVisible(true);
 			}
 		});
 		roomPanel_stand.add(player_label);
