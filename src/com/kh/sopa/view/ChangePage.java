@@ -72,7 +72,7 @@ public class ChangePage extends JFrame {
 	      //확인 버튼
 	      JButton back = new JButton("확인");
 	      back.setBounds(120, 205, 110, 30);
-	      back.setFont(new Font("바탕", Font.ITALIC, 12));
+	      back.setFont(new Font("바탕", Font.ITALIC, 13));
 	      change.add(back);
 	   
 	      back.addActionListener(new ActionListener() {
