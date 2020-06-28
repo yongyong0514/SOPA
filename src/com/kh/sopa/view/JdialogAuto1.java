@@ -16,7 +16,7 @@ import javax.swing.Timer;
 
 // 문제 풀 때 정답시 정답 알려주는 다이얼로그 호출
 
-public class JdialogAuto implements ActionListener {
+public class JdialogAuto1 implements ActionListener {
 
 	private static final int TIME_START = 1;
 	private int count = TIME_START;
@@ -27,7 +27,7 @@ public class JdialogAuto implements ActionListener {
 	        EventQueue.invokeLater(new Runnable() {
 
 	            public void run() {
-	                new JdialogAuto().createCorrectDialog();
+	                new JdialogAuto1().createCorrectDialog();
 	            }
 	        });
 	    }
@@ -36,7 +36,7 @@ public class JdialogAuto implements ActionListener {
 	        EventQueue.invokeLater(new Runnable() {
 
                public void run() {
-                   new JdialogAuto().createWrongDialog();
+                   new JdialogAuto1().createWrongDialog();
                }
            });
        }

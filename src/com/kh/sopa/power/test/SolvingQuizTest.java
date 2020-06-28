@@ -19,7 +19,7 @@ import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.makingQuiz.view.CookieFont;
 import com.kh.sopa.model.vo.Quiz_VO;
 import com.kh.sopa.model.vo.User_VO;
-import com.kh.sopa.view.JdialogAuto;
+import com.kh.sopa.view.JdialogAuto1;
 import com.kh.sopa.view.ResultPage;
 
 public class SolvingQuizTest extends JPanel implements ActionListener {
@@ -342,7 +342,7 @@ public class SolvingQuizTest extends JPanel implements ActionListener {
          btn_quiz_answer_2.setEnabled(false);
          btn_quiz_answer_3.setEnabled(false);
          btn_quiz_answer_4.setEnabled(false);
-         JdialogAuto ja = new JdialogAuto();
+         JdialogAuto1 ja = new JdialogAuto1();
          if (e.getSource() == btn_quiz_answer_1) {
             if (btn_quiz_answer_1.getText().equals(set.get(cnt).getQuiz_final_answer())) {
                System.out.println("정답");

@@ -99,14 +99,14 @@ public class Gaming_stand_room extends JPanel {
 //		sp.setVisible(true);
 
 	}
-
-	public void stable_chage(JFrame mainFrame, Client_Controller client, int room_number) {
-		mainFrame.remove(StandRoomPanel);
-		SolvingQuiz solvingquiz = new SolvingQuiz(mainFrame, client, room_number,roomTitle);
-		mainFrame.add(solvingquiz);
-		mainFrame.repaint();
-		mainFrame.setVisible(true);
-	}
+//
+//	public void stable_chage(JFrame mainFrame, Client_Controller client, int room_number) {
+//		mainFrame.remove(StandRoomPanel);
+//		SolvingQuiz solvingquiz = new SolvingQuiz(mainFrame, client, room_number,roomTitle);
+//		mainFrame.add(solvingquiz);
+//		mainFrame.repaint();
+//		mainFrame.setVisible(true);
+//	}
 
 	public void gettitle(String title) {
 		this.title = title;

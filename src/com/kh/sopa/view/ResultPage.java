@@ -81,14 +81,14 @@ public class ResultPage extends JPanel {
 		//
 		
 		// //개개인 "총문제에서 몇문제 맞췄어요... 라벨
-		JLabel pp = new JLabel();
-		pp.setSize(920, 50);
-		pp.setFont(new Font("바탕", Font.BOLD, 28));
-		pp.setHorizontalAlignment(JLabel.CENTER);
-		pp.setLocation(10, 470);
-		pp.setText("tt");
-		
-		rankPanel.add(pp);
+//		JLabel pp = new JLabel();
+//		pp.setSize(920, 50);
+//		pp.setFont(new Font("바탕", Font.BOLD, 28));
+//		pp.setHorizontalAlignment(JLabel.CENTER);
+//		pp.setLocation(10, 470);
+//		pp.setText("tt");
+//		
+//		rankPanel.add(pp);
 		
 		
 

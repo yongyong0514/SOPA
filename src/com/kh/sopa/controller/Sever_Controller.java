@@ -87,7 +87,7 @@ public class Sever_Controller {
 			try {
 				System.out.println("서버에서 클라이언트로 sendMessage " + msg);
 				clientMap.get(key).writeUTF("1/" + msg + "/false");
-
+				System.out.println("1/" + msg + "/false");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -365,7 +365,7 @@ public class Sever_Controller {
 				System.out.println("최대 인원수 : " + room1_ready_size);
 				String msg = "최대 인원이 레디를 눌러서 게임이 시작합니다./true";
 				sendMessage(msg);
-
+				System.out.println("어디서 팅긴거야");
 				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
 			break;

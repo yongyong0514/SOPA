@@ -314,6 +314,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 	// 보기 버튼 별 액션
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		JdialogAuto1 ja = new JdialogAuto1();
 		if (e.getSource() == btn_quiz_answer_1 || e.getSource() == btn_quiz_answer_2
 				|| e.getSource() == btn_quiz_answer_3 || e.getSource() == btn_quiz_answer_4) {
 
@@ -322,7 +323,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			btn_quiz_answer_2.setEnabled(false);
 			btn_quiz_answer_3.setEnabled(false);
 			btn_quiz_answer_4.setEnabled(false);
-			JdialogAuto ja = new JdialogAuto();
+			
 			if (e.getSource() == btn_quiz_answer_1) {
 				if (btn_quiz_answer_1.getText().equals(set.get(cnt).getQuiz_final_answer())) {
 					System.out.println("정답");
