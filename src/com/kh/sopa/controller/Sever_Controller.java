@@ -16,7 +16,7 @@ import com.kh.sopa.model.vo.User_VO;
 import com.kh.sopa.view.Sever_view;
 
 public class Sever_Controller {
-
+	private String[] split_msg;
 	private ServerSocket serverSocket;
 	private Socket socket;
 	private Sever_view gui;
@@ -74,6 +74,9 @@ public class Sever_Controller {
 			System.out.println("서버 소켓 에러");
 		}
 	}
+//	public void game_person_sendMessage(String msg) {
+//		
+//	}
 
 	public void sendMessage(String msg) {
 		Iterator<String> itearator = clientMap.keySet().iterator();
@@ -83,7 +86,8 @@ public class Sever_Controller {
 			key = itearator.next();
 			try {
 				System.out.println("서버에서 클라이언트로 sendMessage " + msg);
-				clientMap.get(key).writeUTF("1/"+msg);
+				clientMap.get(key).writeUTF("1/" + msg + "/false");
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -119,7 +123,7 @@ public class Sever_Controller {
 
 		Iterator<String> iterator_room1 = room1Map.keySet().iterator();
 		String key_room1 = "";
-		String msg_room = "1/방에 입장하셨습니다.";
+		String msg_room = "1/방에 입장하셨습니다./false";
 		while (iterator_room1.hasNext()) {
 			key_room1 = iterator_room1.next();
 			try {
@@ -183,7 +187,7 @@ public class Sever_Controller {
 					if (head == 0) {
 						System.out.println("서버에서 시스템 메시지를 받음");
 						switch (msg_split[1]) {
-						
+
 						case "logout":
 							break;
 						case "room_inter":
@@ -200,7 +204,7 @@ public class Sever_Controller {
 					} else if (head == 1) {
 						System.out.println("클라이언트로부터 메시지를 받음 : " + msg);
 						sendMessage(msg_split[1]);
-						
+
 					} else if (head == 2) {
 						System.out.println("클라이언트로부터 게임결과를 받음 : " + msg);
 						count_user_info++;
@@ -213,20 +217,12 @@ public class Sever_Controller {
 						case 1:
 							setUserInformation(room1, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
 									Integer.valueOf(msg_split[2]), msg_split[6]);
-
+							System.out.println("정렬전 ");
 							if (count_user_info == room1.size()) {
 								Game_reuslt_sort(room1);
 
-								String first_user = room1.get(0).getUser_id();
-								String second_user = room1.get(1).getUser_id();
-								String third_user = room1.get(2).getUser_id();
-								String fourth_user = room1.get(3).getUser_id();
-								String fifth_user = room1.get(4).getUser_id();
-
-								String all_result = "3/"+first_user + "/" + second_user + "/" + third_user + "/"
-										+ fourth_user + "/" + fifth_user;
-								out.writeUTF(all_result);
-								
+								System.out.println("정렬후 ");
+								result_send_msg(room1,out);
 							} else {
 								System.out.println("모두가 완료하지 못했다.");
 							}
@@ -266,8 +262,94 @@ public class Sever_Controller {
 		}
 	}
 
+	public void result_send_msg(ArrayList<User_VO> room,DataOutputStream out) {
+
+		for (int i = 0; i < room.size(); i++) {
+			switch (room.size()) {
+			case 1:
+				int size_1 =  room.size();
+				String first_user = room.get(0).getUser_id();
+				String all_result = "3/"+ size_1+"/" + first_user ;
+
+				System.out.println(all_result);
+				try {
+					out.writeUTF(all_result);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 2:
+				int size_2 =  room.size();
+				String first_user_2 = room.get(0).getUser_id();
+				String second_user_2 = room.get(1).getUser_id();
+				String all_result_2 = "3/"+ size_2+"/"  + first_user_2 + "/" + second_user_2;
+
+				System.out.println(all_result_2);
+				try {
+					out.writeUTF(all_result_2);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 3:
+				int size_3 =  room.size();
+				String first_user_3 = room.get(0).getUser_id();
+				String second_user_3 = room.get(1).getUser_id();
+				String third_user_3 = room.get(2).getUser_id();
+				String all_result_3 = "3/"+ size_3+"/"  + first_user_3 + "/" + second_user_3 + "/" + third_user_3 ;
+
+				System.out.println(all_result_3);
+				try {
+					out.writeUTF(all_result_3);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 4:
+				int size_4 =  room.size();
+				String first_user_4 = room.get(0).getUser_id();
+				String second_user_4 = room.get(1).getUser_id();
+				String third_user_4 = room.get(2).getUser_id();
+				String fourth_user_4 = room.get(3).getUser_id();
+				String all_result_4 = "3/"+ size_4+"/"  + first_user_4 + "/" + second_user_4 + "/" + third_user_4 + "/"
+						+ fourth_user_4;
+
+				System.out.println(all_result_4);
+				try {
+					out.writeUTF(all_result_4);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 5:
+				int size_5 =  room.size();
+				String first_user_5 = room.get(0).getUser_id();
+				String second_user_5 = room.get(1).getUser_id();
+				String third_user_5 = room.get(2).getUser_id();
+				String fourth_user_5 = room.get(3).getUser_id();
+				String fifth_user_5 = room.get(4).getUser_id();
+				String all_result_5 = "3/"+ size_5+"/"  + first_user_5 + "/" + second_user_5 + "/" + third_user_5 + "/"
+						+ fourth_user_5 + "/" + fifth_user_5;
+
+				System.out.println(all_result_5);
+				try {
+					out.writeUTF(all_result_5);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+	}
+	
 	// 방이 생성될때 array_size가 정해저야한다.
 	public void room_number(int roomNumber) {
+
 		System.out.println("방인원수 세기 ");
 		int room1_ready_size = room1.size();
 		int room2_ready_size = room2.size();
@@ -281,6 +363,8 @@ public class Sever_Controller {
 			if (cnt1 == room1_ready_size) {
 				System.out.println("현재 1번방에 들어온 인원수 : " + cnt1);
 				System.out.println("최대 인원수 : " + room1_ready_size);
+				String msg = "최대 인원이 레디를 눌러서 게임이 시작합니다./true";
+				sendMessage(msg);
 
 				// SolvingQuiz 뷰로 이동 근데 문제에 대한 정보를 게임시작할때 보내주어야함
 			}
@@ -321,7 +405,7 @@ public class Sever_Controller {
 
 	// 클라이언트 로그아웃
 	public void removeClient(String user_id) {
-		String message = "1/"+user_id + "님이 나가셨습니다. \n";
+		String message = "1/" + user_id + "님이 나가셨습니다. \n";
 		sendMessage(message);
 		clientMap.remove(user_id);
 		System.out.println("접속자수 : " + clientMap.size());
@@ -349,16 +433,16 @@ public class Sever_Controller {
 				User_VO tmp2 = (User_VO) o2;
 				int res = 0;
 				if (tmp1.getUser_correct_quiz() == tmp2.getUser_correct_quiz())
-					if (tmp1.getUser_gaming_time() > tmp2.getUser_gaming_time()) {
+					if (tmp1.getUser_gaming_time() < tmp2.getUser_gaming_time()) {
 						res = 1;
 					} else {
 						res = -1;
 					}
 
-				if (tmp1.getUser_correct_quiz() > tmp2.getUser_correct_quiz()) {
+				if (tmp1.getUser_correct_quiz() < tmp2.getUser_correct_quiz()) {
 					res = 1;
 				}
-				if (tmp1.getUser_correct_quiz() < tmp2.getUser_correct_quiz()) {
+				if (tmp1.getUser_correct_quiz() > tmp2.getUser_correct_quiz()) {
 					res = -1;
 				}
 				return res;

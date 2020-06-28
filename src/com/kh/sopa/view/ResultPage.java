@@ -48,21 +48,21 @@ public class ResultPage extends JPanel {
 		panel.setSize(940, 50);
 		panel.setBackground(Color.WHITE);
 		//
-		// // 상단 오른쪽의 뒤로가기 버튼
-		JButton back = new JButton();
-		back.setBounds(840, 0, 100, 50);
-		back.setBackground(Color.yellow);
+//		상단 오른쪽의 뒤로가기 버튼
+//		JButton back = new JButton();
+//		back.setBounds(840, 0, 100, 50);
+//		back.setBackground(Color.yellow);
 		
-		//뒤로가기버튼 이미지 
-		Image back_Ima = new ImageIcon("image/back.PNG").getImage().getScaledInstance(100, 50, 0);
-		JLabel back_ImaL = new JLabel(new ImageIcon(back_Ima));
-		back_ImaL.setSize(100, 50);
+//		//뒤로가기버튼 이미지 
+//		Image back_Ima = new ImageIcon("image/back.PNG").getImage().getScaledInstance(100, 50, 0);
+//		JLabel back_ImaL = new JLabel(new ImageIcon(back_Ima));
+//		back_ImaL.setSize(100, 50);
 
-
-		back.add(back_ImaL);
-		
-
-		panel.add(back);
+//
+//		back.add(back_ImaL);
+//		
+//
+//		panel.add(back);
 		//
 		// // 123 순위 결과(rank패널)출력 패널
 		JPanel rankPanel = new JPanel();
@@ -104,7 +104,7 @@ public class ResultPage extends JPanel {
 		firstId.setLocation(430, 215);
 		firstId.setFont(new Font("바탕", Font.BOLD, 15));
 		firstId.setHorizontalAlignment(JLabel.CENTER);
-		firstId.setText("1등아이디"); //1등아이디...ㅎㅎ
+		firstId.setText(result[0]); //1등아이디...ㅎㅎ
 		
 
 		rankPanel.add(firstEmojiLab);
@@ -123,7 +123,7 @@ public class ResultPage extends JPanel {
 		secondId.setLocation(280, 285);
 		secondId.setFont(new Font("바탕", Font.BOLD, 15));
 		secondId.setHorizontalAlignment(JLabel.CENTER);
-		secondId.setText("2등아이디"); //2등아이디...ㅎㅎ
+		secondId.setText(result[1]); //2등아이디...ㅎㅎ
 
 		rankPanel.add(secondEmojiLab);
 		rankPanel.add(secondId);
@@ -142,50 +142,50 @@ public class ResultPage extends JPanel {
 		 thirdId.setLocation(580, 285);
 		 thirdId.setFont(new Font("바탕", Font.BOLD, 15));
 		 thirdId.setHorizontalAlignment(JLabel.CENTER);
-		 thirdId.setText("3등아이디"); //3등아이디...ㅎㅎ
+		 thirdId.setText(result[2]); //3등아이디...ㅎㅎ
 
 		rankPanel.add(thirdId);
 		rankPanel.add(thirdEmojiLab);
 
 		//
 		//
-		// // rank패널_ 개개인등수패널
-		JPanel rank_RPanel = new JPanel();
-		rank_RPanel.setBounds(50, 40, 150, 90);
-		rank_RPanel.setBackground(Color.BLUE);
-		
-		//개개인 등수 라벨
-		JLabel ppp = new JLabel();
-		ppp.setSize(130,70);
-		ppp.setFont(new Font("바탕", Font.BOLD, 35));
-		ppp.setHorizontalAlignment(JLabel.CENTER);
-		ppp.setText("tt");
-
-		rank_RPanel.add(ppp);
-		
+//		// // rank패널_ 개개인등수패널
+//		JPanel rank_RPanel = new JPanel();
+//		rank_RPanel.setBounds(50, 40, 150, 90);
+//		rank_RPanel.setBackground(Color.BLUE);
+//		
+//		//개개인 등수 라벨
+//		JLabel ppp = new JLabel();
+//		ppp.setSize(130,70);
+//		ppp.setFont(new Font("바탕", Font.BOLD, 35));
+//		ppp.setHorizontalAlignment(JLabel.CENTER);
+//	
+//
+//		rank_RPanel.add(ppp);
+//		
 
 		
 		
 		//
-		// rank패널_ 개개인쿠키패널
-		JPanel rank_CPanel = new JPanel();
-		rank_CPanel.setLayout(null);
-		rank_CPanel.setBounds(50, 150, 150, 90);
-		rank_CPanel.setBackground(Color.RED);
+//		// rank패널_ 개개인쿠키패널
+//		JPanel rank_CPanel = new JPanel();
+//		rank_CPanel.setLayout(null);
+//		rank_CPanel.setBounds(50, 150, 150, 90);
+//		rank_CPanel.setBackground(Color.RED);
 		//
-		// // 자신이 얻을 쿠키라벨
-		JLabel pppp = new JLabel();
-		pppp.setSize(130,70);
-		pppp.setFont(new Font("바탕", Font.BOLD, 35));
-		pppp.setHorizontalAlignment(JLabel.CENTER);
-		pppp.setText("tt");
-
-		rank_CPanel.add(pppp);
+//		// // 자신이 얻을 쿠키라벨
+//		JLabel pppp = new JLabel();
+//		pppp.setSize(130,70);
+//		pppp.setFont(new Font("바탕", Font.BOLD, 35));
+//		pppp.setHorizontalAlignment(JLabel.CENTER);
+//		
+//
+//		rank_CPanel.add(pppp);
 		
 		
 		//
-		rankPanel.add(rank_CPanel);
-		rankPanel.add(rank_RPanel);
+//		rankPanel.add(rank_CPanel);
+//		rankPanel.add(rank_RPanel);
 		//
 		all_panel.add(rankPanel);
 		all_panel.add(panel);
@@ -205,7 +205,7 @@ public class ResultPage extends JPanel {
 		JLabel fourL = new JLabel();
 		fourL.setSize(50, 50);
 		// // fourL.setText(quizRoom1.get(3).getUser_id());
-		fourL.setText("안녕하세요");
+		fourL.setText(result[3]);
 		fourL.setFont(new Font("바탕", Font.BOLD, 28));
 		fourL.setHorizontalAlignment(JLabel.CENTER);
 
@@ -227,7 +227,7 @@ public class ResultPage extends JPanel {
 		// 5등 아이디라벨
 		JLabel fiveL = new JLabel();
 		fiveL.setSize(50, 50);
-		// fiveL.setText(quizRoom1.get(4).getUser_id());
+		 fiveL.setText(result[4]);
 		fiveL.setFont(new Font("바탕", Font.BOLD, 28));
 		fiveL.setHorizontalAlignment(JLabel.CENTER);
 
