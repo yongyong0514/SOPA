@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import com.kh.sopa.controller.Client_Controller;
 import com.kh.sopa.controller.ObjectIO;
+import com.kh.sopa.makingQuiz.view.MakingQuiz;
 import com.kh.sopa.model.vo.User_VO;
 import com.kh.sopa.view.Login_Panel;
 
@@ -136,7 +137,12 @@ public class SubPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// change MakeRoom Panel;
-				System.out.println(((JButton) e.getSource()).getText());
+				
+				mainFrame.remove(mainPanel);
+				mainFrame.remove(thisPage);
+				mainFrame.add(new MakingQuiz(mainFrame, mp));
+				mainFrame.repaint();
+//				System.out.println(((JButton) e.getSource()).getText());
 			}
 		});
 		userPanel.add(makeRoom);

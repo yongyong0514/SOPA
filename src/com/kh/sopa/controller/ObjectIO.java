@@ -127,10 +127,10 @@ public class ObjectIO {
 				"2", 10, 15, "", 4);
 		Quiz_VO tmp3 = new Quiz_VO("Python", "객체지향 프로그래밍", "과학", "1개", "2개", "3개", "4개", 
 				"2", 20, 10, "", 4);
-		Quiz_VO tmp4 = new Quiz_VO("Clanguage", "절차지향 프로그래밍", "영어", "1개", "2개", "3개", "4개", 
-				"2", 10, 15, "", 4);
-		Quiz_VO tmp5 = new Quiz_VO("Rlanguage", "데이터 분석", "프로그래밍", "1개", "2개", "3개", "4개", 
-				"2", 30, 30, "", 4);
+//		Quiz_VO tmp4 = new Quiz_VO("Clanguage", "절차지향 프로그래밍", "영어", "1개", "2개", "3개", "4개", 
+//				"2", 10, 15, "", 4);
+//		Quiz_VO tmp5 = new Quiz_VO("Rlanguage", "데이터 분석", "프로그래밍", "1개", "2개", "3개", "4개", 
+//				"2", 30, 30, "", 4);
 		
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
@@ -142,8 +142,8 @@ public class ObjectIO {
 			oos.writeObject(tmp1);
 			oos.writeObject(tmp2);
 			oos.writeObject(tmp3);
-			oos.writeObject(tmp4);
-			oos.writeObject(tmp5);
+//			oos.writeObject(tmp4);
+//			oos.writeObject(tmp5);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
