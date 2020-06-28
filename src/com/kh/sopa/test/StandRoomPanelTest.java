@@ -14,16 +14,17 @@ import com.kh.sopa.controller.ObjectIO;
 import com.kh.sopa.model.vo.Quiz_VO;
 import com.kh.sopa.view_Song.Gaming_stand_room;
 
-public class StandRoomPanelTest extends JPanel{
+public class StandRoomPanelTest extends JPanel {
 	Client_Controller client = null;
 	String user = "";
 	JFrame mainFrame = null;
-	
+	JPanel sub_panel;
 	int button_clicked_num;
 	JPanel thisPage;
 
-	public StandRoomPanelTest() { }
-	
+	public StandRoomPanelTest() {
+	}
+
 	public StandRoomPanelTest(JFrame mf, String user) {
 		this.user = user;
 		this.mainFrame = mf;
@@ -32,21 +33,26 @@ public class StandRoomPanelTest extends JPanel{
 		this.setBackground(Color.YELLOW);
 		this.setBounds(0, 0, 1024, 768);
 		this.setLayout(null);
-		
+
 		// room Panel == top panel(main Panel)
 		// size = 1024, 430
 		JPanel roomPanel = new JPanel();
 		roomPanel.setBackground(Color.BLUE);
 		roomPanel.setBounds(0, 0, 1024, 430);
 		roomPanel.setLayout(null);
-		
+
+		// SubPanel change to class(for reuse)
+		SubPanel sp = new SubPanel(this.mainFrame, this, this.user);
+		this.add(sp);
+		this.client = sp.client;
+
 		JButton[] rooms = new JButton[5];
 		int x = 0, y = 0;
 		for (int i = 0; i < rooms.length; i++) {
 			rooms[i] = new JButton();
-			
+
 			rooms[i].addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int cnt = 0;
@@ -62,22 +68,22 @@ public class StandRoomPanelTest extends JPanel{
 							break;
 						}
 					}
-					
+
 					System.out.println("대기방으로 이동합니다.");
 					thisPage.remove(roomPanel);
-					thisPage.add(new Gaming_stand_room(mainFrame, "",client,cnt));
+					thisPage.add(new Gaming_stand_room(thisPage, mainFrame, "", client, cnt));
 					System.out.println("EORLTLF");
 					mainFrame.repaint();
-			
+
 					System.out.println("Cnt : " + cnt);
-					String msg = "room_inter"+"/"+ (cnt + "");
+					String msg = "room_inter" + "/" + (cnt + "");
 					client.sendSystemMessage(msg);
 				}
 			});
 			if (i % 2 == 0) {
 				rooms[i].setBackground(Color.MAGENTA);
-			}
-			else rooms[i].setBackground(Color.PINK);
+			} else
+				rooms[i].setBackground(Color.PINK);
 			rooms[i].setOpaque(true);
 			rooms[i].setBorderPainted(false);
 			rooms[i].setBounds(x, y, 1024, 75);
@@ -86,24 +92,19 @@ public class StandRoomPanelTest extends JPanel{
 			roomPanel.add(rooms[i]);
 		}
 		this.add(roomPanel);
-		
-		// SubPanel change to class(for reuse)
-		SubPanel sp = new SubPanel(this.mainFrame, this, this.user);
-		this.add(sp);
-		this.client = sp.client;
-		
-		//show room's info
+
+		// show room's info
 		ArrayList<Quiz_VO> quizList = new ObjectIO().QuizReadTest();
-		
+
 		// check quiz's count,
 		System.out.println("quiz 갯수 : " + quizList.size());
-		
+
 		for (int i = 0; i < quizList.size(); i++) {
 			rooms[i].setText(quizList.get(i).getQuiz_title());
 			rooms[i].setVisible(true);
 		}
 	}
-	
+
 	public void i_setter(int button_clicked_num) {
 		this.button_clicked_num = button_clicked_num;
 	}

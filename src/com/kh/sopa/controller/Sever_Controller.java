@@ -39,6 +39,7 @@ public class Sever_Controller {
 	private Map<String, DataOutputStream> room4Map = new HashMap<String, DataOutputStream>();
 	private Map<String, DataOutputStream> room5Map = new HashMap<String, DataOutputStream>();
 
+	int count_user_info = 0;
 	private Map<String, DataOutputStream> clientMap = new HashMap<String, DataOutputStream>();
 
 	public void setGui(Sever_view gui) {
@@ -82,7 +83,7 @@ public class Sever_Controller {
 			key = itearator.next();
 			try {
 				System.out.println("서버에서 클라이언트로 sendMessage " + msg);
-				clientMap.get(key).writeUTF(msg);
+				clientMap.get(key).writeUTF("1/"+msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -118,7 +119,7 @@ public class Sever_Controller {
 
 		Iterator<String> iterator_room1 = room1Map.keySet().iterator();
 		String key_room1 = "";
-		String msg_room = "방에 입장하셨습니다.";
+		String msg_room = "1/방에 입장하셨습니다.";
 		while (iterator_room1.hasNext()) {
 			key_room1 = iterator_room1.next();
 			try {
@@ -180,7 +181,9 @@ public class Sever_Controller {
 					int head = Integer.valueOf(msg_split[0]);
 
 					if (head == 0) {
+						System.out.println("서버에서 시스템 메시지를 받음");
 						switch (msg_split[1]) {
+						
 						case "logout":
 							break;
 						case "room_inter":
@@ -191,17 +194,19 @@ public class Sever_Controller {
 								System.out.println("사용자가 게임 레디버튼을 눌렀습니다.");
 								System.out.println("방번호 : " + msg_split[3]);
 								room_number(Integer.valueOf(msg_split[3]));
-
 							}
 
 						}
 					} else if (head == 1) {
-						System.out.println(msg_split[1] + ":  run에서 보낸 메시지 ");
+						System.out.println("클라이언트로부터 메시지를 받음 : " + msg);
 						sendMessage(msg_split[1]);
+						
 					} else if (head == 2) {
+						System.out.println("클라이언트로부터 게임결과를 받음 : " + msg);
+						count_user_info++;
 						// ----2/getUser_all_quiz/getUser_correct_quiz/setUser_gaming_cookie/setUser_gaming_correct_quiz
-						System.out.println("게임중 얻은 쿠키 : " + msg_split[1] + "맞은 퀴즈: " + msg_split[2] + "모든문제를 푼 시간 : "
-								+ msg_split[3] + "문제 개수 : " + msg_split[4] + "방번호 : " + msg_split[5] + "해당 유저 ID "
+						System.out.println("게임중 얻은 쿠키 : " + msg_split[1] + " 맞은 퀴즈: " + msg_split[2] + " 모든문제를 푼 시간 : "
+								+ msg_split[3] + " 문제 개수 : " + msg_split[4] + " 방번호 : " + msg_split[5] + " 해당 유저 ID "
 								+ msg_split[6]);
 
 						switch (Integer.valueOf(msg_split[5])) {
@@ -209,6 +214,22 @@ public class Sever_Controller {
 							setUserInformation(room1, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
 									Integer.valueOf(msg_split[2]), msg_split[6]);
 
+							if (count_user_info == room1.size()) {
+								Game_reuslt_sort(room1);
+
+								String first_user = room1.get(0).getUser_id();
+								String second_user = room1.get(1).getUser_id();
+								String third_user = room1.get(2).getUser_id();
+								String fourth_user = room1.get(3).getUser_id();
+								String fifth_user = room1.get(4).getUser_id();
+
+								String all_result = "3/"+first_user + "/" + second_user + "/" + third_user + "/"
+										+ fourth_user + "/" + fifth_user;
+								out.writeUTF(all_result);
+								
+							} else {
+								System.out.println("모두가 완료하지 못했다.");
+							}
 							break;
 						case 2:
 							setUserInformation(room2, Integer.valueOf(msg_split[1]), Long.valueOf(msg_split[3]),
@@ -300,7 +321,7 @@ public class Sever_Controller {
 
 	// 클라이언트 로그아웃
 	public void removeClient(String user_id) {
-		String message = user_id + "님이 나가셨습니다. \n";
+		String message = "1/"+user_id + "님이 나가셨습니다. \n";
 		sendMessage(message);
 		clientMap.remove(user_id);
 		System.out.println("접속자수 : " + clientMap.size());
@@ -316,7 +337,7 @@ public class Sever_Controller {
 			}
 		}
 	}
-	//유저 정리하는것
+	// 유저 정리하는것
 
 	public void Game_reuslt_sort(ArrayList<User_VO> vo) {
 		vo.sort(new Comparator() {
