@@ -82,7 +82,7 @@ public class StandRoomPanelTest extends JPanel {
 					
 					System.out.println("대기방으로 이동합니다.");
 					thisPage.remove(roomPanel);
-					thisPage.add(new Gaming_stand_room(thisPage, mainFrame, "", client, cnt, t));
+					thisPage.add(new Gaming_stand_room(thisPage, mainFrame, "", client, cnt));
 					System.out.println("EORLTLF");
 					mainFrame.repaint();
 
