@@ -94,7 +94,6 @@ public class Find_Pwd extends JFrame {
 		});
 
 		// 전화번호 입력창
-		user_phone = new JTextField(20);
 		Image im4 = new ImageIcon("image/text300.PNG").getImage();
 		user_phone = new JTextField() {
 			public void setBorder(Border border) {

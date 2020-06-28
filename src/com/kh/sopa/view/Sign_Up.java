@@ -149,82 +149,76 @@ public class Sign_Up extends JFrame {
 		});
 
 		// 비밀번호 입력창
-		Image im12 = new ImageIcon("image/text300.PNG").getImage();
-		sign_pw = new JTextField() {
-			public void setBorder(Border border) {
-			}
+				Image im6 = new ImageIcon("image/text300.PNG").getImage();
+				sign_pw =  new JTextField() {
+					public void setBorder(Border border) {
+					}
+					{ setOpaque(false);} 
+					public void paintComponent(Graphics g) {
+						g.drawImage(im3, 0, 0, null);
+						super.paintComponent(g);
+					}
+				};
+				//기본 입력
+				sign_pw.setText("  비밀번호를 입력하세요");
+				sign_pw.setBounds(340, 420, 350, 50);
+				sign_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+				sign_pw.setForeground(Color.GRAY);
+				sign_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						// 클릭시 초기화
+						sign_pw.setText("  ");
+						sign_pw.requestFocus();
+						sign_pw.setForeground(Color.BLACK);
+					}
+				});
+				sign.add(sign_pw);
+				// 클릭시 출력 공백
+				sign_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						sign_pw.setText("  ");
+						sign_pw.requestFocus();
+					}
+				});
 
-			{
-				setOpaque(false);
-			}
 
-			public void paintComponent(Graphics g) {
-				g.drawImage(im12, 0, 0, null);
-				super.paintComponent(g);
-			}
-		};
-		// 기본 입력
-		sign_pw.setText("  비밀번호를 입력하세요");
-		sign_pw.setBounds(280, 420, 350, 50);
-		sign_pw.requestFocus(false);
-		sign_pw.setForeground(Color.GRAY);
-		sign_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		sign_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// 클릭시 초기화
-				sign_pw.setText("  ");
-				sign_pw.requestFocus(true);
-			}
-		});
-		sign.add(sign_pw);
-		// 클릭시 출력 공백
-		sign_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				sign_pw.setText("  ");
-				sign_pw.requestFocus();
-			}
-		});
+				// 비밀번호 확인 입력창
+				Image im7 = new ImageIcon("image/text300.PNG").getImage();
+				check_pw = new JTextField() {
+					public void setBorder(Border border) {
+					}
+					{ setOpaque(false);} 
+					public void paintComponent(Graphics g) {
+						g.drawImage(im3, 0, 0, null);
+						super.paintComponent(g);
+					}
+				};
+				//기본 입력
+				check_pw.setText(" 비밀번호를 재입력하세요");
+				check_pw.setBounds(340, 480, 350, 50);
+				check_pw.setForeground(Color.GRAY);
+				check_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+				check_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						// 클릭시 초기화
+						check_pw.setText("  ");
+						check_pw.requestFocus();
+					}
+				});
+				sign.add(check_pw);
+				// 클릭시 출력 공백
+				check_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						check_pw.setText("  ");
+						check_pw.requestFocus();
+						check_pw.setForeground(Color.BLACK);
+					}
+				});
 
-		// 비밀번호 확인 입력창
-		check_pw = new JTextField() {
-			public void setBorder(Border border) {
-			}
-
-			{
-				setOpaque(false);
-			}
-
-			public void paintComponent(Graphics g) {
-				g.drawImage(im12, 0, 0, null);
-				super.paintComponent(g);
-			}
-		};
-		// 기본 입력
-		check_pw.setText("  비밀번호를 입력하세요");
-		check_pw.setBounds(280, 420, 350, 50);
-		check_pw.requestFocus(false);
-		check_pw.setForeground(Color.GRAY);
-		check_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		check_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// 클릭시 초기화
-				check_pw.setText("  ");
-				check_pw.requestFocus(true);
-			}
-		});
-		sign.add(check_pw);
-		// 클릭시 출력 공백
-		check_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				check_pw.setText("  ");
-				check_pw.requestFocus();
-				check_pw.setForeground(Color.BLACK);
-			}
-		});
 
 		// 뒤로가기 버튼
 		ImageIcon im8 = new ImageIcon("image/back.PNG");

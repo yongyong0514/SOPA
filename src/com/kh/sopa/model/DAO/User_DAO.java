@@ -137,7 +137,7 @@ public class User_DAO {
 
 		try {
 			// 값 불러오기
-			fis = new FileInputStream("user.txt");
+			fis = new FileInputStream("User.txt");
 			ois = new ObjectInputStream(fis);
 
 //			read = (ArrayList<User_VO>) ois.readObject();
@@ -201,7 +201,7 @@ public class User_DAO {
 
 		try {
 			// 값 불러오기
-			fis = new FileInputStream("user.txt");
+			fis = new FileInputStream("User.txt");
 			ois = new ObjectInputStream(fis);
 
 			read = new ObjectIO().UserReadToFile();

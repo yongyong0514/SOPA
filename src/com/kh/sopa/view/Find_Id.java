@@ -70,7 +70,6 @@ public class Find_Id extends JFrame {
 		find_id.add(text);
 
 		// 전화번호 입력창
-		phone = new JTextField(20);
 		// 실행시, 초기 입력창 출력
 		Image im3 = new ImageIcon("image/text300.PNG").getImage();
 		phone = new JTextField() {
