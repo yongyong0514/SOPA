@@ -55,7 +55,7 @@ public class User_DAO {
 		try {
 
 			// 값 저장
-			oos = new ObjectOutputStream(new FileOutputStream("User.txt"));
+			oos = new ObjectOutputStream(new FileOutputStream("user.txt"));
 
 			oos.writeObject(write);
 
@@ -93,7 +93,7 @@ public class User_DAO {
 		try {
 
 			// 파일 읽기
-			ois = new ObjectInputStream(new FileInputStream("./User.txt"));
+			ois = new ObjectInputStream(new FileInputStream("./user.txt"));
 
 			read = (ArrayList<User_VO>) ois.readObject();
 
@@ -137,7 +137,7 @@ public class User_DAO {
 
 		try {
 			// 값 불러오기
-			fis = new FileInputStream("User.txt");
+			fis = new FileInputStream("user.txt");
 			ois = new ObjectInputStream(fis);
 
 //			read = (ArrayList<User_VO>) ois.readObject();
@@ -201,7 +201,7 @@ public class User_DAO {
 
 		try {
 			// 값 불러오기
-			fis = new FileInputStream("User.txt");
+			fis = new FileInputStream("user.txt");
 			ois = new ObjectInputStream(fis);
 
 			read = new ObjectIO().UserReadToFile();
