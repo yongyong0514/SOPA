@@ -91,7 +91,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		timeLabel.setBounds(360, 5, 250, 40);
 		timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		timePanel.add(timeLabel, "Center");
-		Image icon = new ImageIcon("images/minitimer.PNG").getImage().getScaledInstance(40, 40, 0);
+		Image icon = new ImageIcon("image/minitimer.PNG").getImage().getScaledInstance(40, 40, 0);
 		JLabel timerLabel = new JLabel();
 		timerLabel.setIcon(new ImageIcon(icon));
 		timerLabel.setBounds(372, 6, 40, 40);
@@ -138,7 +138,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		btn_quiz_answer_1 = new JButton();
 		btn_quiz_answer_1.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minicircle = new ImageIcon("images/circle.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minicircle = new ImageIcon("image/circle.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel circleLabel = new JLabel();
 		circleLabel.setIcon(new ImageIcon(minicircle));
 		btn_quiz_answer_1.setBounds(40, 475, 455, 110);
@@ -160,7 +160,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		btn_quiz_answer_3 = new JButton();
 		btn_quiz_answer_3.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minitriangle = new ImageIcon("images/triangle.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minitriangle = new ImageIcon("image/triangle.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel minitriangleLabel = new JLabel();
 		minitriangleLabel.setIcon(new ImageIcon(minitriangle));
 		btn_quiz_answer_3.setBounds(40, 600, 455, 110);
@@ -171,7 +171,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		btn_quiz_answer_4 = new JButton();
 		btn_quiz_answer_4.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minirectangle = new ImageIcon("images/rectangle.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minirectangle = new ImageIcon("image/rectangle.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel minirectangleLabel = new JLabel();
 		minirectangleLabel.setIcon(new ImageIcon(minirectangle));
 		btn_quiz_answer_4.setBounds(525, 600, 455, 110);
@@ -209,6 +209,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					// 진행한 문제 수 / 전체 문제수
 					quiz_num_lb.setText((1 + cnt) + " / " + set.size());
 					// 문제출제 라벨에 문제 넣어주기
+					System.out.println(set);
 					quizLabel.setText("[" + set.get(cnt).getQuiz_subject() + "] " + set.get(cnt).getQuiz_title());
 					// 보기 버튼에 보기 넣어주기
 					btn_quiz_answer_1.setText(set.get(cnt).getQuiz_answer_1());
@@ -252,24 +253,22 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 						+ result_user_gaming_time + "/" + cnt + "/" + roomnumber + "/" + user_id;
 
 				client.result_game_sendMessage(msg);
+				client.solvingquiz_frame_info(mf);
+				client.solvingquiz_remove_info(thispage);
+			
+//
+//					mf.remove(thispage);
+//					String[] msg_result = client.get_split_result();
+//					System.out.println("넘어가는 값 확인" + msg_result[1]);
+//					ResultPage resultpage = new ResultPage(mf, msg_result);
+//					mf.add(resultpage);
+//					mf.repaint();
+//					mf.setVisible(true);
 
-				while (ishead_hear) {
-					boolean head_hear = client.get_ishead_hear();
-					if (head_hear == false) {
-						mf.remove(thispage);
-						String[] msg_result = client.get_split_result();
-						System.out.println("넘어가는 값 확인" + msg_result[1]);
-						ResultPage resultpage = new ResultPage(mf, msg_result);
-						mf.add(resultpage);
-						mf.repaint();
-						mf.setVisible(true);
-
-						ishead_hear = false;
-					}
 				}
 
 			}
-		}
+		
 		new quiz_thread().start();
 
 		// 맞춘 문제수 확인
