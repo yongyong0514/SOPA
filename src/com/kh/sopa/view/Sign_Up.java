@@ -69,14 +69,14 @@ public class Sign_Up extends JFrame {
 		sopa.setBounds(280, 20, 400, 300);
 		sign.add(sopa);
 
-// sopa 계정을 만들어요 라벨
+		// sopa 계정을 만들어요 라벨
 		ImageIcon imi2;
 		imi1 = new ImageIcon("image/createlabel.PNG");
 		sopa = new JLabel(imi1);
 		sopa.setBounds(320, 200, 350, 100);
 		sign.add(sopa);
 
-// 아이디 입력창
+		// 아이디 입력창
 		sign_id = new JTextField(20);
 		Image im3 = new ImageIcon("image/text300.PNG").getImage();
 		sign_id = new JTextField() {
@@ -92,7 +92,7 @@ public class Sign_Up extends JFrame {
 				super.paintComponent(g);
 			}
 		};
-//기본 입력
+		// 기본 입력
 		sign_id.setText("  아이디를 입력하세요");
 		sign_id.setBounds(340, 300, 350, 50);
 		sign_id.setForeground(Color.GRAY);
@@ -106,72 +106,7 @@ public class Sign_Up extends JFrame {
 				sign_id.setForeground(Color.BLACK);
 			}
 		});
-
-		// 비밀번호 입력창
-		sign_pw = new JTextField(20);
-		Image im6 = new ImageIcon("image/text300.PNG").getImage();
-		sign_pw = new JTextField() {
-			public void setBorder(Border border) {
-			}
-
-			{
-				setOpaque(false);
-			}
-
-			public void paintComponent(Graphics g) {
-				g.drawImage(im6, 0, 0, null);
-				super.paintComponent(g);
-			}
-		};
-		// 기본 입력
-		sign_pw.setText("  비밀번호를 입력하세요");
-		sign_pw.setBounds(340, 420, 350, 50);
-		sign_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		sign_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// 클릭시 초기화
-				sign_pw.setText("  ");
-				sign_pw.requestFocus();
-			}
-		});
-		sign.add(sign_pw);
-		// 클릭시 출력 공백
-		sign_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				sign_pw.setText("");
-				sign_pw.requestFocus();
-			}
-		});
-		// 비밀번호 확인 입력창
-		check_pw = new JPasswordField() {
-			public void setBorder(Border border) {
-			}
-
-			{
-				setOpaque(false);
-			}
-
-			public void paintComponent(Graphics g) {
-				g.drawImage(im6, 0, 0, null);
-				super.paintComponent(g);
-			}
-		};
-		// 기본 입력
-		check_pw.setText("  비밀번호를 입력하세요");
-		check_pw.setBounds(340, 420, 350, 50);
-		check_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		check_pw.setForeground(Color.GRAY);
-		check_pw.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// 클릭시 초기화
-				check_pw.setText("  ");
-				check_pw.requestFocus();
-				check_pw.setForeground(Color.BLACK);
-			}
-		});
+		sign.add(sign_id);
 
 		// 전화번호 입력창
 		sign_phone = new JTextField(20);
@@ -185,7 +120,7 @@ public class Sign_Up extends JFrame {
 			}
 
 			public void paintComponent(Graphics g) {
-				g.drawImage(im4, 0, 0, null);
+				g.drawImage(im3, 0, 0, null);
 				super.paintComponent(g);
 			}
 		};
@@ -208,10 +143,82 @@ public class Sign_Up extends JFrame {
 		sign_phone.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				sign_phone.setText("  ");
+				sign_phone.setText("");
 				sign_phone.requestFocus();
 			}
 		});
+
+		// 비밀번호 입력창
+				Image im6 = new ImageIcon("image/text300.PNG").getImage();
+				sign_pw =  new JTextField() {
+					public void setBorder(Border border) {
+					}
+					{ setOpaque(false);} 
+					public void paintComponent(Graphics g) {
+						g.drawImage(im3, 0, 0, null);
+						super.paintComponent(g);
+					}
+				};
+				//기본 입력
+				sign_pw.setText("  비밀번호를 입력하세요");
+				sign_pw.setBounds(340, 420, 350, 50);
+				sign_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+				sign_pw.setForeground(Color.GRAY);
+				sign_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						// 클릭시 초기화
+						sign_pw.setText("  ");
+						sign_pw.requestFocus();
+						sign_pw.setForeground(Color.BLACK);
+					}
+				});
+				sign.add(sign_pw);
+				// 클릭시 출력 공백
+				sign_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						sign_pw.setText("  ");
+						sign_pw.requestFocus();
+					}
+				});
+
+
+				// 비밀번호 확인 입력창
+				Image im7 = new ImageIcon("image/text300.PNG").getImage();
+				check_pw = new JTextField() {
+					public void setBorder(Border border) {
+					}
+					{ setOpaque(false);} 
+					public void paintComponent(Graphics g) {
+						g.drawImage(im3, 0, 0, null);
+						super.paintComponent(g);
+					}
+				};
+				//기본 입력
+				check_pw.setText(" 비밀번호를 재입력하세요");
+				check_pw.setBounds(340, 480, 350, 50);
+				check_pw.setForeground(Color.GRAY);
+				check_pw.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+				check_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						// 클릭시 초기화
+						check_pw.setText("  ");
+						check_pw.requestFocus();
+					}
+				});
+				sign.add(check_pw);
+				// 클릭시 출력 공백
+				check_pw.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						check_pw.setText("  ");
+						check_pw.requestFocus();
+						check_pw.setForeground(Color.BLACK);
+					}
+				});
+
 
 		// 뒤로가기 버튼
 		ImageIcon im8 = new ImageIcon("image/back.PNG");
@@ -256,104 +263,42 @@ public class Sign_Up extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				boolean[] checkCondition = new boolean[3];
-				// 1. 아이디 중복 여부 검사
-				ArrayList<User_VO> userList = new ArrayList<User_VO>();
-				userList = new ObjectIO().UserReadToFile();
-				System.out.println(userList.size());
-
-				for (int i = 0; i < userList.size(); i++) {
-					if (userList.get(i).getUser_id().equals(sign_id.getText())) {
-						checkCondition[0] = true;
-						break;
-					}
-				}
-
-				// 2. 비밀번호 일치 확인
-				if (sign_pw.getText().equals(check_pw.getText())) {
-					checkCondition[1] = true;
-				}
-
-				// 3. 전화번호 null 인지 확인
-				if (sign_phone.getText().equals("") || ("전화번호를 입력하세요").equals(sign_phone.getText())) {
-					checkCondition[2] = true;
-				}
-
-				int checkCount = 0;
-				for (int i = 0; i < checkCondition.length; i++) {
-					if (i == 0) {
-						if (checkCondition[i] == true) {
-							JOptionPane.showMessageDialog(null, "이미 가입한 아이디입니다.");
-							System.out.println("중복된 아이디 존재");
-							checkCount++;
-							break;
-						}
-					} else if (i == 1) {
-						if (checkCondition[i] == false) {
-							JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
-							System.out.println("비밀번호 불일치");
-							checkCount++;
-							break;
-						}
+				int ba = JOptionPane.showConfirmDialog(null, "제대로 입력하셨습니까?");
+				if (ba == 0) {
+					// 가입시 화면 메세지
+					if (sign_pw.getText().equals(check_pw.getText())) {
+						// 비밀번호와 비밀 번호 확인이 일치할 시
+						JOptionPane.showMessageDialog(null, "가입을 축하합니다", "정상입력", JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						if (checkCondition[i] == true) {
-							JOptionPane.showMessageDialog(null, "전화번호가 입력되지 않았습니다.");
-							System.out.println("전화번호 null값");
-							checkCount++;
-							break;
-						}
+						// 비밀번호와 비밀번호확인이 불일치 시
+						JOptionPane.showMessageDialog(null, "입력값이 다릅니다", "입력오류", JOptionPane.WARNING_MESSAGE);
+						return;
 					}
+					// 재확인 구문
+					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
+					mainFrame.dispose();
 				}
 
-				if (checkCount == 0) {
-					uv.setUser_id(sign_id.getText());
-					uv.setUser_pw(sign_pw.getText());
-					uv.setUser_phone_number(sign_phone.getText());
+				// 값을 받고 이동
+				uv.setUser_id(sign_id.getText());
+				System.out.println(uv.getUser_id());
+				uv.setUser_pw(sign_pw.getText());
+				System.out.println(uv.getUser_pw());
+				uv.setUser_phone_number(sign_phone.getText());
+				System.out.println(uv.getUser_phone_number());
 
-					userList.add(uv);
+				// 확인 구문
+				System.out.println(uv.getUser_phone_number() + "  " + uv.getUser_pw() + "  " + uv.getUser_id() + "버튼");
 
-					// 파일에 저장.
-					new ObjectIO().UserWriteToFile(userList);
-
-					JOptionPane.showMessageDialog(null, "가입이 완료되었습니다.");
-					new ObjectIO().UserReadToFile();
+				// 로그인 컨트롤러로 정보 이동
+				lc = new LoginController();
+				lc.user_make(uv);
+				// 버튼 클릭시 재확인
+				int ba1 = JOptionPane.showConfirmDialog(null, "로그인 화면으로 돌아가시겠습니까?");
+				if (ba1 == 0) {
+					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
+					mainFrame.dispose();
 				}
-//				int ba = JOptionPane.showConfirmDialog(null, "제대로 입력하셨습니까?");
-//				if (ba == 0) {
-//					// 가입시 화면 메세지
-//					if (sign_pw.getText().equals(check_pw.getText())) {
-//						// 비밀번호와 비밀 번호 확인이 일치할 시
-//						JOptionPane.showMessageDialog(null, "가입을 축하합니다", "정상입력", JOptionPane.INFORMATION_MESSAGE);
-//					} else {
-//						// 비밀번호와 비밀번호확인이 불일치 시
-//						JOptionPane.showMessageDialog(null, "입력값이 다릅니다", "입력오류", JOptionPane.WARNING_MESSAGE);
-//						return;
-//					}
-//					// 재확인 구문
-//					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
-//					mainFrame.dispose();
-//				}
-//
-//				// 값을 받고 이동
-//				uv.setUser_id(sign_id.getText());
-//				System.out.println(uv.getUser_id());
-//				uv.setUser_pw(sign_pw.getText());
-//				System.out.println(uv.getUser_pw());
-//				uv.setUser_phone_number(sign_phone.getText());
-//				System.out.println(uv.getUser_phone_number());
-//
-//				// 확인 구문
-//				System.out.println(uv.getUser_phone_number() + "  " + uv.getUser_pw() + "  " + uv.getUser_id() + "버튼");
-//
-//				// 로그인 컨트롤러로 정보 이동
-//				lc = new LoginController();
-//				lc.user_make(uv);
-//				// 버튼 클릭시 재확인
-//				int ba1 = JOptionPane.showConfirmDialog(null, "로그인 화면으로 돌아가시겠습니까?");
-//				if (ba1 == 0) {
-//					JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다");
-//					mainFrame.dispose();
-//				}
 
 			}
 		});
@@ -361,9 +306,4 @@ public class Sign_Up extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-
-	public static void main(String[] args) {
-		Sign_Up si = new Sign_Up();
-	}
-
 }
