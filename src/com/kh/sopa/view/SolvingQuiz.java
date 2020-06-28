@@ -2,6 +2,7 @@ package com.kh.sopa.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 
 import com.kh.sopa.controller.Client_Controller;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
+import com.kh.sopa.makingQuiz.view.CookieFont;
 import com.kh.sopa.model.vo.Quiz_VO;
 import com.kh.sopa.model.vo.User_VO;
 
@@ -27,7 +29,9 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 	private Client_Controller client = null;
 	private User_VO uv = new User_VO();
 	private Quiz_DAO qd = new Quiz_DAO();
-	private ArrayList<Quiz_VO> set = qd.readQuizSet();
+	private ArrayList<Quiz_VO> quizList = null;
+	private ArrayList<Quiz_VO> set = new ArrayList<Quiz_VO>();
+	
 	private JButton btn_quiz_answer_1;
 	private JButton btn_quiz_answer_2;
 	private JButton btn_quiz_answer_3;
@@ -53,24 +57,45 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 	private String user_id = "";
 	private JPanel thispage;
 	// 난이도별 초를 담아줄 배열
-	private int[] sec = new int[set.size()];
+	private int[] sec = null;
 	private boolean ishead_hear = true;
+	// 누르는 시간 마다 측정
+	private long clickTime = 0;
 
+	//쿠키런 폰트 선언
+	private CookieFont fm = new CookieFont();
+	
+	private String roomTitle = null;
+	
 	public SolvingQuiz() {
 		this.setBackground(Color.RED);
 		this.setBounds(0, 0, 1024, 300);
 
 	}
 
-	public SolvingQuiz(JFrame jf, Client_Controller client, int roomnumber) {
-
+	public SolvingQuiz(JFrame jf, Client_Controller client, int roomnumber, String title) {
+		//쿠키런 폰트 받기 위해
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		fm.fontChange(ge);
+		
+		this.roomTitle = title;
+		quizList = new Quiz_DAO().readQuizSet();
+		System.out.println("HHH : " + quizList.size());
+		for(int i = 0; i < quizList.size(); i++) {
+			if(roomTitle.equals(quizList.get(i).getQuiz_set_info())) {
+				set.add(quizList.get(i));
+			}
+		}
+		
+		sec = new int[set.size()];
+		
 		this.client = client;
 		this.mf = jf;
 		this.thispage = this;
 
 		this.setLayout(null);
 		this.setBounds(0, 0, 1024, 768);
-//      this.setBackground(Color.RED);
+		// this.setBackground(Color.RED);
 
 		JPanel bigPanel = new JPanel();
 		bigPanel.setLayout(null);
@@ -84,27 +109,19 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		timePanel.setLocation(40, 10);
 		timePanel.setSize(940, 50);
 		timePanel.setBackground(Color.WHITE);
-
+		
 		// 상단바 위 시간 흐르는 라벨
 		JLabel timeLabel = new JLabel();
 		timeLabel.setHorizontalAlignment(JLabel.CENTER);
 		timeLabel.setBounds(360, 5, 250, 40);
-		timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		timeLabel.setFont(new Font("CookieRun Regular", Font.BOLD, 18));
 		timePanel.add(timeLabel, "Center");
-		Image icon = new ImageIcon("images/minitimer.PNG").getImage().getScaledInstance(40, 40, 0);
+		Image icon = new ImageIcon("image/minitimer.PNG").getImage().getScaledInstance(40, 40, 0);
 		JLabel timerLabel = new JLabel();
 		timerLabel.setIcon(new ImageIcon(icon));
 		timerLabel.setBounds(372, 6, 40, 40);
 		timePanel.add(timerLabel);
 		bigPanel.add(timePanel);
-
-		// 상단 오른쪽의 그만해요 버튼
-		JButton stopBtn = new JButton("그만해요");
-		stopBtn.setBounds(840, 0, 100, 50);
-		stopBtn.setBorderPainted(false);
-		stopBtn.setBackground(new Color(255, 179, 0));
-
-		timePanel.add(stopBtn);
 
 		// 문제 수 표기 라벨
 		JLabel quiz_num_lb = new JLabel();
@@ -112,7 +129,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		quiz_num_lb.setBounds(440, 410, 150, 45);
 		quiz_num_lb.setOpaque(true);
 		quiz_num_lb.setBackground(new Color(252, 209, 108));
-		quiz_num_lb.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		quiz_num_lb.setFont(new Font("CookieRun Regular", Font.BOLD, 23));
 
 		bigPanel.add(quiz_num_lb);
 
@@ -128,7 +145,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		JLabel quizLabel = new JLabel();
 		quizLabel.setHorizontalAlignment(JLabel.CENTER);
 		quizLabel.setBounds(80, 10, 800, 300);
-		quizLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		quizLabel.setFont(new Font("CookieRun Regular", Font.PLAIN, 22));
 
 		quizPanel.add(quizLabel);
 
@@ -138,46 +155,50 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		btn_quiz_answer_1 = new JButton();
 		btn_quiz_answer_1.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minicircle = new ImageIcon("images/circle.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minicircle = new ImageIcon("image/circle.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel circleLabel = new JLabel();
 		circleLabel.setIcon(new ImageIcon(minicircle));
 		btn_quiz_answer_1.setBounds(40, 475, 455, 110);
 		btn_quiz_answer_1.setBackground(new Color(226, 91, 69));
-		btn_quiz_answer_1.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-
+		btn_quiz_answer_1.setFont(new Font("CookieRun Regular", Font.PLAIN, 25));
+		btn_quiz_answer_1.add(circleLabel);
+		
 		// 문제버튼 2
 		btn_quiz_answer_2 = new JButton();
 		btn_quiz_answer_2.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minix = new ImageIcon("images/x.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minix = new ImageIcon("image/x.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel minixLabel = new JLabel();
 		minixLabel.setIcon(new ImageIcon(minix));
 		btn_quiz_answer_2.setBounds(525, 475, 455, 110);
 		btn_quiz_answer_2.setBackground(new Color(225, 131, 87));
-		btn_quiz_answer_2.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-
+		btn_quiz_answer_2.setFont(new Font("CookieRun Regular", Font.PLAIN, 25));
+		btn_quiz_answer_2.add(minixLabel);
+		
 		// 문제버튼 3
 		btn_quiz_answer_3 = new JButton();
 		btn_quiz_answer_3.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minitriangle = new ImageIcon("images/triangle.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minitriangle = new ImageIcon("image/triangle.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel minitriangleLabel = new JLabel();
 		minitriangleLabel.setIcon(new ImageIcon(minitriangle));
 		btn_quiz_answer_3.setBounds(40, 600, 455, 110);
 		btn_quiz_answer_3.setBackground(new Color(137, 213, 201));
-		btn_quiz_answer_3.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-
+		btn_quiz_answer_3.setFont(new Font("CookieRun Regular", Font.PLAIN, 25));
+		btn_quiz_answer_3.add(minitriangleLabel);
+		
 		// 문제버튼 4
 		btn_quiz_answer_4 = new JButton();
 		btn_quiz_answer_4.setBorderPainted(false);
 		// 보기 버튼 왼쪽 작은 표시
-		Image minirectangle = new ImageIcon("images/rectangle.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image minirectangle = new ImageIcon("image/rectangle.PNG").getImage().getScaledInstance(50, 50, 0);
 		JLabel minirectangleLabel = new JLabel();
 		minirectangleLabel.setIcon(new ImageIcon(minirectangle));
 		btn_quiz_answer_4.setBounds(525, 600, 455, 110);
 		btn_quiz_answer_4.setBackground(new Color(172, 201, 101));
-		btn_quiz_answer_4.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-
+		btn_quiz_answer_4.setFont(new Font("CookieRun Regular", Font.PLAIN, 25));
+		btn_quiz_answer_4.add(minirectangleLabel);
+		
 		bigPanel.add(btn_quiz_answer_1);
 		bigPanel.add(btn_quiz_answer_2);
 		bigPanel.add(btn_quiz_answer_3);
@@ -185,7 +206,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 
 		this.add(bigPanel);
 
-//      int timesec = 0;
+		// int timesec = 0;
 		int quiz_num_ing = 1;
 
 		// 문제 난이도별 초가 담기는 배열 생성
@@ -285,7 +306,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 		jf.setLayout(null);
 		jf.setResizable(false);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
-		// jf.add(new SolvingQuiz(jf));
+		//jf.add(new SolvingQuiz(jf));
 
 		jf.setVisible(true);
 	}
@@ -310,6 +331,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
 					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+					calSec();
 
 				} else {
 					System.out.println("오답");
@@ -325,6 +347,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
 					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+					calSec();
 
 				} else {
 					System.out.println("오답");
@@ -340,6 +363,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					cookie_num += set.get(cnt).getQuiz_cookie();
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
 					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
+					calSec();
 
 				} else {
 					System.out.println("오답");
@@ -357,6 +381,7 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 					System.out.println("쿠키 획득 : " + set.get(cnt).getQuiz_cookie());
 					got_cookie_InSet += set.get(cnt).getQuiz_cookie();
 					got_cookie_InSet += 0;
+					calSec();
 
 				} else {
 					System.out.println("오답");
@@ -367,10 +392,10 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 			}
 
 		}
+	}
 
-		// 총 푼 문제수 = 세트 사이즈 넘기기 , 총 맞춘 문제 수 = user 정보로 넘기기
-
-		// 문제별 초 더하기
+	// 정답일 때 초 계산하는 메소드
+	void calSec() {
 		if (cnt != 0) {
 			// 지금 푸는 문제 이전의 문제들에 할당된 초의 합
 			// sec[] 배열 : 문제 난이도별 초의 배열
@@ -382,20 +407,16 @@ public class SolvingQuiz extends JPanel implements ActionListener {
 
 			long Click = System.currentTimeMillis();
 			// 두번째 문제부터의 초값 변수 선언 및 초기화
-			long clickTime = (long) (((Click - start) / 1000) - pre_sec);
-			amountOfSecInSet += clickTime;
+			clickTime = (long) (((Click - start) / 1000) - pre_sec);
 			System.out.println((cnt + 1) + "번째 문제 마우스 클릭한 시간 : " + clickTime);
-			System.out.println("지금까지 푼 문제들의 초 합  : " + amountOfSecInSet);
 
 		} else {
 			long Click = System.currentTimeMillis();
 			// 첫번째 문제의 초값 변수 선언 및 초기화
-			long clickTime = (long) ((Click - start) / 1000);
+			clickTime = (long) ((Click - start) / 1000);
 			System.out.println((cnt + 1) + "번째 문제 마우스 클릭한 시간 : " + clickTime);
-			amountOfSecInSet += clickTime;
 
 		}
-
 		uv.setUser_gaming_time((long) amountOfSecInSet);
 		result_user_gaming_time = uv.getUser_gaming_time();
 	}
