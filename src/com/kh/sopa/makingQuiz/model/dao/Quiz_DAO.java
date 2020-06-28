@@ -12,35 +12,7 @@ import com.kh.sopa.model.vo.Quiz_VO;
 
 public class Quiz_DAO {
 
-	public Quiz_DAO() {}
-
-	// 테스트용 세트 파일 읽기 메소드
-	public ArrayList<Quiz_VO> readQs() {
-		ObjectInputStream ois = null;
-		ArrayList<Quiz_VO> list = null;
-
-		try {
-			ois = new ObjectInputStream(new FileInputStream("quiz.dat"));
-
-			list = (ArrayList<Quiz_VO>) ois.readObject();
-
-		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-
-			System.out.println("");
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (ois != null) {
-				try {
-					ois.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return list;
+	public Quiz_DAO() {
 	}
 
 	// 퀴즈 세트 파일을 읽어옵니다.
@@ -53,7 +25,7 @@ public class Quiz_DAO {
 			set = (ArrayList<Quiz_VO>) ois.readObject();
 
 		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 
 			System.out.println("퀴즈 세트 파일 없음");
 		} catch (ClassNotFoundException | IOException e) {
@@ -81,15 +53,14 @@ public class Quiz_DAO {
 			list = (ArrayList<Quiz_VO>) ois.readObject();
 
 		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 
 			System.out.println("퀴즈 리스트 파일 없음");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			if (ois != null) {
 				try {
 					ois.close();
@@ -101,7 +72,6 @@ public class Quiz_DAO {
 
 		return list;
 	}
-
 
 	// 퀴즈 리스트의 문제들을 세트로 만듭니다
 	public static void writeSet(ArrayList<Quiz_VO> set) {
