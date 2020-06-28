@@ -3,15 +3,19 @@ package com.kh.sopa.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import com.kh.sopa.controller.LoginController;
@@ -45,57 +49,92 @@ public class Find_Pwd extends JFrame {
 		this.add(find_pwd);
 
 		// sopa 라벨
-		sopa = new JLabel("S.O.P.A");
-		sopa.setBounds(370, 200, 250, 100);
-		sopa.setFont(new Font("바탕", Font.ITALIC, 60));
+		ImageIcon imi1;
+		imi1 = new ImageIcon("image/mainLabel.PNG");
+		sopa = new JLabel(imi1);
+		sopa.setBounds(280, 80, 400, 300);
 		find_pwd.add(sopa);
 
 		// 비밀번호를 바꾸고 싶어요 라벨
-		text = new JLabel("비밀번호를 바꾸고 싶어요");
-		text.setBounds(340, 255, 450, 100);
-		text.setFont(new Font("바탕", Font.ITALIC, 25));
+		ImageIcon im = new ImageIcon("image/changepw.PNG");
+		text = new JLabel(im);
+		text.setBounds(310, 210, 350, 200);
 		find_pwd.add(text);
 
 		// 아이디 입력창
-		user_id = new JTextField(10);
-		user_id.setBounds(390, 400, 200, 30);
-		// 입력창 기본 출력화면
-		user_id.setText("아이디를 입력하세요");
-		user_id.setFont(new Font("바탕", Font.ITALIC, 14));
-		find_pwd.add(user_id);
-		// 클릭시 출력창 초기화
+		user_id = new JTextField(20);
+		Image im3 = new ImageIcon("image/text300.PNG").getImage();
+		user_id = new JTextField() {
+			public void setBorder(Border border) {
+			}
+
+			{
+				setOpaque(false);
+			}
+
+			public void paintComponent(Graphics g) {
+				g.drawImage(im3, 0, 0, null);
+				super.paintComponent(g);
+			}
+		};
+		// 기본 입력
+		user_id.setText("  아이디를 입력하세요");
+		user_id.setBounds(340, 350, 350, 50);
+		user_id.setForeground(Color.GRAY);
+		user_id.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		user_id.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				user_id.setText("");
+				// 클릭시 초기화
+				user_id.setText("  ");
 				user_id.requestFocus();
+				user_id.setForeground(Color.BLACK);
 			}
 		});
 
 		// 전화번호 입력창
-		user_phone = new JTextField(10);
-		user_phone.setBounds(390, 450, 200, 30);
-		// 입력창 기본 출력화면
-		user_phone.setText("전화번호를 입력하세요");
-		user_phone.setFont(new Font("바탕", Font.ITALIC, 14));
-		find_pwd.add(user_phone);
-		// 클릭시 출력창 공백
+		user_phone = new JTextField(20);
+		Image im4 = new ImageIcon("image/text300.PNG").getImage();
+		user_phone = new JTextField() {
+			public void setBorder(Border border) {
+			}
+
+			{
+				setOpaque(false);
+			}
+
+			public void paintComponent(Graphics g) {
+				g.drawImage(im3, 0, 0, null);
+				super.paintComponent(g);
+			}
+		};
+		// 기본 입력
+		user_phone.setText("  전화번호를 입력하세요");
+		user_phone.setBounds(340, 420, 350, 50);
+		user_phone.setForeground(Color.GRAY);
+		user_phone.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		user_phone.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				user_phone.setText("");
+				// 클릭시 초기화
+				user_phone.setText("  ");
 				user_phone.requestFocus();
+				user_phone.setForeground(Color.BLACK);
 			}
 		});
 
 		// 뒤로가요 버튼
-		back = new JButton("뒤로가기");
-		back.setBounds(325, 500, 120, 30);
-		back.setFont(new Font("바탕", Font.ITALIC, 14));
-		// 버튼 투명화
+		ImageIcon im5 = new ImageIcon("image/back.PNG");
+		back = new JButton(im5);
+		// 위치고정
+		back.setRolloverIcon(im5);
+		back.setBorderPainted(false);
+//				// 투명 버튼 구문
 		back.setBorderPainted(false);
 		back.setContentAreaFilled(false);
 		back.setFocusable(false);
+		back.setBounds(340, 500, 120, 60);
+
 		find_pwd.add(back);
 		back.addMouseListener(new MouseAdapter() {
 
@@ -115,12 +154,16 @@ public class Find_Pwd extends JFrame {
 		});
 
 		// 확인 버튼
-		check = new JButton("확인");
-		check.setBounds(520, 500, 120, 30);
-		check.setFont(new Font("바탕", Font.ITALIC, 14));
+		ImageIcon im6 = new ImageIcon("image/ok.PNG");
+		check = new JButton(im6);
+		// 위치고정
+		check.setRolloverIcon(im6);
+		check.setBorderPainted(false);
+//				// 투명 버튼 구문
 		check.setBorderPainted(false);
 		check.setContentAreaFilled(false);
 		check.setFocusable(false);
+		check.setBounds(530, 500, 120, 60);
 		find_pwd.add(check);
 		check.addMouseListener(new MouseAdapter() {
 

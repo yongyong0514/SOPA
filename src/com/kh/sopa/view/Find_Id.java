@@ -3,16 +3,20 @@ package com.kh.sopa.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import com.kh.sopa.controller.LoginController;
@@ -53,45 +57,64 @@ public class Find_Id extends JFrame {
 		super.add(find_id);
 
 		// sopa 라벨
-		sopa = new JLabel("S.O.P.A");
-
-		sopa.setBounds(370, 200, 250, 100);
-		sopa.setFont(new Font("바탕", Font.ITALIC, 60));
+		ImageIcon imi1;
+		imi1 = new ImageIcon("image/mainLabel.PNG");
+		sopa = new JLabel(imi1);
+		sopa.setBounds(280, 80, 400, 300);
 		find_id.add(sopa);
 
 		// 아이디를 찾고 싶어요 라벨
-		text = new JLabel("아이디를 찾고 싶어요");
-
-		text.setBounds(360, 255, 250, 100);
-		text.setFont(new Font("바탕", Font.ITALIC, 25));
+		ImageIcon im = new ImageIcon("image/findlabel.PNG");
+		text = new JLabel(im);
+		text.setBounds(340, 210, 300, 200);
 		find_id.add(text);
 
 		// 전화번호 입력창
-		phone = new JTextField(20);
-		phone.setBounds(380, 400, 200, 30);
+
 		// 실행시, 초기 입력창 출력
-		phone.setText("전화번호를 입력하세요");
-		phone.setFont(new Font("바탕", Font.ITALIC, 14));
+		Image im3 = new ImageIcon("image/text300.PNG").getImage();
+		phone = new JTextField() {
+			public void setBorder(Border border) {
+			}
+
+			{
+				setOpaque(false);
+			}
+
+			public void paintComponent(Graphics g) {
+				g.drawImage(im3, 0, 0, null);
+				super.paintComponent(g);
+			}
+		};
+		// 기본 입력
+		phone.setText("  전화번호를 입력하세요");
+		phone.setBounds(340, 380, 350, 50);
+		phone.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		phone.setForeground(Color.GRAY);
 		phone.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// 클릭시 초기화
-				phone.setText("");
+				phone.setText("  ");
 				phone.requestFocus();
+				phone.setForeground(Color.black);
+
 			}
 		});
 
 		find_id.add(phone);
 
 		// 뒤로가요 버튼
-		back = new JButton("뒤로가요");
-		back.setBounds(325, 500, 120, 30);
-		back.setFont(new Font("바탕", Font.ITALIC, 14));
-		find_id.add(back);
-		// 투명 버튼 구문
+		ImageIcon im4 = new ImageIcon("image/back.PNG");
+		back = new JButton(im4);
+		// 위치고정
+		back.setRolloverIcon(im4);
 		back.setBorderPainted(false);
+//				// 투명 버튼 구문
+
 		back.setContentAreaFilled(false);
 		back.setFocusable(false);
+		back.setBounds(340, 480, 120, 60);
 		// 클릭
 		back.addMouseListener(new MouseAdapter() {
 
@@ -108,9 +131,9 @@ public class Find_Id extends JFrame {
 		});
 
 		// 확인 버튼
-		check = new JButton("확인");
-		check.setBounds(520, 500, 120, 30);
-		check.setFont(new Font("바탕", Font.ITALIC, 14));
+		ImageIcon im5 = new ImageIcon("image/ok.PNG");
+		check = new JButton(im5);
+		check.setBounds(530, 480, 120, 60);
 		check.setBorderPainted(false);
 		check.setContentAreaFilled(false);
 		check.setFocusable(false);
