@@ -52,7 +52,7 @@ public class StandRoomPanelTest extends JPanel {
 		this.client = sp.client;
 
 		JButton[] rooms = new JButton[5];
-		int x = 0, y = 0;
+		int x = 0, y = 40;
 		for (int i = 0; i < rooms.length; i++) {
 			rooms[i] = new JButton();
 
@@ -104,6 +104,35 @@ public class StandRoomPanelTest extends JPanel {
 			rooms[i].setVisible(false);
 			roomPanel.add(rooms[i]);
 		}
+		
+		JButton reFresh = new JButton();
+		reFresh.setText("새로고침");
+		roomPanel.add(reFresh);
+		reFresh.setBounds(0, 0, 100, 40);
+		reFresh.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Quiz_VO> quizList = new Quiz_DAO().readQuizSet();
+				
+				
+				HashSet<String> quizSet = new HashSet<String>();
+
+				for (int i = 0; i < quizList.size(); i++) {
+//					System.out.println(quizList.get(i));
+					quizSet.add(quizList.get(i).getQuiz_set_info());
+				}
+				
+				// check quiz's count,
+				System.out.println("갯수 : " + quizSet.size());
+				
+				Iterator roomTitle = quizSet.iterator();
+				int roomCount = 0;
+				while (roomTitle.hasNext()) {
+					rooms[roomCount].setText(roomTitle.next() + "");
+					rooms[roomCount++].setVisible(true);
+				}
+			}
+		});
 		this.add(roomPanel);
 
 		// show room's info
@@ -127,7 +156,7 @@ public class StandRoomPanelTest extends JPanel {
 			rooms[roomCount++].setVisible(true);
 		}
 	}
-
+	
 	public void i_setter(int button_clicked_num) {
 		this.button_clicked_num = button_clicked_num;
 	}

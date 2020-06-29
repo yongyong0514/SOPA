@@ -33,10 +33,11 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
+import com.kh.sopa.controller.Stand_Room_ChatController;
 import com.kh.sopa.makingQuiz.controller.MakingQuizManager;
 import com.kh.sopa.makingQuiz.model.dao.Quiz_DAO;
 import com.kh.sopa.model.vo.Quiz_VO;
+import com.kh.sopa.test.StandRoomPanelTest;
 
 public class MakingQuiz extends JPanel implements ActionListener, ItemListener, MouseListener {
 	ArrayList<Quiz_VO> selectSet = new ArrayList<Quiz_VO>(); // 시작버튼 클릭시 가져갈 ArrayList
@@ -103,7 +104,7 @@ public class MakingQuiz extends JPanel implements ActionListener, ItemListener, 
 		
 		thisPage = this;
 		mainPanel = mp;
-
+		
 		for (int i = 0; i < selectSet.size(); i++) {
 			System.out.println(selectSet.get(i));
 		}
