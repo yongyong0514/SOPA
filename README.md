@@ -1,2 +1,2 @@
 
-![SOPA](./web/psd/s o p a.png)
+![SOPA](/web/psd/sopa.png)
