@@ -42,3 +42,11 @@ reporting date 01.01.21
 
 5. 결과 송출 및 이력관리
 <br>Reporting results and user profile management<br>
+
+&nbsp;
+
+## DB 디자인 DataBase
+데이터베이스 없이 text파일을 입출력으로 리스트를 만들고 구현했습니다.
+<br>Text-file is used for input/output function and relevant list creation.  
+Database is not used in this project. 
+
