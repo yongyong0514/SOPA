@@ -71,11 +71,12 @@ The users can make a quiz and group quizzes as a set so they can play a game wit
 
 * 구현기능설명 Function Description
 <br>퀴즈 생성 창에서 퀴즈를 만들 수 있습니다. 
-뷰 페이지에서 폼으로 입력 받은 데이터를 VO를 통해 Constructor Class를 이용했습니다.
-기능에 따라 Method를 정의해서 기능을 용도에 따라 이용했습니다.
-Text파일에 저장된 퀴즈들을 DAO pattern을 이용해서 ArrayList에 담아 불러오거나 저장했습니다. 
-<br><br>Quiz can be created in quiz generation form. 
-Constructor class is used via ValueObject (VO) for the data given by the form in the view page.
-Method is defined for each function. 
-Quizzes saved in the text-file can be loaded and saved into ArrayList by using DAO pattern.
+<br>뷰 페이지에서 폼으로 입력 받은 데이터를 VO를 통해 Constructor Class를 이용했습니다.
+<br>기능에 따라 Method를 정의해서 기능을 용도에 따라 이용했습니다.
+<br>Text파일에 저장된 퀴즈들을 DAO pattern을 이용해서 ArrayList에 담아 불러오거나 저장했습니다. 
+<br>
+<br>Quiz can be created in quiz generation form. 
+<br>Constructor class is used via ValueObject (VO) for the data given by the form in the view page.
+<br>Method is defined for each function. 
+<br>Quizzes saved in the text-file can be loaded and saved into ArrayList by using DAO pattern.
 ![M1](/web/psd/M1.png)
