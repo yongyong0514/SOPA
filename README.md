@@ -70,7 +70,7 @@ Database is not used in this project.
 The users can make a quiz and group quizzes as a set so they can play a game with the set of quizzes.
 
 * 구현기능설명 Function Description
-퀴즈 생성 창에서 퀴즈를 만들 수 있습니다. 
+<br>퀴즈 생성 창에서 퀴즈를 만들 수 있습니다. 
 뷰 페이지에서 폼으로 입력 받은 데이터를 VO를 통해 Constructor Class를 이용했습니다.
 기능에 따라 Method를 정의해서 기능을 용도에 따라 이용했습니다.
 Text파일에 저장된 퀴즈들을 DAO pattern을 이용해서 ArrayList에 담아 불러오거나 저장했습니다. 
