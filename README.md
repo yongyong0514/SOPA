@@ -78,4 +78,4 @@ Text파일에 저장된 퀴즈들을 DAO pattern을 이용해서 ArrayList에 �
 Constructor class is used via ValueObject (VO) for the data given by the form in the view page.
 Method is defined for each function. 
 Quizzes saved in the text-file can be loaded and saved into ArrayList by using DAO pattern.
-![M1](/web/psd/M1.jpg)
+![M1](/web/psd/M1.png)
