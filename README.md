@@ -67,7 +67,7 @@ Database is not used in this project.
 ## 프로젝트 담당 주요 내용 Project Overview
 
 ### 퀴즈를 등록하고 한 세트로 등록해서 세트를 이용해 게임을 만들 수 있습니다.
-<br>The users can make a quiz and group quizzes as a set so they can play a game with the set of quizzes.
+The users can make a quiz and group quizzes as a set so they can play a game with the set of quizzes.
 
 * 구현기능설명 Function Description
 퀴즈 생성 창에서 퀴즈를 만들 수 있습니다. 
