@@ -22,8 +22,10 @@ reporting date 01.01.21
 &nbsp;
 
 ## 개발환경 Environment
-* JAVA
-* Eclipse
+* JAVA 1.8
+* Eclipse Oxygen 3
+* JAVA SWING
+* GitHub
 
 &nbsp;
 
